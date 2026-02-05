@@ -10,6 +10,9 @@
     <Filter Include="Source\GameSetting">
       <UniqueIdentifier>{0cde309c-5237-449c-a835-f8869ac22cdc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Scene\Title">
+      <UniqueIdentifier>{901ea134-b155-4750-99b5-059f80eb4578}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -18,6 +21,9 @@
     <ClCompile Include="Source\Scene\SceneManager.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene\Title\TitleScene.cpp">
+      <Filter>Source\Scene\Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -25,6 +31,9 @@
     </ClInclude>
     <ClInclude Include="Source\GameSetting\GameSetting.h">
       <Filter>Source\GameSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Title\TitleScene.h">
+      <Filter>Source\Scene\Title</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
