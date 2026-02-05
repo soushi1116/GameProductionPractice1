@@ -13,6 +13,9 @@
     <Filter Include="Source\Scene\Title">
       <UniqueIdentifier>{901ea134-b155-4750-99b5-059f80eb4578}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Scene\Input">
+      <UniqueIdentifier>{af9be2d5-e2b9-4518-8edd-c2d1dc033660}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -24,6 +27,9 @@
     <ClCompile Include="Source\Scene\Title\TitleScene.cpp">
       <Filter>Source\Scene\Title</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Input\Input.cpp">
+      <Filter>Source\Scene\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -34,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="Source\Scene\Title\TitleScene.h">
       <Filter>Source\Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\Input.h">
+      <Filter>Source\Scene\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
