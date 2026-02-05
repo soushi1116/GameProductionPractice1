@@ -4,10 +4,24 @@
     <Filter Include="Source">
       <UniqueIdentifier>{a4061027-45d7-4d29-9869-ae9061059d63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Scene">
+      <UniqueIdentifier>{90461c17-15a1-4e06-b7c2-4039dcb26879}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene\SceneManager">
+      <UniqueIdentifier>{8d18db3b-4a68-406e-b134-150c6e716783}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene\SceneManager\SceneManager.cpp">
+      <Filter>Source\Scene\SceneManager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Scene\SceneManager\SceneManager.h">
+      <Filter>Source\Scene\SceneManager</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
