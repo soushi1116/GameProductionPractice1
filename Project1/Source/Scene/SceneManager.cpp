@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include "Title/TitleScene.h"
 
 Scene g_NowScene = SCENE_TITLE;
 
@@ -48,6 +49,104 @@ void SceneManagerUpdate()
 		g_NowScene = g_NextScene;
 
 		g_SceneState = SCENE_STATE_INIT;
+		break;
+	}
+}
+
+void InitScene()
+{
+	switch (g_NowScene)
+	{
+	case SCENE_TITLE:
+		InitTitleScene();
+		break;
+	case SCENE_PLAY:
+		break;
+	case SCENE_OPTION:
+		break;
+	}
+}
+
+void LoadScene()
+{
+	switch (g_NowScene)
+	{
+	case SCENE_TITLE:
+		LoadTitleScene();
+		break;
+	case SCENE_PLAY:
+		break;
+	case SCENE_OPTION:
+		break;
+	}
+}
+
+void StartScene()
+{
+	switch (g_NowScene)
+	{
+	case SCENE_TITLE:
+		StartTitleScene();
+		break;
+	case SCENE_PLAY:
+		break;
+	case SCENE_OPTION:
+		break;
+	}
+}
+
+void StepScene()
+{
+	switch (g_NowScene)
+	{
+	case SCENE_TITLE:
+		StepTitleScene();
+		break;
+	case SCENE_PLAY:
+		break;
+	case SCENE_OPTION:
+		break;
+	}
+}
+
+void UpdateScene()
+{
+	switch (g_NowScene)
+	{
+	case SCENE_TITLE:
+		UpdateTitleScene();
+		break;
+	case SCENE_PLAY:
+		break;
+	case SCENE_OPTION:
+		break;
+	}
+}
+
+void DrawScene()
+{
+	switch (g_NowScene)
+	{
+	case SCENE_TITLE:
+		DrawTitleScene();
+		break;
+	case SCENE_PLAY:
+		break;
+	case SCENE_OPTION:
+		break;
+	}
+}
+
+void FinScene()
+{
+	switch (g_NowScene)
+	{
+	case SCENE_TITLE:
+		FinTitleScene();
+		break;
+	case SCENE_PLAY:
+		break;
+	case SCENE_OPTION:
 		break;
 	}
 }
