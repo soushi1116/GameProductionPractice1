@@ -10,4 +10,9 @@
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PlayScene.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
