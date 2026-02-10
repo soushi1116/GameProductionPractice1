@@ -1,5 +1,6 @@
 #include "TitleScene.h"
 #include "../SceneManager.h"
+#include "../../Input/Input.h"
 
 int g_TitleBGHandle = -1;
 int g_TitleTextHandle = -1;
@@ -22,7 +23,14 @@ void StartTitleScene()
 
 void StepTitleScene()
 {
-
+	if (IsTriggerKey(KEY_Z))
+	{
+		ChangeScene(SCENE_PLAY);
+	}
+	else if (IsTriggerKey(KEY_X))
+	{
+		ChangeScene(SCENE_OPTION);
+	}
 }
 
 void UpdateTitleScene()

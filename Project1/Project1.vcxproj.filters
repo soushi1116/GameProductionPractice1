@@ -13,8 +13,11 @@
     <Filter Include="Source\Scene\Title">
       <UniqueIdentifier>{901ea134-b155-4750-99b5-059f80eb4578}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Scene\Input">
+    <Filter Include="Source\Input">
       <UniqueIdentifier>{af9be2d5-e2b9-4518-8edd-c2d1dc033660}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Option">
+      <UniqueIdentifier>{4e6cd3e9-9263-4aea-b806-56420861cd68}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -28,7 +31,10 @@
       <Filter>Source\Scene\Title</Filter>
     </ClCompile>
     <ClCompile Include="Source\Input\Input.cpp">
-      <Filter>Source\Scene\Input</Filter>
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Option\Option.cpp">
+      <Filter>Source\Option</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -42,7 +48,10 @@
       <Filter>Source\Scene\Title</Filter>
     </ClInclude>
     <ClInclude Include="Source\Input\Input.h">
-      <Filter>Source\Scene\Input</Filter>
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Option\Option.h">
+      <Filter>Source\Option</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
