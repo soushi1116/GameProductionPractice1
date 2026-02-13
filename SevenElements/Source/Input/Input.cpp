@@ -1,16 +1,18 @@
 #include "DxLib.h"
 #include "Input.h"
 
-int g_InputState = 0;
-int g_PrevInputState = 0;
-
-void InitInput()
+Input::Input()
 {
 	g_InputState = 0;
 	g_PrevInputState = 0;
 }
 
-void UpdateInput()
+Input::~Input()
+{
+	
+}
+
+void Input::UpdateInput()
 {
 	g_PrevInputState = g_InputState;
 	g_InputState = 0;
@@ -36,22 +38,17 @@ void UpdateInput()
 	}
 }
 
-void DrawInput()
+void Input::DrawInput()
 {
 
 }
 
-void FinInput()
-{
-
-}
-
-bool IsInputKey(InputKey key)
+bool Input::IsInputKey(InputKey key)
 {
 	return g_InputState & key;
 }
 
-bool IsTriggerKey(InputKey key)
+bool Input::IsTriggerKey(InputKey key)
 {
 	return g_InputState & key && !(g_PrevInputState & key);
 }

@@ -28,6 +28,9 @@
     <Filter Include="Source\UI">
       <UniqueIdentifier>{d3d73f22-028b-4fdb-ba60-19f7a563ea29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Player">
+      <UniqueIdentifier>{31cd836a-6995-40c5-bf9c-51b6930290be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -54,6 +57,9 @@
     <ClCompile Include="Source\UI\UIImage.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Player\Player.cpp">
+      <Filter>Source\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -79,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="Source\UI\UIImage.h">
       <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player\Player.h">
+      <Filter>Source\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

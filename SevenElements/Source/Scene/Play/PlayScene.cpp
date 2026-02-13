@@ -1,9 +1,12 @@
 #include "DxLib.h"
 #include "PlayScene.h"
+#include "../../Player/Player.h"
+
+Player player;
 
 void InitPlayScene()
 {
-
+	Player player;
 }
 
 void LoadPlayScene()

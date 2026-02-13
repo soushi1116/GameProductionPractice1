@@ -8,10 +8,20 @@ enum InputKey
 	KEY_X     = (1 << 3),
 };
 
-void InitInput();
-void UpdateInput();
-void DrawInput();
-void FinInput();
+class Input
+{
+public:
+	Input();
+	~Input();
 
-bool IsInputKey(InputKey key);
-bool IsTriggerKey(InputKey key);
+public:
+	void UpdateInput();
+	void DrawInput();
+
+	bool IsInputKey(InputKey key);
+	bool IsTriggerKey(InputKey key);
+
+private:
+	int g_InputState = 0;
+	int g_PrevInputState = 0;
+};

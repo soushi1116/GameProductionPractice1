@@ -1,7 +1,19 @@
 #pragma once
 
-void InitFPS();
-void UpdateFPS();
-void DrawFPS();
+class FPS
+{
+public:
+	FPS();
+	~FPS();
 
-void FPSWait();
+public:
+	void UpdateFPS();
+	void DrawFPS();
+
+	void FPSWait();
+
+private:
+	int g_StartTime;
+	int g_Count;
+	float g_Fps;
+};
