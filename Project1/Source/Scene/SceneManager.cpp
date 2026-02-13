@@ -1,5 +1,7 @@
 #include "SceneManager.h"
 #include "Title/TitleScene.h"
+#include "Option/Option.h"
+#include "../../PlayScene.h"
 
 Scene g_NowScene = SCENE_TITLE;
 
@@ -61,8 +63,10 @@ void InitScene()
 		InitTitleScene();
 		break;
 	case SCENE_PLAY:
+		InitPlayScene();
 		break;
 	case SCENE_OPTION:
+		OptionInit();
 		break;
 	}
 }
@@ -75,6 +79,7 @@ void LoadScene()
 		LoadTitleScene();
 		break;
 	case SCENE_PLAY:
+		LoadPlayScene();
 		break;
 	case SCENE_OPTION:
 		break;
@@ -89,6 +94,7 @@ void StartScene()
 		StartTitleScene();
 		break;
 	case SCENE_PLAY:
+		StartPlayScene();
 		break;
 	case SCENE_OPTION:
 		break;
@@ -103,6 +109,7 @@ void StepScene()
 		StepTitleScene();
 		break;
 	case SCENE_PLAY:
+		StepPlayScene();
 		break;
 	case SCENE_OPTION:
 		break;
@@ -117,8 +124,10 @@ void UpdateScene()
 		UpdateTitleScene();
 		break;
 	case SCENE_PLAY:
+		UpdatePlayScene();
 		break;
 	case SCENE_OPTION:
+		OptionUpdate();
 		break;
 	}
 }
@@ -131,8 +140,10 @@ void DrawScene()
 		DrawTitleScene();
 		break;
 	case SCENE_PLAY:
+		DrawPlayScene();
 		break;
 	case SCENE_OPTION:
+		OptionDraw();
 		break;
 	}
 }
@@ -145,8 +156,10 @@ void FinScene()
 		FinTitleScene();
 		break;
 	case SCENE_PLAY:
+		FinPlayScene();
 		break;
 	case SCENE_OPTION:
+		OptionFin();
 		break;
 	}
 }

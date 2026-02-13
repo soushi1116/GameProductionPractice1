@@ -1,7 +1,7 @@
 #include "DxLib.h"
 #include "Option.h"
 #include "../SceneManager.h"
-
+#include "../../Input/Input.h"
 
 // 画像ハンドル
 int bg;
@@ -23,7 +23,7 @@ void OptionInit()
 void OptionUpdate()
 {
     // Cキーを押したらタイトルに戻る
-    if (CheckHitKey(KEY_INPUT_C))
+    if (IsTriggerKey(KEY_C))
     {
         ChangeScene(SCENE_TITLE);
     }

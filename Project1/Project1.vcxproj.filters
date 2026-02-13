@@ -36,6 +36,9 @@
     <ClCompile Include="Source\Scene\Option\Option.cpp">
       <Filter>Source\Option</Filter>
     </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
