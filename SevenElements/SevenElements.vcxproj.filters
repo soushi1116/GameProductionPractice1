@@ -13,6 +13,15 @@
     <Filter Include="Source\Scene\Option">
       <UniqueIdentifier>{1702725f-3979-4046-8afe-b21585c34c4d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\GameSetting">
+      <UniqueIdentifier>{c4faa7ce-b7fb-4175-be89-30961425e40c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Input">
+      <UniqueIdentifier>{fb3d4ad1-db35-45b4-a233-6375eb58efc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FPS">
+      <UniqueIdentifier>{7375e950-396c-4ffd-a2f9-cce3944c1dbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -27,6 +36,12 @@
     <ClCompile Include="Source\Scene\Option\OptionScene.cpp">
       <Filter>Source\Scene\Option</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Input\Input.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FPS\FPS.cpp">
+      <Filter>Source\FPS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -37,6 +52,15 @@
     </ClInclude>
     <ClInclude Include="Source\Scene\Option\OptionScene.h">
       <Filter>Source\Scene\Option</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameSetting\GameSetting.h">
+      <Filter>Source\GameSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\Input.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FPS\FPS.h">
+      <Filter>Source\FPS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
