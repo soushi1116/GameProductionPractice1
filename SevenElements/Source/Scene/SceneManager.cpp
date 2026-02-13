@@ -66,8 +66,31 @@ void InitScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
+		InitTitleScene();
 		break;
 	case SCENE_OPTION:
+		InitOptionScene();
+		break;
+	case SCENE_STAGE_1:
+		break;
+	case SCENE_STAGE_CLEAR:
+		break;
+	default:
+		break;
+	}
+}
+
+void LoadScene()
+{
+	switch (g_NowScene)
+	{
+	case SCENE_NONE:
+		break;
+	case SCENE_TITLE:
+		LoadTitleScene();
+		break;
+	case SCENE_OPTION:
+		LoadOptionScene();
 		break;
 	case SCENE_STAGE_1:
 		break;
@@ -85,8 +108,10 @@ void StartScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
+		StartTitleScene();
 		break;
 	case SCENE_OPTION:
+		StartOptionScene();
 		break;
 	case SCENE_STAGE_1:
 		break;
@@ -104,8 +129,10 @@ void StepScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
+		StepTitleScene();
 		break;
 	case SCENE_OPTION:
+		StepOptionScene();
 		break;
 	case SCENE_STAGE_1:
 		break;
@@ -123,8 +150,10 @@ void UpdateScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
+		UpdateTitleScene();
 		break;
 	case SCENE_OPTION:
+		UpdateOptionScene();
 		break;
 	case SCENE_STAGE_1:
 		break;
@@ -142,8 +171,10 @@ void DrawScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
+		DrawTitleScene();
 		break;
 	case SCENE_OPTION:
+		DrawOptionScene();
 		break;
 	case SCENE_STAGE_1:
 		break;
@@ -161,8 +192,10 @@ void FinScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
+		FinTitleScene();
 		break;
 	case SCENE_OPTION:
+		FinOptionScene();
 		break;
 	case SCENE_STAGE_1:
 		break;

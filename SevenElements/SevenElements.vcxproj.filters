@@ -22,6 +22,12 @@
     <Filter Include="Source\FPS">
       <UniqueIdentifier>{7375e950-396c-4ffd-a2f9-cce3944c1dbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Scene\Play">
+      <UniqueIdentifier>{72564311-32e0-44e6-81ff-cd9e0c0fffff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\UI">
+      <UniqueIdentifier>{d3d73f22-028b-4fdb-ba60-19f7a563ea29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -42,6 +48,12 @@
     <ClCompile Include="Source\FPS\FPS.cpp">
       <Filter>Source\FPS</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene\Play\PlayScene.cpp">
+      <Filter>Source\Scene\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\UIImage.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -61,6 +73,12 @@
     </ClInclude>
     <ClInclude Include="Source\FPS\FPS.h">
       <Filter>Source\FPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Play\PlayScene.h">
+      <Filter>Source\Scene\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\UIImage.h">
+      <Filter>Source\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
