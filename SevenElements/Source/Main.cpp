@@ -20,6 +20,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
+	SceneManager sceneManager;
+
 	Input input;
 
 	FPS fps;
@@ -31,6 +33,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		ClearDrawScreen();
 
 		input.UpdateInput();
+
+		sceneManager.SceneManagerUpdate();
 
 		input.DrawInput();
 

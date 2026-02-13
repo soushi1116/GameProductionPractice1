@@ -1,37 +1,37 @@
 #include "DxLib.h"
 #include "UIImage.h"
 
-void InitUIImage()
+UIImage::UIImage()
 {
 
 }
 
-void LoadUIImage()
+UIImage::~UIImage()
 {
 
 }
 
-void StartUIImage()
+void UIImage::LoadUIImage()
 {
 
 }
 
-void StepUIImage()
+void UIImage::StartUIImage()
 {
 
 }
 
-void UpdateUIImage()
+void UIImage::StepUIImage()
 {
 
 }
 
-void DrawUIImage()
+void UIImage::UpdateUIImage()
 {
 
 }
 
-void FinUIImage()
+void UIImage::DrawUIImage()
 {
 
 }

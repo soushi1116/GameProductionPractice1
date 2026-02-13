@@ -1,37 +1,37 @@
 #include "DxLib.h"
 #include "TitleScene.h"
 
-void InitTitleScene()
+TitleScene::TitleScene()
 {
 
 }
 
-void LoadTitleScene()
+TitleScene::~TitleScene()
 {
 
 }
 
-void StartTitleScene()
+void TitleScene::LoadTitleScene()
 {
 
 }
 
-void StepTitleScene()
+void TitleScene::StartTitleScene()
 {
 
 }
 
-void UpdateTitleScene()
+void TitleScene::StepTitleScene()
 {
 
 }
 
-void DrawTitleScene()
+void TitleScene::UpdateTitleScene()
 {
 
 }
 
-void FinTitleScene()
+void TitleScene::DrawTitleScene()
 {
 
 }

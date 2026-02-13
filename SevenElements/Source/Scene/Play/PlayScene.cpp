@@ -2,39 +2,37 @@
 #include "PlayScene.h"
 #include "../../Player/Player.h"
 
-Player player;
-
-void InitPlayScene()
+PlayScene::PlayScene()
 {
-	Player player;
+	
 }
 
-void LoadPlayScene()
+PlayScene::~PlayScene()
 {
 
 }
 
-void StartPlayScene()
+void PlayScene::LoadPlayScene()
 {
 
 }
 
-void StepPlayScene()
+void PlayScene::StartPlayScene()
 {
 
 }
 
-void UpdatePlayScene()
+void PlayScene::StepPlayScene()
 {
 
 }
 
-void DrawPlayScene()
+void PlayScene::UpdatePlayScene()
 {
 
 }
 
-void FinPlayScene()
+void PlayScene::DrawPlayScene()
 {
 
 }
