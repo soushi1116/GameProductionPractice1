@@ -239,5 +239,5 @@ void FinScene()
 void ChangeScene(Scene scene)
 {
 	g_NextScene = scene;
-	g_IsLoopEnd = false;
+	g_IsLoopEnd = true;
 }
