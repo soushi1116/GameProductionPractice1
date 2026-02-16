@@ -31,6 +31,9 @@
     <Filter Include="Source\Player">
       <UniqueIdentifier>{31cd836a-6995-40c5-bf9c-51b6930290be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Scene\S.Kurosawa">
+      <UniqueIdentifier>{7d31a02b-4f81-4941-8065-87d912c41413}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -60,6 +63,9 @@
     <ClCompile Include="Source\Player\Player.cpp">
       <Filter>Source\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene\S.Kurosawa\S.Kurosawa.cpp">
+      <Filter>Source\Scene\S.Kurosawa</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -88,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="Source\Player\Player.h">
       <Filter>Source\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\S.Kurosawa\S.Kurosawa.h">
+      <Filter>Source\Scene\S.Kurosawa</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

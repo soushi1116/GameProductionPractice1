@@ -51,6 +51,11 @@ void StepPlayer()
 	{
 		g_PlayerData.move.x = 0;
 	}
+
+	if (IsTriggerKey(KEY_UP))
+	{
+
+	}
 }
 
 void UpdatePlayer()

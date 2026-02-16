@@ -3,9 +3,9 @@
 #include "Option/OptionScene.h"
 #include "Play/PlayScene.h"
 
-int g_NowScene = SCENE_STAGE_1;
+int g_NowScene = SCENE_TITLE;
 
-int g_NextScene = SCENE_STAGE_1;
+int g_NextScene = SCENE_TITLE;
 
 int g_SceneState = SCENE_STATE_INIT;
 
