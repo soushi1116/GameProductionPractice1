@@ -2,6 +2,7 @@
 #include "Title/TitleScene.h"
 #include "Option/OptionScene.h"
 #include "Play/PlayScene.h"
+#include "S.Kurosawa/S.Kurosawa.h"
 
 int g_NowScene = SCENE_TITLE;
 
@@ -77,6 +78,9 @@ void InitScene()
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
+	case SCENE_KUROSAWA:
+		InitKuroScene();
+		break;
 	default:
 		break;
 	}
@@ -98,6 +102,9 @@ void LoadScene()
 		LoadPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
+		break;
+	case SCENE_KUROSAWA:
+		LoadKuroScene();
 		break;
 	default:
 		break;
@@ -121,6 +128,9 @@ void StartScene()
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
+	case SCENE_KUROSAWA:
+		StartKuroScene();
+		break;
 	default:
 		break;
 	}
@@ -142,6 +152,9 @@ void StepScene()
 		StepPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
+		break;
+	case SCENE_KUROSAWA:
+		StepKuroScene();
 		break;
 	default:
 		break;
@@ -165,6 +178,9 @@ void UpdateScene()
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
+	case SCENE_KUROSAWA:
+		UpdateKuroScene();
+		break;
 	default:
 		break;
 	}
@@ -187,6 +203,9 @@ void DrawScene()
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
+	case SCENE_KUROSAWA:
+		DrawKuroScene();
+		break;
 	default:
 		break;
 	}
@@ -208,6 +227,9 @@ void FinScene()
 		FinPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
+		break;
+	case SCENE_KUROSAWA:
+		FinKuroScene();
 		break;
 	default:
 		break;
