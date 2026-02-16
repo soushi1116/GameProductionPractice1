@@ -18,31 +18,15 @@ enum SceneState
 	SCENE_STATE_FIN,
 };
 
-class SceneManager
-{
-public:
-	SceneManager();
-	~SceneManager();
+void SceneManagerUpdate();
 
-public:
-	void SceneManagerUpdate();
+void InitScene();
+void LoadScene();
+void StartScene();
+void StepScene();
+void UpdateScene();
+void DrawScene();
+void FinScene();
 
-	void InitScene();
-	void LoadScene();
-	void StartScene();
-	void StepScene();
-	void UpdateScene();
-	void DrawScene();
-	void FinScene();
+void ChangeScene(Scene scene);
 
-	void ChangeScene(Scene scene);
-
-private:
-	Scene g_NowScene;
-
-	Scene g_NextScene;
-
-	SceneState g_SceneState;
-
-	bool g_IsLoopEnd;
-};

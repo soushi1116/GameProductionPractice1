@@ -3,22 +3,15 @@
 #include "Option/OptionScene.h"
 #include "Play/PlayScene.h"
 
-TitleScene* title;
-OptionScene* option;
-PlayScene* play;
+int g_NowScene = SCENE_TITLE;
 
-SceneManager::SceneManager()
-{
-	g_NowScene = SCENE_TITLE;
+int g_NextScene = SCENE_TITLE;
 
-	g_NextScene = SCENE_TITLE;
+int g_SceneState = SCENE_STATE_INIT;
 
-	g_SceneState = SCENE_STATE_INIT;
+bool g_IsLoopEnd = false;
 
-	g_IsLoopEnd = false;
-}
-
-void SceneManager::SceneManagerUpdate()
+void SceneManagerUpdate()
 {
 	switch (g_SceneState)
 	{
@@ -67,20 +60,20 @@ void SceneManager::SceneManagerUpdate()
 	}
 }
 
-void SceneManager::InitScene()
+void InitScene()
 {
 	switch (g_NowScene)
 	{
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		title = new TitleScene;
+		InitTitleScene();
 		break;
 	case SCENE_OPTION:
-		option = new OptionScene;
+		InitOptionScene();
 		break;
 	case SCENE_STAGE_1:
-		play = new PlayScene;
+		InitPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
@@ -89,20 +82,20 @@ void SceneManager::InitScene()
 	}
 }
 
-void SceneManager::LoadScene()
+void LoadScene()
 {
 	switch (g_NowScene)
 	{
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		title->LoadTitleScene();
+		LoadTitleScene();
 		break;
 	case SCENE_OPTION:
-		option->LoadOptionScene();
+		LoadOptionScene();
 		break;
 	case SCENE_STAGE_1:
-		play->LoadPlayScene();
+		LoadPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
@@ -111,20 +104,20 @@ void SceneManager::LoadScene()
 	}
 }
 
-void SceneManager::StartScene()
+void StartScene()
 {
 	switch (g_NowScene)
 	{
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		title->StartTitleScene();
+		StartTitleScene();
 		break;
 	case SCENE_OPTION:
-		option->StartOptionScene();
+		StartOptionScene();
 		break;
 	case SCENE_STAGE_1:
-		play->StartPlayScene();
+		StartPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
@@ -133,20 +126,20 @@ void SceneManager::StartScene()
 	}
 }
 
-void SceneManager::StepScene()
+void StepScene()
 {
 	switch (g_NowScene)
 	{
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		title->StepTitleScene();
+		StepTitleScene();
 		break;
 	case SCENE_OPTION:
-		option->StepOptionScene();
+		StepOptionScene();
 		break;
 	case SCENE_STAGE_1:
-		play->StepPlayScene();
+		StepPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
@@ -155,20 +148,20 @@ void SceneManager::StepScene()
 	}
 }
 
-void SceneManager::UpdateScene()
+void UpdateScene()
 {
 	switch (g_NowScene)
 	{
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		title->UpdateTitleScene();
+		UpdateTitleScene();
 		break;
 	case SCENE_OPTION:
-		option->UpdateOptionScene();
+		UpdateOptionScene();
 		break;
 	case SCENE_STAGE_1:
-		play->UpdatePlayScene();
+		UpdatePlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
@@ -177,20 +170,20 @@ void SceneManager::UpdateScene()
 	}
 }
 
-void SceneManager::DrawScene()
+void DrawScene()
 {
 	switch (g_NowScene)
 	{
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		title->DrawTitleScene();
+		DrawTitleScene();
 		break;
 	case SCENE_OPTION:
-		option->DrawOptionScene();
+		DrawOptionScene();
 		break;
 	case SCENE_STAGE_1:
-		play->DrawPlayScene();
+		DrawPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
@@ -199,20 +192,20 @@ void SceneManager::DrawScene()
 	}
 }
 
-void SceneManager::FinScene()
+void FinScene()
 {
 	switch (g_NowScene)
 	{
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		delete title;
+		FinTitleScene();
 		break;
 	case SCENE_OPTION:
-		delete option;
+		FinOptionScene();
 		break;
 	case SCENE_STAGE_1:
-		delete play;
+		FinPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
@@ -221,7 +214,7 @@ void SceneManager::FinScene()
 	}
 }
 
-void SceneManager::ChangeScene(Scene scene)
+void ChangeScene(Scene scene)
 {
 	g_NextScene = scene;
 	g_IsLoopEnd = false;

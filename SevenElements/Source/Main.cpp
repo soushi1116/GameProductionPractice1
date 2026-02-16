@@ -20,11 +20,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	SceneManager sceneManager;
+	InitInput();
 
-	Input input;
-
-	FPS fps;
+	InitFPS();
 
 	while (ProcessMessage() >= 0)
 	{
@@ -32,19 +30,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		ClearDrawScreen();
 
-		input.UpdateInput();
+		UpdateInput();
 
-		sceneManager.SceneManagerUpdate();
+		SceneManagerUpdate();
 
-		input.DrawInput();
+		DrawInput();
 
 		if (CheckHitKey(KEY_INPUT_ESCAPE)) break;
 
-		fps.UpdateFPS();
+		UpdateFPS();
 
-		fps.DrawFPS();
+		DrawFPS();
 
-		fps.FPSWait();
+		FPSWait();
 
 		ScreenFlip();
 	}

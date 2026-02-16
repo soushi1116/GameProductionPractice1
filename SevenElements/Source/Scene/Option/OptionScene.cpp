@@ -1,37 +1,37 @@
 #include "DxLib.h"
 #include "OptionScene.h"
 
-OptionScene::OptionScene()
+void InitOptionScene()
 {
 
 }
 
-OptionScene::~OptionScene()
+void LoadOptionScene()
 {
 
 }
 
-void OptionScene::LoadOptionScene()
+void StartOptionScene()
 {
 
 }
 
-void OptionScene::StartOptionScene()
+void StepOptionScene()
 {
 
 }
 
-void OptionScene::StepOptionScene()
+void UpdateOptionScene()
 {
 
 }
 
-void OptionScene::UpdateOptionScene()
+void DrawOptionScene()
 {
 
 }
 
-void OptionScene::DrawOptionScene()
+void FinOptionScene()
 {
 
 }
