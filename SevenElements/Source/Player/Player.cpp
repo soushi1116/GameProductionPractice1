@@ -5,6 +5,9 @@
 #define PLAYER_MOVE_SPEED (5.0f)
 #define PLAYER_DEFAULT_POS_X (800)
 #define PLAYER_DEFAULT_POS_Y (450)
+#define PLAYER_POS_Y_MIN (800)
+#define GRAVITY (0.5f)
+#define PLAYER_JUMP_POWER (10.0f)
 
 PlayerData g_PlayerData = { 0 };
 
@@ -37,6 +40,15 @@ void StepPlayer()
 {
 	if (!g_PlayerData.active) return;
 
+	if (g_PlayerData.pos.y <= PLAYER_POS_Y_MIN)
+	{
+		g_PlayerData.move.y += GRAVITY;
+	}
+	else
+	{
+		g_PlayerData.move.y = 0;
+	}
+
 	if (IsInputKey(KEY_RIGHT))
 	{
 		g_PlayerData.move.x = PLAYER_MOVE_SPEED;
@@ -54,7 +66,7 @@ void StepPlayer()
 
 	if (IsTriggerKey(KEY_UP))
 	{
-
+		g_PlayerData.move.y -= PLAYER_JUMP_POWER;
 	}
 }
 
@@ -63,6 +75,7 @@ void UpdatePlayer()
 	if (!g_PlayerData.active) return;
 
 	g_PlayerData.pos.x += g_PlayerData.move.x;
+	g_PlayerData.pos.y += g_PlayerData.move.y;
 }
 
 void DrawPlayer()
