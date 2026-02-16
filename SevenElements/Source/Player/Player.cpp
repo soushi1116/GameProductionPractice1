@@ -44,7 +44,7 @@ void StepPlayer()
 	}
 	else if (IsInputKey(KEY_LEFT))
 	{
-		g_PlayerData.move.x -= PLAYER_MOVE_SPEED;
+		g_PlayerData.move.x = -PLAYER_MOVE_SPEED;
 
 	}
 	else
