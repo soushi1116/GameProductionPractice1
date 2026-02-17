@@ -8,7 +8,8 @@ enum InputKey
 	KEY_A     = (1 << 3),
 	KEY_X     = (1 << 4),
 	KEY_Z     = (1 << 5),
-	KEY_K     = (1 << 6),
+	KEY_C     = (1 << 6),
+	KEY_K     = (1 << 7),
 };
 
 void InitInput();
@@ -17,4 +18,4 @@ void DrawInput();
 
 bool IsInputKey(InputKey key);
 bool IsTriggerKey(InputKey key);
-
+bool IsReleaseKey(InputKey key);

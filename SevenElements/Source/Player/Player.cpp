@@ -31,7 +31,7 @@ void InitPlayer()
 	}
 
 	g_PlayerData.level = 0;
-	g_PlayerData.selectState = 0;
+	g_PlayerData.selectState = -1;
 
 	g_PlayerData.active = false;
 	g_PlayerData.randing = false;
@@ -118,6 +118,7 @@ void StepPlayer()
 			g_PlayerData.move.y -= PLAYER_JUMP_POWER;
 		}
 	}
+
 	if (IsTriggerKey(KEY_X))
 	{
 		if (!g_PlayerData.selectElements)
@@ -127,6 +128,22 @@ void StepPlayer()
 		else
 		{
 			g_PlayerData.selectElements = false;
+			g_PlayerData.selectState = -1;
+		}
+	}
+
+	if (IsTriggerKey(KEY_Z))
+	{
+		if (g_PlayerData.selectElements)
+		{
+			if (g_PlayerData.selectState < g_PlayerData.level - 1)
+			{
+				g_PlayerData.selectState++;
+			}
+			else
+			{
+				g_PlayerData.selectState = 0;
+			}
 		}
 	}
 
@@ -166,9 +183,18 @@ void DrawPlayer()
 
 		for (int i = 0; i < g_PlayerData.level; i++)
 		{
-			DrawRotaGraph(playerCenterX - ELEMENTS_TEXT_DIF * -sinf(DX_TWO_PI_F * i / g_PlayerData.level)
-				, playerCenterY - ELEMENTS_TEXT_DIF * cosf(DX_TWO_PI_F * i / g_PlayerData.level),
-				1, 0, elementsTextHandle[i], TRUE);
+			if (i == g_PlayerData.selectState)
+			{
+				DrawRotaGraph(playerCenterX - ELEMENTS_TEXT_DIF * -sinf(DX_TWO_PI_F * i / g_PlayerData.level)
+					, playerCenterY - ELEMENTS_TEXT_DIF * cosf(DX_TWO_PI_F * i / g_PlayerData.level),
+					2, 0, elementsTextHandle[i], TRUE);
+			}
+			else
+			{
+				DrawRotaGraph(playerCenterX - ELEMENTS_TEXT_DIF * -sinf(DX_TWO_PI_F * i / g_PlayerData.level)
+					, playerCenterY - ELEMENTS_TEXT_DIF * cosf(DX_TWO_PI_F * i / g_PlayerData.level),
+					1, 0, elementsTextHandle[i], TRUE);
+			}
 		}
 	}
 }

@@ -45,6 +45,11 @@ void UpdateInput()
 		g_InputState |= KEY_Z;
 	}
 
+	if (CheckHitKey(KEY_INPUT_C))
+	{
+		g_InputState |= KEY_C;
+	}
+
 	if (CheckHitKey(KEY_INPUT_K))
 	{
 		g_InputState |= KEY_K;
@@ -64,4 +69,9 @@ bool IsInputKey(InputKey key)
 bool IsTriggerKey(InputKey key)
 {
 	return g_InputState & key && !(g_PrevInputState & key);
+}
+
+bool IsTriggerKey(InputKey key)
+{
+	return !(g_InputState & key) && (g_PrevInputState & key);
 }
