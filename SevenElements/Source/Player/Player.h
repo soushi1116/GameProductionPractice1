@@ -1,14 +1,28 @@
 #pragma once
 #include "DxLib.h"
 
+#define PLAYER_WIDTH (64)
+#define PLAYER_HEIGHT (126)
+
 struct PlayerData
 {
 	VECTOR pos;
 	VECTOR move;
 
-	int handle;
+	int playerHandle;
+	int level;
+
+	int fireTextHandle;
+	int waterTextHandle;
+	int thunderTextHandle;
+	int windTextHandle;
+	int groundTextHandle;
+	int iceTextHandle;
+	int ironTextHandle;
 
 	bool active;
+	bool randing;
+	bool selectElements;
 };
 
 void InitPlayer();
@@ -21,3 +35,4 @@ void FinPlayer();
 
 PlayerData GetPlayer();
 
+void PlayerHitMap();
