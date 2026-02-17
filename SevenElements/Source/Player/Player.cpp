@@ -6,7 +6,7 @@
 #define PLAYER_MOVE_SPEED (5.0f)
 #define PLAYER_DEFAULT_POS_X (800)
 #define PLAYER_DEFAULT_POS_Y (450)
-#define PLAYER_POS_Y_MIN (800)
+#define PLAYER_POS_Y_MIN (600)
 #define GRAVITY (0.5f)
 #define PLAYER_JUMP_POWER (10.0f)
 #define PLAYER_DEFAULT_LEVEL (1)
@@ -15,7 +15,7 @@
 
 PlayerData g_PlayerData = { 0 };
 
-int elementsTextHandle[] = { 0 };
+int elementsTextHandle[ELEMENTS_NUM_MAX] = { 0 };
 
 void InitPlayer()
 {

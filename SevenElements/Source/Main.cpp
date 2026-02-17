@@ -36,7 +36,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		DrawInput();
 
-		if (CheckHitKey(KEY_INPUT_ESCAPE)) break;
+		if (CheckHitKey(KEY_INPUT_ESCAPE)) 
+		{
+			break;
+		}
 
 		UpdateFPS();
 
