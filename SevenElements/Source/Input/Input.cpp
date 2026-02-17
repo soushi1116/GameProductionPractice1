@@ -40,6 +40,11 @@ void UpdateInput()
 		g_InputState |= KEY_X;
 	}
 
+	if (CheckHitKey(KEY_INPUT_Z))
+	{
+		g_InputState |= KEY_Z;
+	}
+
 	if (CheckHitKey(KEY_INPUT_K))
 	{
 		g_InputState |= KEY_K;

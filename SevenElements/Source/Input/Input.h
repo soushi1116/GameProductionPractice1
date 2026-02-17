@@ -7,7 +7,8 @@ enum InputKey
 	KEY_UP    = (1 << 2),
 	KEY_A     = (1 << 3),
 	KEY_X     = (1 << 4),
-	KEY_K     = (1 << 5),
+	KEY_Z     = (1 << 5),
+	KEY_K     = (1 << 6),
 };
 
 void InitInput();

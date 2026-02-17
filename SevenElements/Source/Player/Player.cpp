@@ -1,4 +1,5 @@
 #include "DxLib.h"
+#include <math.h>
 #include "Player.h"
 #include "../Input/Input.h"
 
@@ -24,21 +25,13 @@ void InitPlayer()
 	g_PlayerData.move.x = 0.0f;
 	g_PlayerData.move.y = 0.0f;
 
-	g_PlayerData.playerHandle = 0;
-	g_PlayerData.fireTextHandle = 0;
-	g_PlayerData.waterTextHandle = 0;
-	g_PlayerData.thunderTextHandle = 0;
-	g_PlayerData.windTextHandle = 0;
-	g_PlayerData.groundTextHandle = 0;
-	g_PlayerData.iceTextHandle = 0;
-	g_PlayerData.ironTextHandle = 0;
-
 	for (int i = 0; i < ELEMENTS_NUM_MAX; i ++)
 	{
 		elementsTextHandle[i] = { 0 };
 	}
 
 	g_PlayerData.level = 0;
+	g_PlayerData.selectState = 0;
 
 	g_PlayerData.active = false;
 	g_PlayerData.randing = false;
@@ -47,39 +40,32 @@ void InitPlayer()
 
 void LoadPlayer()
 {
-	g_PlayerData.playerHandle = LoadGraph("Data/Player/Player(‰¼).png");
-	/*g_PlayerData.fireTextHandle = LoadGraph("Data/Player/‰Î(‰¼).png");
-	g_PlayerData.waterTextHandle = LoadGraph("Data/Player/…(‰¼).png");
-	g_PlayerData.thunderTextHandle = LoadGraph("Data/Player/—‹(‰¼).png");
-	g_PlayerData.windTextHandle = LoadGraph("Data/Player/•—(‰¼).png");
-	g_PlayerData.groundTextHandle = LoadGraph("Data/Player/“y(‰¼).png");
-	g_PlayerData.iceTextHandle = LoadGraph("Data/Player/•X(‰¼).png");
-	g_PlayerData.ironTextHandle = LoadGraph("Data/Player/‹à‘®(‰¼).png");*/
+	g_PlayerData.playerHandle = LoadGraph("Data/Player/Player(pre).png");
 
 	for (int i = 0; i < ELEMENTS_NUM_MAX; i++)
 	{
 		switch (i)
 		{
 		case 0:
-			elementsTextHandle[i] = LoadGraph("Data/Player/‰Î(‰¼).png");
+			elementsTextHandle[i] = LoadGraph("Data/Player/Fire(pre).png");
 			break;
 		case 1:
-			elementsTextHandle[i] = LoadGraph("Data/Player/…(‰¼).png");
+			elementsTextHandle[i] = LoadGraph("Data/Player/Water(pre).png");
 			break;
 		case 2:
-			elementsTextHandle[i] = LoadGraph("Data/Player/—‹(‰¼).png");
+			elementsTextHandle[i] = LoadGraph("Data/Player/Thonder(pre).png");
 			break;
 		case 3:
-			elementsTextHandle[i] = LoadGraph("Data/Player/•—(‰¼).png");
+			elementsTextHandle[i] = LoadGraph("Data/Player/Wind(pre).png");
 			break;
 		case 4:
-			elementsTextHandle[i] = LoadGraph("Data/Player/“y(‰¼).png");
+			elementsTextHandle[i] = LoadGraph("Data/Player/Ground(pre).png");
 			break;
 		case 5:
-			elementsTextHandle[i] = LoadGraph("Data/Player/•X(‰¼).png");
+			elementsTextHandle[i] = LoadGraph("Data/Player/Ice(pre).png");
 			break;
 		case 6:
-			elementsTextHandle[i] = LoadGraph("Data/Player/‹à‘®(‰¼).png");
+			elementsTextHandle[i] = LoadGraph("Data/Player/Iron(pre).png");
 			break;
 		default:
 			break;
@@ -143,6 +129,18 @@ void StepPlayer()
 			g_PlayerData.selectElements = false;
 		}
 	}
+
+	if (IsTriggerKey(KEY_A))
+	{
+		if (g_PlayerData.level < 7)
+		{
+			g_PlayerData.level++;
+		}
+		else
+		{
+			g_PlayerData.level = PLAYER_DEFAULT_LEVEL;
+		}
+	}
 }
 
 void UpdatePlayer()
@@ -164,15 +162,24 @@ void DrawPlayer()
 		int playerCenterX = (int)g_PlayerData.pos.x + PLAYER_WIDTH / 2;
 		int playerCenterY = (int)g_PlayerData.pos.y + PLAYER_HEIGHT / 2;
 
-		DrawRotaGraph(playerCenterX, playerCenterY - ELEMENTS_TEXT_DIF, 1, 0, elementsTextHandle[0], TRUE);
-		DrawRotaGraph(playerCenterX, playerCenterY + ELEMENTS_TEXT_DIF, 1, 0, elementsTextHandle[1], TRUE);
+		int textRotation = sinf(DX_PI_F);
+
+		for (int i = 0; i < g_PlayerData.level; i++)
+		{
+			DrawRotaGraph(playerCenterX - ELEMENTS_TEXT_DIF * -sinf(DX_TWO_PI_F * i / g_PlayerData.level)
+				, playerCenterY - ELEMENTS_TEXT_DIF * cosf(DX_TWO_PI_F * i / g_PlayerData.level),
+				1, 0, elementsTextHandle[i], TRUE);
+		}
 	}
 }
 
 void FinPlayer()
 {
 	DeleteGraph(g_PlayerData.playerHandle);
-	DeleteGraph(g_PlayerData.fireTextHandle);
+	for (int i = 0; i < ELEMENTS_NUM_MAX; i++)
+	{
+		DeleteGraph(elementsTextHandle[i]);
+	}
 }
 
 

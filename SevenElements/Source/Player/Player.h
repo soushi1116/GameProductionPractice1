@@ -11,14 +11,7 @@ struct PlayerData
 
 	int playerHandle;
 	int level;
-
-	int fireTextHandle;
-	int waterTextHandle;
-	int thunderTextHandle;
-	int windTextHandle;
-	int groundTextHandle;
-	int iceTextHandle;
-	int ironTextHandle;
+	int selectState;
 
 	bool active;
 	bool randing;
