@@ -17,7 +17,7 @@
 
 PlayerData g_PlayerData = { 0 };
 
-int elementsTextHandle[ELEMENTS_NUM_MAX] = { 0 };
+int g_ElementsTextHandle[ELEMENTS_NUM_MAX] = { 0 };
 
 void InitPlayer()
 {
@@ -29,7 +29,7 @@ void InitPlayer()
 
 	for (int i = 0; i < ELEMENTS_NUM_MAX; i ++)
 	{
-		elementsTextHandle[i] = { 0 };
+		g_ElementsTextHandle[i] = { 0 };
 	}
 
 	g_PlayerData.level = 0;
@@ -51,25 +51,25 @@ void LoadPlayer()
 		switch (i)
 		{
 		case 0:
-			elementsTextHandle[i] = LoadGraph("Data/Player/Fire(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Fire(pre).png");
 			break;
 		case 1:
-			elementsTextHandle[i] = LoadGraph("Data/Player/Water(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Water(pre).png");
 			break;
 		case 2:
-			elementsTextHandle[i] = LoadGraph("Data/Player/Thonder(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Thonder(pre).png");
 			break;
 		case 3:
-			elementsTextHandle[i] = LoadGraph("Data/Player/Wind(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Wind(pre).png");
 			break;
 		case 4:
-			elementsTextHandle[i] = LoadGraph("Data/Player/Ground(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Ground(pre).png");
 			break;
 		case 5:
-			elementsTextHandle[i] = LoadGraph("Data/Player/Ice(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Ice(pre).png");
 			break;
 		case 6:
-			elementsTextHandle[i] = LoadGraph("Data/Player/Iron(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Iron(pre).png");
 			break;
 		default:
 			break;
@@ -230,13 +230,13 @@ void DrawPlayer()
 			{
 				DrawRotaGraph(playerCenterX - ELEMENTS_TEXT_DIF * -sinf(DX_TWO_PI_F * i / g_PlayerData.level)
 					, playerCenterY - ELEMENTS_TEXT_DIF * cosf(DX_TWO_PI_F * i / g_PlayerData.level),
-					2, 0, elementsTextHandle[i], TRUE);
+					2, 0, g_ElementsTextHandle[i], TRUE);
 			}
 			else
 			{
 				DrawRotaGraph(playerCenterX - ELEMENTS_TEXT_DIF * -sinf(DX_TWO_PI_F * i / g_PlayerData.level)
 					, playerCenterY - ELEMENTS_TEXT_DIF * cosf(DX_TWO_PI_F * i / g_PlayerData.level),
-					1, 0, elementsTextHandle[i], TRUE);
+					1, 0, g_ElementsTextHandle[i], TRUE);
 			}
 		}
 	}
@@ -247,7 +247,7 @@ void FinPlayer()
 	DeleteGraph(g_PlayerData.playerHandle);
 	for (int i = 0; i < ELEMENTS_NUM_MAX; i++)
 	{
-		DeleteGraph(elementsTextHandle[i]);
+		DeleteGraph(g_ElementsTextHandle[i]);
 	}
 }
 

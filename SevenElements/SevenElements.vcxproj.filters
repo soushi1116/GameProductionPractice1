@@ -37,6 +37,9 @@
     <Filter Include="Source\Elements">
       <UniqueIdentifier>{3056b5c3-a3bd-466e-b3fd-1cfc2b2b4ca6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Effect">
+      <UniqueIdentifier>{f61c6f13-edfc-4fab-84ae-29401fbe02cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -72,6 +75,9 @@
     <ClCompile Include="Source\Elemets\Elements.cpp">
       <Filter>Source\Elements</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Effect\AnimationEffect.cpp">
+      <Filter>Source\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -106,6 +112,12 @@
     </ClInclude>
     <ClInclude Include="Source\Elemets\Elements.h">
       <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Effect\AnimationEffect.h">
+      <Filter>Source\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Effect\AnimationEffectParameter.h">
+      <Filter>Source\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
