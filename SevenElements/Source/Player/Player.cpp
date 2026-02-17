@@ -99,12 +99,10 @@ void StepPlayer()
 	if (IsInputKey(KEY_RIGHT))
 	{
 		g_PlayerData.move.x = PLAYER_MOVE_SPEED;
-
 	}
 	else if (IsInputKey(KEY_LEFT))
 	{
 		g_PlayerData.move.x = -PLAYER_MOVE_SPEED;
-
 	}
 	else
 	{
@@ -113,7 +111,7 @@ void StepPlayer()
 
 	if (IsTriggerKey(KEY_UP))
 	{
-		if (g_PlayerData.randing = true)
+		if (g_PlayerData.randing)
 		{
 			g_PlayerData.move.y -= PLAYER_JUMP_POWER;
 		}
