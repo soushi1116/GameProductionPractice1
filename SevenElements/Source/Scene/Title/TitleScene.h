@@ -14,5 +14,6 @@ public:
 	void DrawTitleScene();
 
 private:
-
+	int m_logoHandle;
+	int m_select;
 };
