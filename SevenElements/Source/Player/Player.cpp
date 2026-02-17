@@ -4,6 +4,7 @@
 #include "../Input/Input.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
+#define PLAYER_RUN_SPEED (8.0f)
 #define PLAYER_DEFAULT_POS_X (800)
 #define PLAYER_DEFAULT_POS_Y (450)
 #define PLAYER_POS_Y_MIN (600)
@@ -12,6 +13,7 @@
 #define PLAYER_DEFAULT_LEVEL (1)
 #define ELEMENTS_TEXT_DIF (128.0f)
 #define ELEMENTS_NUM_MAX (7)
+#define DOUBLE_PUSH_TIME (10)
 
 PlayerData g_PlayerData = { 0 };
 
@@ -36,6 +38,8 @@ void InitPlayer()
 	g_PlayerData.active = false;
 	g_PlayerData.randing = false;
 	g_PlayerData.selectElements = false;
+	g_PlayerData.runRight = false;
+	g_PlayerData.runLeft = false;
 }
 
 void LoadPlayer()
@@ -98,15 +102,56 @@ void StepPlayer()
 
 	if (IsInputKey(KEY_RIGHT))
 	{
-		g_PlayerData.move.x = PLAYER_MOVE_SPEED;
+		if (g_PlayerData.runRight)
+		{
+			g_PlayerData.move.x = PLAYER_RUN_SPEED;
+		}
+		else
+		{
+			g_PlayerData.move.x = PLAYER_MOVE_SPEED;
+		}
 	}
 	else if (IsInputKey(KEY_LEFT))
 	{
-		g_PlayerData.move.x = -PLAYER_MOVE_SPEED;
+		if (g_PlayerData.runLeft)
+		{
+			g_PlayerData.move.x = -PLAYER_RUN_SPEED;
+		}
+		else
+		{
+			g_PlayerData.move.x = -PLAYER_MOVE_SPEED;
+		}
 	}
 	else
 	{
 		g_PlayerData.move.x = 0;
+
+		if (g_PlayerData.runRight || g_PlayerData.runLeft)
+		{
+			g_PlayerData.runTimer++;
+		}
+	}
+
+	if (g_PlayerData.runTimer >= DOUBLE_PUSH_TIME)
+	{
+		g_PlayerData.runRight = false;
+		g_PlayerData.runLeft = false;
+		g_PlayerData.runTimer = 0;
+	}
+
+	if (IsReleaseKey(KEY_RIGHT))
+	{
+		if (!g_PlayerData.runRight)
+		{
+			g_PlayerData.runRight = true;
+		}
+	}
+	if (IsReleaseKey(KEY_LEFT))
+	{
+		if (!g_PlayerData.runLeft)
+		{
+			g_PlayerData.runLeft = true;
+		}
 	}
 
 	if (IsTriggerKey(KEY_UP))

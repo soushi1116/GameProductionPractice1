@@ -12,10 +12,13 @@ struct PlayerData
 	int playerHandle;
 	int level;
 	int selectState;
+	int runTimer;
 
 	bool active;
 	bool randing;
 	bool selectElements;
+	bool runRight;
+	bool runLeft;
 };
 
 void InitPlayer();
