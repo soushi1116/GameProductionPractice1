@@ -11,7 +11,7 @@
 #define PLAYER_POS_Y_MIN (600)
 #define GRAVITY (0.5f)
 #define PLAYER_JUMP_POWER (10.0f)
-#define PLAYER_DEFAULT_LEVEL (1)
+#define PLAYER_DEFAULT_LEVEL (2)
 #define ELEMENTS_TEXT_DIF (128.0f)
 #define ELEMENTS_NUM_MAX (8)
 #define DOUBLE_PUSH_TIME (10)
@@ -170,7 +170,21 @@ void StepPlayer()
 	{
 		Element* element = new Element;
 
-		element->Action(g_PlayerData.pos.x, g_PlayerData.pos.y, ELEMENT_TYPE_FIRE);
+		float playerCenterX = g_PlayerData.pos.x + PLAYER_WIDTH / 2;
+		float playerCenterY = g_PlayerData.pos.y + PLAYER_HEIGHT / 2;
+
+		switch (g_PlayerData.selectState)
+		{
+		case 0:
+			g_PlayerData.selectElements = false;
+			break;
+		case 1:
+			element->Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_FIRE);
+			g_PlayerData.selectElements = false;
+			break;
+		default:
+			break;
+		}
 	}
 
 	if (IsTriggerKey(KEY_Z))
@@ -178,6 +192,8 @@ void StepPlayer()
 		if (!g_PlayerData.selectElements)
 		{
 			g_PlayerData.selectElements = true;
+			g_PlayerData.selectState = 0;
+			return;
 		}
 
 		if (g_PlayerData.selectState < g_PlayerData.level - 1)
