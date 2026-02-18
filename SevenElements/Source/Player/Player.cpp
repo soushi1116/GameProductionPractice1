@@ -2,7 +2,7 @@
 #include <math.h>
 #include "Player.h"
 #include "../Input/Input.h"
-#include "../Elemets/Fire.h"
+#include "../Elemets/Elements.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
 #define PLAYER_RUN_SPEED (8.0f)
@@ -168,7 +168,9 @@ void StepPlayer()
 
 	if (IsTriggerKey(KEY_X))
 	{
-		
+		Element* element = new Element;
+
+		element->Action(g_PlayerData.pos.x, g_PlayerData.pos.y, ELEMENT_TYPE_FIRE);
 	}
 
 	if (IsTriggerKey(KEY_Z))

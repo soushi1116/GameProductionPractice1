@@ -62,9 +62,8 @@ void StepAnimationEffect()
 
 				continue;
 			}
-
-			effect->timer--;
 		}
+		effect->timer--;
 	}
 }
 void UpdateAnimationEffect()
