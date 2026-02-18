@@ -2,7 +2,7 @@
 #include <math.h>
 #include "Player.h"
 #include "../Input/Input.h"
-#include "../Elemets/Elements.h"
+#include "../Elements/ElementsManager.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
 #define PLAYER_RUN_SPEED (8.0f)
@@ -168,8 +168,6 @@ void StepPlayer()
 
 	if (IsTriggerKey(KEY_X))
 	{
-		Element* element = new Element;
-
 		float playerCenterX = g_PlayerData.pos.x + PLAYER_WIDTH / 2;
 		float playerCenterY = g_PlayerData.pos.y + PLAYER_HEIGHT / 2;
 
@@ -179,7 +177,7 @@ void StepPlayer()
 			g_PlayerData.selectElements = false;
 			break;
 		case 1:
-			element->Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_FIRE);
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_FIRE);
 			g_PlayerData.selectElements = false;
 			break;
 		default:

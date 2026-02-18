@@ -75,16 +75,37 @@
     <ClCompile Include="Source\Scene\S_Kurosawa\S_Kurosawa.cpp">
       <Filter>Source\Scene\S_Kurosawa</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Elemets\Elements.cpp">
-      <Filter>Source\Elements</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Effect\AnimationEffect.cpp">
       <Filter>Source\Effect</Filter>
     </ClCompile>
     <ClCompile Include="Source\Animation\Animation.cpp">
       <Filter>Source\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Elemets\Fire.cpp">
+    <ClCompile Include="Source\Elements\Elements.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\ElementsManager.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Fire.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Ground.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Ice.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Iron.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Thonder.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Water.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Wind.cpp">
       <Filter>Source\Elements</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,9 +140,6 @@
     <ClInclude Include="Source\Scene\S_Kurosawa\S_Kurosawa.h">
       <Filter>Source\Scene\S_Kurosawa</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Elemets\Elements.h">
-      <Filter>Source\Elements</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Effect\AnimationEffect.h">
       <Filter>Source\Effect</Filter>
     </ClInclude>
@@ -131,10 +149,31 @@
     <ClInclude Include="Source\Animation\Animation.h">
       <Filter>Source\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Elemets\Fire.h">
+    <ClInclude Include="Source\Elements\Elements.h">
       <Filter>Source\Elements</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Elemets\ElementsParameter.h">
+    <ClInclude Include="Source\Elements\ElementsManager.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Fire.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Ground.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Ice.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Iron.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Thonder.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Water.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Wind.h">
       <Filter>Source\Elements</Filter>
     </ClInclude>
   </ItemGroup>
