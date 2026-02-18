@@ -40,6 +40,9 @@
     <Filter Include="Source\Effect">
       <UniqueIdentifier>{f61c6f13-edfc-4fab-84ae-29401fbe02cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Animation">
+      <UniqueIdentifier>{0309ee5a-5aa9-4b9c-8db2-d1e2aa17895c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -77,6 +80,12 @@
     </ClCompile>
     <ClCompile Include="Source\Effect\AnimationEffect.cpp">
       <Filter>Source\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Animation\Animation.cpp">
+      <Filter>Source\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elemets\Fire.cpp">
+      <Filter>Source\Elements</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +127,15 @@
     </ClInclude>
     <ClInclude Include="Source\Effect\AnimationEffectParameter.h">
       <Filter>Source\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Animation\Animation.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elemets\Fire.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elemets\ElementsParameter.h">
+      <Filter>Source\Elements</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

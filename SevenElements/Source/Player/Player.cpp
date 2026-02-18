@@ -2,6 +2,7 @@
 #include <math.h>
 #include "Player.h"
 #include "../Input/Input.h"
+#include "../Elemets/Fire.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
 #define PLAYER_RUN_SPEED (8.0f)
@@ -12,7 +13,7 @@
 #define PLAYER_JUMP_POWER (10.0f)
 #define PLAYER_DEFAULT_LEVEL (1)
 #define ELEMENTS_TEXT_DIF (128.0f)
-#define ELEMENTS_NUM_MAX (7)
+#define ELEMENTS_NUM_MAX (8)
 #define DOUBLE_PUSH_TIME (10)
 
 PlayerData g_PlayerData = { 0 };
@@ -51,24 +52,27 @@ void LoadPlayer()
 		switch (i)
 		{
 		case 0:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Fire(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Back(pre).png");
 			break;
 		case 1:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Water(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Fire(pre).png");
 			break;
 		case 2:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Thonder(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Water(pre).png");
 			break;
 		case 3:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Wind(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Thonder(pre).png");
 			break;
 		case 4:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Ground(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Wind(pre).png");
 			break;
 		case 5:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Ice(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Ground(pre).png");
 			break;
 		case 6:
+			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Ice(pre).png");
+			break;
+		case 7:
 			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Iron(pre).png");
 			break;
 		default:
@@ -164,35 +168,30 @@ void StepPlayer()
 
 	if (IsTriggerKey(KEY_X))
 	{
+		
+	}
+
+	if (IsTriggerKey(KEY_Z))
+	{		
 		if (!g_PlayerData.selectElements)
 		{
 			g_PlayerData.selectElements = true;
 		}
+
+		if (g_PlayerData.selectState < g_PlayerData.level - 1)
+		{
+			g_PlayerData.selectState++;
+		}
 		else
 		{
-			g_PlayerData.selectElements = false;
-			g_PlayerData.selectState = -1;
+			g_PlayerData.selectState = 0;
 		}
-	}
-
-	if (IsTriggerKey(KEY_Z))
-	{
-		if (g_PlayerData.selectElements)
-		{
-			if (g_PlayerData.selectState < g_PlayerData.level - 1)
-			{
-				g_PlayerData.selectState++;
-			}
-			else
-			{
-				g_PlayerData.selectState = 0;
-			}
-		}
+		
 	}
 
 	if (IsTriggerKey(KEY_A))
 	{
-		if (g_PlayerData.level < 7)
+		if (g_PlayerData.level < 8)
 		{
 			g_PlayerData.level++;
 		}

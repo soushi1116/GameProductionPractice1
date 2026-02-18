@@ -139,8 +139,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Animation\Animation.cpp" />
     <ClCompile Include="Source\Effect\AnimationEffect.cpp" />
     <ClCompile Include="Source\Elemets\Elements.cpp" />
+    <ClCompile Include="Source\Elemets\Fire.cpp" />
     <ClCompile Include="Source\FPS\FPS.cpp" />
     <ClCompile Include="Source\Input\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -153,9 +155,12 @@
     <ClCompile Include="Source\UI\UIImage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Animation\Animation.h" />
     <ClInclude Include="Source\Effect\AnimationEffect.h" />
     <ClInclude Include="Source\Effect\AnimationEffectParameter.h" />
     <ClInclude Include="Source\Elemets\Elements.h" />
+    <ClInclude Include="Source\Elemets\ElementsParameter.h" />
+    <ClInclude Include="Source\Elemets\Fire.h" />
     <ClInclude Include="Source\FPS\FPS.h" />
     <ClInclude Include="Source\GameSetting\GameSetting.h" />
     <ClInclude Include="Source\Input\Input.h" />
