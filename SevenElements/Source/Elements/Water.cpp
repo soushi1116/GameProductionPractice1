@@ -104,7 +104,7 @@ void Water::Spawn(float posX, float posY, bool isTurn)
 			pos.x = posX - WATER_WIDTH;
 		}
 
-		pos.y = posY;
+		pos.y = posY - WATER_HEIGHT;
 
 		m_IsTurn = isTurn;
 	}

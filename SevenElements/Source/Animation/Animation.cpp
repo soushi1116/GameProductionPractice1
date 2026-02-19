@@ -21,6 +21,12 @@ void DrawAnimation(AnimationData* animData, float posX, float posY)
 	DrawGraph((int)posX, (int)posY, animData->handle, TRUE);
 }
 
+void DrawTurnAnimation(AnimationData* animData, float posX, float posY)
+{
+	if (!animData->active) return;
+	DrawTurnGraph((int)posX, (int)posY, animData->handle, TRUE);
+}
+
 void StartAnimation(AnimationData* animData, float posX, float posY)
 {
 	animData->active = true;

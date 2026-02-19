@@ -15,6 +15,8 @@
 #define ELEMENTS_TEXT_DIF (128.0f)
 #define ELEMENTS_NUM_MAX (8)
 #define DOUBLE_PUSH_TIME (10)
+#define PLAYER_ANIM_INTERVAL (40)
+#define PLAYER_ACTION_FREEZE_TIME (20) 
 
 PlayerData g_PlayerData = { 0 };
 
@@ -22,8 +24,8 @@ int g_ElementsTextHandle[ELEMENTS_NUM_MAX] = { 0 };
 
 void InitPlayer()
 {
-	g_PlayerData.pos.x = 0.0f;
-	g_PlayerData.pos.y = 0.0f;
+	g_PlayerData.posX = 0.0f;
+	g_PlayerData.posY = 0.0f;
 
 	g_PlayerData.move.x = 0.0f;
 	g_PlayerData.move.y = 0.0f;
@@ -35,6 +37,8 @@ void InitPlayer()
 
 	g_PlayerData.level = 0;
 	g_PlayerData.selectState = -1;
+	g_PlayerData.runTimer = 0;
+	g_PlayerData.animTimer = 0;
 
 	g_PlayerData.active = false;
 	g_PlayerData.randing = false;
@@ -42,16 +46,25 @@ void InitPlayer()
 	g_PlayerData.runRight = false;
 	g_PlayerData.runLeft = false;
 	g_PlayerData.isTurn = false;
+	g_PlayerData.action = false;
 
 	g_PlayerData.playAnim = PLAYER_ANIM_NONE;
 }
 
 void LoadPlayer()
 {
-	g_PlayerData.animation[PLAYER_ANIM_RIGHT].handle
-		= LoadGraph("Data/Player/Player_Right(pre).png");
-	g_PlayerData.animation[PLAYER_ANIM_LEFT].handle
-		= LoadGraph("Data/Player/Player_Left(pre).png");
+	g_PlayerData.animation[PLAYER_ANIM_STOP].handle
+		= LoadGraph("Data/Player/Stop.png");
+	g_PlayerData.animation[PLAYER_ANIM_RUN_1].handle
+		= LoadGraph("Data/Player/Running-1.png");
+	g_PlayerData.animation[PLAYER_ANIM_RUN_2].handle
+		= LoadGraph("Data/Player/Running-2.png");
+	g_PlayerData.animation[PLAYER_ANIM_RUN_3].handle
+		= LoadGraph("Data/Player/Running-3.png");
+	g_PlayerData.animation[PLAYER_ANIM_JUMP].handle
+		= LoadGraph("Data/Player/Jump.png");
+	g_PlayerData.animation[PLAYER_ANIM_ACTION].handle
+		= LoadGraph("Data/Player/Action.png");
 
 	for (int i = 0; i < ELEMENTS_NUM_MAX; i++)
 	{
@@ -90,18 +103,18 @@ void LoadPlayer()
 void StartPlayer()
 {
 	g_PlayerData.active = true;
-	g_PlayerData.pos.x = PLAYER_DEFAULT_POS_X;
-	g_PlayerData.pos.y = PLAYER_DEFAULT_POS_Y;
+	g_PlayerData.posX = PLAYER_DEFAULT_POS_X;
+	g_PlayerData.posY = PLAYER_DEFAULT_POS_Y;
 	g_PlayerData.level = PLAYER_DEFAULT_LEVEL;
 
-	StartPlayerAnimation(PLAYER_ANIM_RIGHT);
+	StartPlayerAnimation(PLAYER_ANIM_STOP);
 }
 
 void StepPlayer()
 {
 	if (!g_PlayerData.active) return;
 
-	if (g_PlayerData.pos.y < PLAYER_POS_Y_MIN)
+	if (g_PlayerData.posY < PLAYER_POS_Y_MIN)
 	{
 		g_PlayerData.move.y += PLAYER_GRAVITY;
 		g_PlayerData.randing = false;
@@ -112,80 +125,16 @@ void StepPlayer()
 		g_PlayerData.move.y = 0;
 	}
 
-	if (IsInputKey(KEY_RIGHT))
-	{
-		g_PlayerData.isTurn = false;
-
-		g_PlayerData.runLeft = false;
-
-		if (g_PlayerData.runRight)
-		{
-			g_PlayerData.move.x = PLAYER_RUN_SPEED;
-		}
-		else
-		{
-			g_PlayerData.move.x = PLAYER_MOVE_SPEED;
-		}
-	}
-	else if (IsInputKey(KEY_LEFT))
-	{
-		g_PlayerData.isTurn = true;
-
-		g_PlayerData.runRight = false;
-
-		if (g_PlayerData.runLeft)
-		{
-			g_PlayerData.move.x = -PLAYER_RUN_SPEED;
-		}
-		else
-		{
-			g_PlayerData.move.x = -PLAYER_MOVE_SPEED;
-		}
-	}
-	else
-	{
-		g_PlayerData.move.x = 0;
-
-		if (g_PlayerData.runRight || g_PlayerData.runLeft)
-		{
-			g_PlayerData.runTimer++;
-		}
-	}
-
-	if (g_PlayerData.runTimer >= DOUBLE_PUSH_TIME)
-	{
-		g_PlayerData.runRight = false;
-		g_PlayerData.runLeft = false;
-		g_PlayerData.runTimer = 0;
-	}
-
-	if (IsReleaseKey(KEY_RIGHT))
-	{
-		if (!g_PlayerData.runRight)
-		{
-			g_PlayerData.runRight = true;
-		}
-	}
-	if (IsReleaseKey(KEY_LEFT))
-	{
-		if (!g_PlayerData.runLeft)
-		{
-			g_PlayerData.runLeft = true;
-		}
-	}
-
-	if (IsTriggerKey(KEY_UP))
-	{
-		if (g_PlayerData.randing)
-		{
-			g_PlayerData.move.y -= PLAYER_JUMP_POWER;
-		}
-	}
-
 	if (IsTriggerKey(KEY_X))
 	{
-		float playerCenterX = g_PlayerData.pos.x + PLAYER_WIDTH / 2;
-		float playerCenterY = g_PlayerData.pos.y + PLAYER_HEIGHT / 2;
+		if (g_PlayerData.action) return;
+
+		g_PlayerData.action = true;
+
+		g_PlayerData.animTimer = 0;
+
+		float playerCenterX = g_PlayerData.posX + PLAYER_WIDTH / 2;
+		float playerCenterY = g_PlayerData.posY + PLAYER_HEIGHT / 2;
 
 		switch (g_PlayerData.selectState)
 		{
@@ -233,6 +182,90 @@ void StepPlayer()
 		}
 	}
 
+	if (g_PlayerData.action)
+	{
+		g_PlayerData.animTimer++;
+		if (g_PlayerData.randing)
+		{
+			g_PlayerData.move.x = 0;
+		}
+	}
+	else if (IsInputKey(KEY_RIGHT))
+	{
+		g_PlayerData.animTimer++;
+
+		g_PlayerData.isTurn = false;
+
+		g_PlayerData.runLeft = false;
+
+		if (g_PlayerData.runRight)
+		{
+			g_PlayerData.move.x = PLAYER_RUN_SPEED;
+		}
+		else
+		{
+			g_PlayerData.move.x = PLAYER_MOVE_SPEED;
+		}
+	}
+	else if (IsInputKey(KEY_LEFT))
+	{
+		g_PlayerData.animTimer++;
+
+		g_PlayerData.isTurn = true;
+
+		g_PlayerData.runRight = false;
+
+		if (g_PlayerData.runLeft)
+		{
+			g_PlayerData.move.x = -PLAYER_RUN_SPEED;
+		}
+		else
+		{
+			g_PlayerData.move.x = -PLAYER_MOVE_SPEED;
+		}
+	}
+	else
+	{
+		g_PlayerData.move.x = 0;
+
+		g_PlayerData.animTimer = 0;
+
+		if (g_PlayerData.runRight || g_PlayerData.runLeft)
+		{
+			g_PlayerData.runTimer++;
+		}
+	}
+
+	if (g_PlayerData.runTimer >= DOUBLE_PUSH_TIME)
+	{
+		g_PlayerData.runRight = false;
+		g_PlayerData.runLeft = false;
+		g_PlayerData.runTimer = 0;
+	}
+
+	if (IsReleaseKey(KEY_RIGHT))
+	{
+		if (!g_PlayerData.runRight)
+		{
+			g_PlayerData.runRight = true;
+		}
+	}
+	if (IsReleaseKey(KEY_LEFT))
+	{
+		if (!g_PlayerData.runLeft)
+		{
+			g_PlayerData.runLeft = true;
+		}
+	}
+
+	if (IsTriggerKey(KEY_UP))
+	{
+		if (g_PlayerData.randing && !g_PlayerData.action)
+		{
+			g_PlayerData.move.y -= PLAYER_JUMP_POWER;
+		}
+	}
+
 	if (IsTriggerKey(KEY_Z))
 	{		
 		if (!g_PlayerData.selectElements)
@@ -270,8 +303,18 @@ void UpdatePlayer()
 {
 	if (!g_PlayerData.active) return;
 
-	g_PlayerData.pos.x += g_PlayerData.move.x;
-	g_PlayerData.pos.y += g_PlayerData.move.y;
+	g_PlayerData.posX += g_PlayerData.move.x;
+	g_PlayerData.posY += g_PlayerData.move.y;
+
+	if (g_PlayerData.animTimer > PLAYER_ANIM_INTERVAL)
+	{
+		g_PlayerData.animTimer = 0;
+	}
+
+	if (g_PlayerData.animTimer > PLAYER_ACTION_FREEZE_TIME)
+	{
+		g_PlayerData.action = false;
+	}
 
 	UpdatePlayerAnimation();
 }
@@ -282,12 +325,19 @@ void DrawPlayer()
 
 	PlayerAnimationType animType = g_PlayerData.playAnim;
 	AnimationData* animData = &g_PlayerData.animation[animType];
-	DrawAnimation(animData, g_PlayerData.pos.x, g_PlayerData.pos.y);
+	if (!g_PlayerData.isTurn)
+	{
+		DrawAnimation(animData, g_PlayerData.posX, g_PlayerData.posY);
+	}
+	else
+	{
+		DrawTurnAnimation(animData, g_PlayerData.posX, g_PlayerData.posY);
+	}
 
 	if (g_PlayerData.selectElements)
 	{
-		int playerCenterX = (int)g_PlayerData.pos.x + PLAYER_WIDTH / 2;
-		int playerCenterY = (int)g_PlayerData.pos.y + PLAYER_HEIGHT / 2;
+		int playerCenterX = (int)g_PlayerData.posX + PLAYER_WIDTH / 2;
+		int playerCenterY = (int)g_PlayerData.posY + PLAYER_HEIGHT / 2;
 
 		int textRotation = sinf(DX_PI_F);
 
@@ -337,19 +387,42 @@ void StartPlayerAnimation(PlayerAnimationType anim)
 
 	AnimationData* animData = &g_PlayerData.animation[anim];
 
-	StartAnimation(animData, g_PlayerData.pos.x, g_PlayerData.pos.y);
+	StartAnimation(animData, g_PlayerData.posX, g_PlayerData.posY);
 }
 
 void UpdatePlayerAnimation()
 {
 	if (!g_PlayerData.active) return;
 
-	if (g_PlayerData.isTurn)
+	if (g_PlayerData.action)
 	{
-		StartPlayerAnimation(PLAYER_ANIM_LEFT);
+		StartPlayerAnimation(PLAYER_ANIM_ACTION);
+	}
+	else if (!g_PlayerData.randing)
+	{
+		StartPlayerAnimation(PLAYER_ANIM_JUMP);
+	}
+	else if (IsInputKey(KEY_RIGHT) || IsInputKey(KEY_LEFT))
+	{
+		if (g_PlayerData.animTimer >= 0 && g_PlayerData.animTimer < 10)
+		{
+			StartPlayerAnimation(PLAYER_ANIM_RUN_2);
+		}
+		else if (g_PlayerData.animTimer >= 10 && g_PlayerData.animTimer < 20)
+		{
+			StartPlayerAnimation(PLAYER_ANIM_RUN_1);
+		}
+		else if (g_PlayerData.animTimer >= 20 && g_PlayerData.animTimer < 30)
+		{
+			StartPlayerAnimation(PLAYER_ANIM_RUN_2);
+		}
+		else if (g_PlayerData.animTimer >= 30 && g_PlayerData.animTimer < 40)
+		{
+			StartPlayerAnimation(PLAYER_ANIM_RUN_3);
+		}
 	}
 	else
 	{
-		StartPlayerAnimation(PLAYER_ANIM_RIGHT);
+		StartPlayerAnimation(PLAYER_ANIM_STOP);
 	}
 }
