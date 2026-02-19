@@ -1,8 +1,17 @@
 #pragma once
 #include "DxLib.h"
+#include "../Animation/Animation.h"
 
 #define PLAYER_WIDTH (64)
 #define PLAYER_HEIGHT (126)
+
+enum PlayerAnimationType
+{
+	PLAYER_ANIM_RIGHT,
+	PLAYER_ANIM_LEFT,
+	PLAYER_ANIM_MAX,
+	PLAYER_ANIM_NONE = -1
+};
 
 struct PlayerData
 {
@@ -19,6 +28,9 @@ struct PlayerData
 	bool selectElements;
 	bool runRight;
 	bool runLeft;
+
+	AnimationData aniation[PLAYER_ANIM_MAX];
+	PlayerAnimationType playAnim;
 };
 
 void InitPlayer();

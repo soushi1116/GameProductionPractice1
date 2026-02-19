@@ -176,10 +176,42 @@ void StepPlayer()
 		case 0:
 			g_PlayerData.selectElements = false;
 			break;
+
 		case 1:
 			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_FIRE);
 			g_PlayerData.selectElements = false;
 			break;
+
+		case 2:
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_WATER);
+			g_PlayerData.selectElements = false;
+			break;
+
+		case 3:
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_THUNDER);
+			g_PlayerData.selectElements = false;
+			break;
+
+		case 4:
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_WIND);
+			g_PlayerData.selectElements = false;
+			break;
+
+		case 5:
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_GROUND);
+			g_PlayerData.selectElements = false;
+			break;
+
+		case 6:
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_ICE);
+			g_PlayerData.selectElements = false;
+			break;
+
+		case 7:
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_IRON);
+			g_PlayerData.selectElements = false;
+			break;
+
 		default:
 			break;
 		}
