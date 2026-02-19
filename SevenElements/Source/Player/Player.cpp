@@ -4,8 +4,8 @@
 #include "../Input/Input.h"
 #include "../Elements/ElementsManager.h"
 
-#define PLAYER_MOVE_SPEED (3.0f)
-#define PLAYER_RUN_SPEED (5.0f)
+#define PLAYER_MOVE_SPEED (5.0f)
+#define PLAYER_RUN_SPEED (7.0f)
 #define PLAYER_DEFAULT_POS_X (800)
 #define PLAYER_DEFAULT_POS_Y (450)
 #define PLAYER_POS_Y_MIN (600)
