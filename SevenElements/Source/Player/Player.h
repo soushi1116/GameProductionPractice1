@@ -28,8 +28,9 @@ struct PlayerData
 	bool selectElements;
 	bool runRight;
 	bool runLeft;
+	bool isTurn;
 
-	AnimationData aniation[PLAYER_ANIM_MAX];
+	AnimationData animation[PLAYER_ANIM_MAX];
 	PlayerAnimationType playAnim;
 };
 
@@ -44,3 +45,6 @@ void FinPlayer();
 PlayerData GetPlayer();
 
 void PlayerHitMap();
+
+void StartPlayerAnimation(PlayerAnimationType anim);
+void UpdatePlayerAnimation();

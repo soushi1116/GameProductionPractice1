@@ -4,12 +4,12 @@
 #include "../Input/Input.h"
 #include "../Elements/ElementsManager.h"
 
-#define PLAYER_MOVE_SPEED (5.0f)
-#define PLAYER_RUN_SPEED (8.0f)
+#define PLAYER_MOVE_SPEED (3.0f)
+#define PLAYER_RUN_SPEED (5.0f)
 #define PLAYER_DEFAULT_POS_X (800)
 #define PLAYER_DEFAULT_POS_Y (450)
 #define PLAYER_POS_Y_MIN (600)
-#define GRAVITY (0.5f)
+#define PLAYER_GRAVITY (0.5f)
 #define PLAYER_JUMP_POWER (10.0f)
 #define PLAYER_DEFAULT_LEVEL (2)
 #define ELEMENTS_TEXT_DIF (128.0f)
@@ -41,11 +41,17 @@ void InitPlayer()
 	g_PlayerData.selectElements = false;
 	g_PlayerData.runRight = false;
 	g_PlayerData.runLeft = false;
+	g_PlayerData.isTurn = false;
+
+	g_PlayerData.playAnim = PLAYER_ANIM_NONE;
 }
 
 void LoadPlayer()
 {
-	g_PlayerData.playerHandle = LoadGraph("Data/Player/Player(pre).png");
+	g_PlayerData.animation[PLAYER_ANIM_RIGHT].handle
+		= LoadGraph("Data/Player/Player_Right(pre).png");
+	g_PlayerData.animation[PLAYER_ANIM_LEFT].handle
+		= LoadGraph("Data/Player/Player_Left(pre).png");
 
 	for (int i = 0; i < ELEMENTS_NUM_MAX; i++)
 	{
@@ -87,6 +93,8 @@ void StartPlayer()
 	g_PlayerData.pos.x = PLAYER_DEFAULT_POS_X;
 	g_PlayerData.pos.y = PLAYER_DEFAULT_POS_Y;
 	g_PlayerData.level = PLAYER_DEFAULT_LEVEL;
+
+	StartPlayerAnimation(PLAYER_ANIM_RIGHT);
 }
 
 void StepPlayer()
@@ -95,7 +103,7 @@ void StepPlayer()
 
 	if (g_PlayerData.pos.y < PLAYER_POS_Y_MIN)
 	{
-		g_PlayerData.move.y += GRAVITY;
+		g_PlayerData.move.y += PLAYER_GRAVITY;
 		g_PlayerData.randing = false;
 	}
 	else
@@ -106,6 +114,10 @@ void StepPlayer()
 
 	if (IsInputKey(KEY_RIGHT))
 	{
+		g_PlayerData.isTurn = false;
+
+		g_PlayerData.runLeft = false;
+
 		if (g_PlayerData.runRight)
 		{
 			g_PlayerData.move.x = PLAYER_RUN_SPEED;
@@ -117,6 +129,10 @@ void StepPlayer()
 	}
 	else if (IsInputKey(KEY_LEFT))
 	{
+		g_PlayerData.isTurn = true;
+
+		g_PlayerData.runRight = false;
+
 		if (g_PlayerData.runLeft)
 		{
 			g_PlayerData.move.x = -PLAYER_RUN_SPEED;
@@ -178,37 +194,37 @@ void StepPlayer()
 			break;
 
 		case 1:
-			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_FIRE);
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_FIRE, g_PlayerData.isTurn);
 			g_PlayerData.selectElements = false;
 			break;
 
 		case 2:
-			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_WATER);
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_WATER, g_PlayerData.isTurn);
 			g_PlayerData.selectElements = false;
 			break;
 
 		case 3:
-			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_THUNDER);
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_THUNDER, g_PlayerData.isTurn);
 			g_PlayerData.selectElements = false;
 			break;
 
 		case 4:
-			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_WIND);
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_WIND, g_PlayerData.isTurn);
 			g_PlayerData.selectElements = false;
 			break;
 
 		case 5:
-			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_GROUND);
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_GROUND, g_PlayerData.isTurn);
 			g_PlayerData.selectElements = false;
 			break;
 
 		case 6:
-			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_ICE);
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_ICE, g_PlayerData.isTurn);
 			g_PlayerData.selectElements = false;
 			break;
 
 		case 7:
-			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_IRON);
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_IRON, g_PlayerData.isTurn);
 			g_PlayerData.selectElements = false;
 			break;
 
@@ -256,13 +272,17 @@ void UpdatePlayer()
 
 	g_PlayerData.pos.x += g_PlayerData.move.x;
 	g_PlayerData.pos.y += g_PlayerData.move.y;
+
+	UpdatePlayerAnimation();
 }
 
 void DrawPlayer()
 {
 	if (!g_PlayerData.active) return;
 
-	DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_PlayerData.playerHandle, TRUE);
+	PlayerAnimationType animType = g_PlayerData.playAnim;
+	AnimationData* animData = &g_PlayerData.animation[animType];
+	DrawAnimation(animData, g_PlayerData.pos.x, g_PlayerData.pos.y);
 
 	if (g_PlayerData.selectElements)
 	{
@@ -307,4 +327,29 @@ PlayerData GetPlayer()
 void PlayerHitMap()
 {
 
+}
+
+void StartPlayerAnimation(PlayerAnimationType anim)
+{
+	if (anim == g_PlayerData.playAnim) return;
+
+	g_PlayerData.playAnim = anim;
+
+	AnimationData* animData = &g_PlayerData.animation[anim];
+
+	StartAnimation(animData, g_PlayerData.pos.x, g_PlayerData.pos.y);
+}
+
+void UpdatePlayerAnimation()
+{
+	if (!g_PlayerData.active) return;
+
+	if (g_PlayerData.isTurn)
+	{
+		StartPlayerAnimation(PLAYER_ANIM_LEFT);
+	}
+	else
+	{
+		StartPlayerAnimation(PLAYER_ANIM_RIGHT);
+	}
 }
