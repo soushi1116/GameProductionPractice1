@@ -1,5 +1,6 @@
 #pragma once
 
+
 class TitleScene
 {
 public:
@@ -14,6 +15,19 @@ public:
 	void DrawTitleScene();
 
 private:
-	int m_logoHandle;
+
+	static const int TITLE_PATTERN_MAX = 6;
+
 	int m_select;
+	int m_randomIndex;
+	int m_backHandle[TITLE_PATTERN_MAX];
+	int m_logoHandle[TITLE_PATTERN_MAX];
 };
+
+void InitTitleScene();
+void LoadTitleScene();
+void StartTitleScene();
+void StepTitleScene();
+void UpdateTitleScene();
+void DrawTitleScene();
+void FinTitleScene();
