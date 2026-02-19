@@ -147,7 +147,7 @@
     <ClCompile Include="Source\Elements\Ground.cpp" />
     <ClCompile Include="Source\Elements\Ice.cpp" />
     <ClCompile Include="Source\Elements\Iron.cpp" />
-    <ClCompile Include="Source\Elements\Thonder.cpp" />
+    <ClCompile Include="Source\Elements\Thunder.cpp" />
     <ClCompile Include="Source\Elements\Water.cpp" />
     <ClCompile Include="Source\Elements\Wind.cpp" />
     <ClCompile Include="Source\FPS\FPS.cpp" />
@@ -171,7 +171,7 @@
     <ClInclude Include="Source\Elements\Ground.h" />
     <ClInclude Include="Source\Elements\Ice.h" />
     <ClInclude Include="Source\Elements\Iron.h" />
-    <ClInclude Include="Source\Elements\Thonder.h" />
+    <ClInclude Include="Source\Elements\Thunder.h" />
     <ClInclude Include="Source\Elements\Water.h" />
     <ClInclude Include="Source\Elements\Wind.h" />
     <ClInclude Include="Source\FPS\FPS.h" />

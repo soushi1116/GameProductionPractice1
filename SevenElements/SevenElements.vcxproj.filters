@@ -99,13 +99,13 @@
     <ClCompile Include="Source\Elements\Iron.cpp">
       <Filter>Source\Elements</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Elements\Thonder.cpp">
-      <Filter>Source\Elements</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Elements\Water.cpp">
       <Filter>Source\Elements</Filter>
     </ClCompile>
     <ClCompile Include="Source\Elements\Wind.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Thunder.cpp">
       <Filter>Source\Elements</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,13 +167,13 @@
     <ClInclude Include="Source\Elements\Iron.h">
       <Filter>Source\Elements</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Elements\Thonder.h">
-      <Filter>Source\Elements</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Elements\Water.h">
       <Filter>Source\Elements</Filter>
     </ClInclude>
     <ClInclude Include="Source\Elements\Wind.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Thunder.h">
       <Filter>Source\Elements</Filter>
     </ClInclude>
   </ItemGroup>
