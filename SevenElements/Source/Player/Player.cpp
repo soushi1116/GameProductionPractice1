@@ -58,28 +58,28 @@ void LoadPlayer()
 		switch (i)
 		{
 		case 0:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Back(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/CancelIcon.png");
 			break;
 		case 1:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Fire(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/FireIcon.png");
 			break;
 		case 2:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Water(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/WaterIcon.png");
 			break;
 		case 3:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Thonder(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/ThunderIcon.png");
 			break;
 		case 4:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Wind(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/WindIcon.png");
 			break;
 		case 5:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Ground(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/GroundIcon.png");
 			break;
 		case 6:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Ice(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/IceIcon.png");
 			break;
 		case 7:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Iron(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/IronIcon.png");
 			break;
 		default:
 			break;
