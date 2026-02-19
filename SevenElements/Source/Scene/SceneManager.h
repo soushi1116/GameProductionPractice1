@@ -7,6 +7,7 @@ enum Scene
 	SCENE_OPTION,
 	SCENE_STAGE_1,
 	SCENE_STAGE_CLEAR,
+	SCENE_KUROSAWA,
 };
 
 enum SceneState
@@ -29,3 +30,4 @@ void DrawScene();
 void FinScene();
 
 void ChangeScene(Scene scene);
+

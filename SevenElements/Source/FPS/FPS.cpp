@@ -3,7 +3,7 @@
 
 #define FPS_SAMPLE_NUM (60)
 
-#define FPS (60)
+#define FPS_NUM (60)
 
 int g_StartTime;
 int g_Count;
@@ -43,7 +43,7 @@ void FPSWait()
 {
 	int takeTime = GetNowCount() - g_StartTime;
 
-	int waitTime = g_Count * 1000 / FPS - takeTime;
+	int waitTime = g_Count * 1000 / FPS_NUM - takeTime;
 
 	if (waitTime > 0)
 	{

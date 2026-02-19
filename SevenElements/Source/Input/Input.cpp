@@ -25,6 +25,11 @@ void UpdateInput()
 		g_InputState |= KEY_LEFT;
 	}
 
+	if (CheckHitKey(KEY_INPUT_UP))
+	{
+		g_InputState |= KEY_UP;
+	}
+
 	if (CheckHitKey(KEY_INPUT_A))
 	{
 		g_InputState |= KEY_A;
@@ -34,14 +39,24 @@ void UpdateInput()
 	{
 		g_InputState |= KEY_X;
 	}
+
+	if (CheckHitKey(KEY_INPUT_Z))
+	{
+		g_InputState |= KEY_Z;
+	}
+
+	if (CheckHitKey(KEY_INPUT_C))
+	{
+		g_InputState |= KEY_C;
+	}
+
+	if (CheckHitKey(KEY_INPUT_K))
+	{
+		g_InputState |= KEY_K;
+	}
 }
 
 void DrawInput()
-{
-
-}
-
-void FinInput()
 {
 
 }
@@ -54,4 +69,9 @@ bool IsInputKey(InputKey key)
 bool IsTriggerKey(InputKey key)
 {
 	return g_InputState & key && !(g_PrevInputState & key);
+}
+
+bool IsReleaseKey(InputKey key)
+{
+	return !(g_InputState & key) && (g_PrevInputState & key);
 }

@@ -1,12 +1,14 @@
 #include "SceneManager.h"
 #include "Title/TitleScene.h"
 #include "Option/OptionScene.h"
+#include "Play/PlayScene.h"
+#include "S_Kurosawa/S_Kurosawa.h"
 
-Scene g_NowScene = SCENE_TITLE;
+int g_NowScene = SCENE_TITLE;
 
-Scene g_NextScene = SCENE_TITLE;
+int g_NextScene = SCENE_TITLE;
 
-SceneState g_SceneState = SCENE_STATE_INIT;
+int g_SceneState = SCENE_STATE_INIT;
 
 bool g_IsLoopEnd = false;
 
@@ -72,8 +74,12 @@ void InitScene()
 		InitOptionScene();
 		break;
 	case SCENE_STAGE_1:
+		InitPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
+		break;
+	case SCENE_KUROSAWA:
+		InitKuroScene();
 		break;
 	default:
 		break;
@@ -93,8 +99,12 @@ void LoadScene()
 		LoadOptionScene();
 		break;
 	case SCENE_STAGE_1:
+		LoadPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
+		break;
+	case SCENE_KUROSAWA:
+		LoadKuroScene();
 		break;
 	default:
 		break;
@@ -114,8 +124,12 @@ void StartScene()
 		StartOptionScene();
 		break;
 	case SCENE_STAGE_1:
+		StartPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
+		break;
+	case SCENE_KUROSAWA:
+		StartKuroScene();
 		break;
 	default:
 		break;
@@ -135,8 +149,12 @@ void StepScene()
 		StepOptionScene();
 		break;
 	case SCENE_STAGE_1:
+		StepPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
+		break;
+	case SCENE_KUROSAWA:
+		StepKuroScene();
 		break;
 	default:
 		break;
@@ -156,8 +174,12 @@ void UpdateScene()
 		UpdateOptionScene();
 		break;
 	case SCENE_STAGE_1:
+		UpdatePlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
+		break;
+	case SCENE_KUROSAWA:
+		UpdateKuroScene();
 		break;
 	default:
 		break;
@@ -177,8 +199,12 @@ void DrawScene()
 		DrawOptionScene();
 		break;
 	case SCENE_STAGE_1:
+		DrawPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
+		break;
+	case SCENE_KUROSAWA:
+		DrawKuroScene();
 		break;
 	default:
 		break;
@@ -198,8 +224,12 @@ void FinScene()
 		FinOptionScene();
 		break;
 	case SCENE_STAGE_1:
+		FinPlayScene();
 		break;
 	case SCENE_STAGE_CLEAR:
+		break;
+	case SCENE_KUROSAWA:
+		FinKuroScene();
 		break;
 	default:
 		break;
@@ -209,5 +239,5 @@ void FinScene()
 void ChangeScene(Scene scene)
 {
 	g_NextScene = scene;
-	g_IsLoopEnd = false;
+	g_IsLoopEnd = true;
 }

@@ -7,4 +7,3 @@ void StepTitleScene();
 void UpdateTitleScene();
 void DrawTitleScene();
 void FinTitleScene();
-

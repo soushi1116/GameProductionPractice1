@@ -7,4 +7,3 @@ void StepPlayScene();
 void UpdatePlayScene();
 void DrawPlayScene();
 void FinPlayScene();
-
