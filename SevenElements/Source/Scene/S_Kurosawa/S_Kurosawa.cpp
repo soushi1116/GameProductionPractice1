@@ -6,6 +6,7 @@
 #include"../../Scene/SceneManager.h"
 #include "../../Elements/ElementsManager.h"
 #include "../../Map/MapManager.h"
+#include "../../Collision/Collision.h"
 
 KurosawaData g_KurosawaData = { 0 };
 
@@ -68,6 +69,8 @@ void UpdateKuroScene()
 	UpdateAnimationEffect();
 
 	UpdateElementsManager();
+
+	CheckCollision();
 }
 
 void DrawKuroScene()

@@ -24,5 +24,5 @@ public:
 	bool IsActive() { return active;  }
 
 protected:
-
+	bool m_IsAir;
 };

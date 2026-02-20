@@ -492,6 +492,11 @@ void PlayerHitNormalBlockY(MapChipData mapChipData)
 	}
 }
 
+void PlayerHitIron()
+{
+
+}
+
 void CalsBoxCollision(PlayerData player, float& x, float& y, float& w, float& h)
 {
 	x = player.isTurn ?

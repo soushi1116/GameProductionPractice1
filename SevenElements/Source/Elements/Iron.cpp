@@ -5,7 +5,7 @@
 #define IRON_MOVE_SPEED (5.0f)
 #define IRON_ACTIVE_AREA_X_MIN (0.0f)
 #define IRON_ACTIVE_AREA_X_MAX (1600.0f)
-#define IRON_POS_Y_MIN (800.0f)
+#define IRON_POS_Y_MIN (600.0f)
 #define IRON_REACH (200.0f)
 #define IRON_GRAVITY (0.5f)
 
@@ -94,4 +94,10 @@ void Iron::Spawn(float posX, float posY, bool isTurn)
 		m_IsTurn = isTurn;
 	}
 	
+}
+
+void Iron::GetPos(float posX, float posY)
+{
+	posX = pos.x;
+	posY = pos.y;
 }

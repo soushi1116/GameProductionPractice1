@@ -7,6 +7,7 @@
 #define WATER_ACTIVE_AREA_X_MAX (1600.0f)
 #define WATER_POS_Y_MIN (800.0f)
 #define WATER_GRAVITY (0.5f)
+#define WATER_FRICTION (0.1f)
 
 //Fire* fire[FIRE_MAX] = { 0 };
 
@@ -19,6 +20,7 @@ Water::Water()
 	move.y = 0.0f;
 
 	m_IsTurn = false;
+	m_IsAir = false;
 }
 
 Water::~Water()
@@ -33,20 +35,37 @@ void Water::Load()
 
 void Water::Start()
 {
-	move.x = WATER_MOVE_SPEED;
+	
 }
 
 void Water::Step()
 {
 	if (active)
 	{
-		if (!m_IsTurn)
+		if (!m_IsAir)
 		{
-			move.x = WATER_MOVE_SPEED;
-		}
-		else
-		{
-			move.x = -WATER_MOVE_SPEED;
+			if (!m_IsTurn)
+			{
+				if (move.x > 0)
+				{
+					move.x -= WATER_FRICTION;
+				}
+				else
+				{
+					move.x = 0;
+				}
+			}
+			else
+			{
+				if (move.x < 0)
+				{
+					move.x += WATER_FRICTION;
+				}
+				else
+				{
+					move.x = 0;
+				}
+			}
 		}
 
 		if (pos.x < WATER_ACTIVE_AREA_X_MIN - WATER_WIDTH || pos.x > WATER_ACTIVE_AREA_X_MAX)
@@ -57,10 +76,13 @@ void Water::Step()
 		if (pos.y < WATER_POS_Y_MIN)
 		{
 			move.y += WATER_GRAVITY;
+			m_IsAir = true;
 		}
 		else
 		{
 			move.y = 0;
+			m_IsAir = false;
+			pos.y = WATER_POS_Y_MIN;
 		}
 	}
 }
@@ -106,7 +128,18 @@ void Water::Spawn(float posX, float posY, bool isTurn)
 
 		pos.y = posY - WATER_HEIGHT;
 
+		if (!isTurn)
+		{
+			move.x = WATER_MOVE_SPEED;
+		}
+		else
+		{
+			move.x = -WATER_MOVE_SPEED;
+		}
+
 		m_IsTurn = isTurn;
+
+		m_IsAir = false;
 	}
 	
 }

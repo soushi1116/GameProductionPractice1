@@ -23,6 +23,8 @@ public:
 
 	bool IsActive() { return active;  }
 
+	void GetPos(float posX, float posY);
+
 protected:
 
 };
