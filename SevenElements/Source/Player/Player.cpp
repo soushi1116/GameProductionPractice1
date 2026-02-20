@@ -16,11 +16,15 @@
 #define ELEMENTS_NUM_MAX (8)
 #define DOUBLE_PUSH_TIME (10)
 #define PLAYER_ANIM_INTERVAL (40)
-#define PLAYER_ACTION_FREEZE_TIME (20) 
+#define PLAYER_ACTION_FREEZE_TIME (20)
+#define PLAYER_MAP_COLLISION_OFFSET (0.05f)
 
 PlayerData g_PlayerData = { 0 };
+PlayerData g_PrevPlayerData = { 0 };
 
 int g_ElementsTextHandle[ELEMENTS_NUM_MAX] = { 0 };
+
+void CalsBoxCollision(PlayerData player, float& x, float& y, float& w, float& h);
 
 void InitPlayer()
 {
@@ -113,6 +117,8 @@ void StartPlayer()
 void StepPlayer()
 {
 	if (!g_PlayerData.active) return;
+
+	g_PrevPlayerData = g_PlayerData;
 
 	if (g_PlayerData.posY < PLAYER_POS_Y_MIN)
 	{
@@ -425,4 +431,73 @@ void UpdatePlayerAnimation()
 	{
 		StartPlayerAnimation(PLAYER_ANIM_STOP);
 	}
+}
+
+void PlayerHitNormalBlockX(MapChipData mapChipData)
+{
+	PlayerData player = g_PlayerData;
+	BlockData* block = mapChipData.data;
+	const float POS_OFFSET = PLAYER_MAP_COLLISION_OFFSET;
+	const float SIZE_OFFSET = PLAYER_MAP_COLLISION_OFFSET * 2;
+
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	player.posX = g_PlayerData.posX;
+	player.posY = g_PrevPlayerData.posY;
+
+	float x, y, w, h;
+	CalsBoxCollision(player, x, y, w, h);
+
+	if (CheckSquareSquare(x + POS_OFFSET, y + POS_OFFSET, w - SIZE_OFFSET, h - SIZE_OFFSET,
+		block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
+	{
+		if (player.move.x > 0.0f)
+		{
+			g_PlayerData.posX -= (x + w) - block->pos.x;
+		}
+		else if (player.move.x < 0.0f)
+		{
+			g_PlayerData.posX += (block->pos.x + MAP_CHIP_WIDTH) - x;
+		}
+	}
+}
+
+void PlayerHitNormalBlockY(MapChipData mapChipData)
+{
+	PlayerData player = g_PlayerData;
+	BlockData* block = mapChipData.data;
+	const float POS_OFFSET = PLAYER_MAP_COLLISION_OFFSET;
+	const float SIZE_OFFSET = PLAYER_MAP_COLLISION_OFFSET * 2;
+
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	float x, y, w, h;
+	CalsBoxCollision(player, x, y, w, h);
+
+	if (CheckSquareSquare(x + POS_OFFSET, y + POS_OFFSET, w - SIZE_OFFSET, h - SIZE_OFFSET,
+		block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
+	{
+
+		g_PlayerData.move.y = 0.0f;
+
+		if (player.move.y > 0.0f)
+		{
+			g_PlayerData.posY -= (y + h) - block->pos.y;
+			g_PlayerData.randing = true;
+		}
+		else if (player.move.y < 0.0f)
+		{
+			g_PlayerData.posY += (block->pos.y + MAP_CHIP_HEIGHT) - y;
+		}
+	}
+}
+
+void CalsBoxCollision(PlayerData player, float& x, float& y, float& w, float& h)
+{
+	x = player.isTurn ?
+		player.posX + PLAYER_WIDTH - player.boxCollision.posX - player.boxCollision.width :
+		player.posX + player.boxCollision.posY;
+	y = player.posY + player.boxCollision.posY;
+	w = player.boxCollision.width;
+	h = player.boxCollision.height;
 }

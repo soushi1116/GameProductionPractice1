@@ -1,6 +1,8 @@
 #pragma once
 #include "DxLib.h"
 #include "../Animation/Animation.h"
+#include "../Map/MapParameter.h"
+#include "../Collision/Collision.h"
 
 #define PLAYER_WIDTH (64)
 #define PLAYER_HEIGHT (126)
@@ -39,6 +41,7 @@ struct PlayerData
 
 	AnimationData animation[PLAYER_ANIM_MAX];
 	PlayerAnimationType playAnim;
+	BoxCollision boxCollision;
 };
 
 void InitPlayer();
@@ -51,7 +54,8 @@ void FinPlayer();
 
 PlayerData GetPlayer();
 
-void PlayerHitMap();
-
 void StartPlayerAnimation(PlayerAnimationType anim);
 void UpdatePlayerAnimation();
+
+void PlayerHitNormalBlockX(MapChipData mapChipData);
+void PlayerHitNormalBlockY(MapChipData mapChipData);
