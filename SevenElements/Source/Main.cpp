@@ -3,6 +3,8 @@
 #include "GameSetting/GameSetting.h"
 #include "Input/Input.h"
 #include "FPS/FPS.h"
+#include <stdlib.h>
+#include <time.h>
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR IpCmdline, _In_ int nShowCmd)
 {
@@ -15,16 +17,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		return -1;
 	}
 
+	srand((unsigned int)time(NULL));
+
 	SetWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	SetTransColor(TRANCE_COLOR_R, TRANCE_COLOR_G, TRANCE_COLOR_B);
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	SceneManager sceneManager;
+	InitInput();
 
-	Input input;
-
-	FPS fps;
+	InitFPS();
 
 	while (ProcessMessage() >= 0)
 	{
@@ -32,19 +34,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		ClearDrawScreen();
 
-		input.UpdateInput();
+		UpdateInput();
 
-		sceneManager.SceneManagerUpdate();
+		SceneManagerUpdate();
 
-		input.DrawInput();
+		DrawInput();
 
 		if (CheckHitKey(KEY_INPUT_ESCAPE)) break;
 
-		fps.UpdateFPS();
+		UpdateFPS();
 
-		fps.DrawFPS();
+		DrawFPS();
 
-		fps.FPSWait();
+		FPSWait();
 
 		ScreenFlip();
 	}

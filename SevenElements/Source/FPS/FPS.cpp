@@ -5,19 +5,18 @@
 
 #define FPS_NUM (60)
 
-FPS::FPS()
+int g_StartTime;
+int g_Count;
+float g_Fps;
+
+void InitFPS()
 {
 	g_StartTime = 0;
 	g_Count = 0;
 	g_Fps = 0.0f;
 }
 
-FPS::~FPS()
-{
-	
-}
-
-void FPS::UpdateFPS()
+void UpdateFPS()
 {
 	if (g_Count == 0)
 	{
@@ -35,12 +34,12 @@ void FPS::UpdateFPS()
 	g_Count++;
 }
 
-void FPS::DrawFPS()
+void DrawFPS()
 {
 	DrawFormatString(32, 24, GetColor(0, 0, 0), "FPSÅy%.1fÅz", g_Fps);
 }
 
-void FPS::FPSWait()
+void FPSWait()
 {
 	int takeTime = GetNowCount() - g_StartTime;
 

@@ -1,19 +1,11 @@
 #pragma once
 
-class OptionScene
-{
-public:
-	OptionScene();
-	~OptionScene();
+void InitOptionScene();
+void LoadOptionScene();
+void StartOptionScene();
+void StepOptionScene();
+void UpdateOptionScene();
+void DrawOptionScene();
+void FinOptionScene();
 
-public:
-	void LoadOptionScene();
-	void StartOptionScene();
-	void StepOptionScene();
-	void UpdateOptionScene();
-	void DrawOptionScene();
-
-private:
-
-};
 
