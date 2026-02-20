@@ -1,7 +1,7 @@
 #pragma once
 
 #define SCREEN_WIDTH (1600)
-#define SCREEN_HEIGHT (1600)
+#define SCREEN_HEIGHT (900)
 #define SCREEN_COLOR_DEPTH (32)
 
 #define TRANCE_COLOR_R (1)

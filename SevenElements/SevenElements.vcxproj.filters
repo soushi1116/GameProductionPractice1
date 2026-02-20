@@ -31,8 +31,23 @@
     <Filter Include="Source\Player">
       <UniqueIdentifier>{31cd836a-6995-40c5-bf9c-51b6930290be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Scene\S.Kurosawa">
+    <Filter Include="Source\Scene\S_Kurosawa">
       <UniqueIdentifier>{7d31a02b-4f81-4941-8065-87d912c41413}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Elements">
+      <UniqueIdentifier>{3056b5c3-a3bd-466e-b3fd-1cfc2b2b4ca6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Effect">
+      <UniqueIdentifier>{f61c6f13-edfc-4fab-84ae-29401fbe02cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Animation">
+      <UniqueIdentifier>{0309ee5a-5aa9-4b9c-8db2-d1e2aa17895c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Map">
+      <UniqueIdentifier>{d77ea71a-4c10-4d55-bfb8-5be7291aac7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Camera">
+      <UniqueIdentifier>{afb0a01e-19ca-444d-8870-cb318617e74f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -63,8 +78,53 @@
     <ClCompile Include="Source\Player\Player.cpp">
       <Filter>Source\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Scene\S.Kurosawa\S.Kurosawa.cpp">
-      <Filter>Source\Scene\S.Kurosawa</Filter>
+    <ClCompile Include="Source\Scene\S_Kurosawa\S_Kurosawa.cpp">
+      <Filter>Source\Scene\S_Kurosawa</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Effect\AnimationEffect.cpp">
+      <Filter>Source\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Animation\Animation.cpp">
+      <Filter>Source\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Elements.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\ElementsManager.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Fire.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Ground.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Ice.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Iron.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Water.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Wind.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Elements\Thunder.cpp">
+      <Filter>Source\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Map\Block.cpp">
+      <Filter>Source\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Map\MapChip.cpp">
+      <Filter>Source\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Map\MapManager.cpp">
+      <Filter>Source\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera\Camera.cpp">
+      <Filter>Source\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,8 +155,59 @@
     <ClInclude Include="Source\Player\Player.h">
       <Filter>Source\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene\S.Kurosawa\S.Kurosawa.h">
-      <Filter>Source\Scene\S.Kurosawa</Filter>
+    <ClInclude Include="Source\Scene\S_Kurosawa\S_Kurosawa.h">
+      <Filter>Source\Scene\S_Kurosawa</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Effect\AnimationEffect.h">
+      <Filter>Source\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Effect\AnimationEffectParameter.h">
+      <Filter>Source\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Animation\Animation.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Elements.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\ElementsManager.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Fire.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Ground.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Ice.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Iron.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Water.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Wind.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements\Thunder.h">
+      <Filter>Source\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Map\Block.h">
+      <Filter>Source\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Map\MapChip.h">
+      <Filter>Source\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Map\MapManager.h">
+      <Filter>Source\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Map\MapParameter.h">
+      <Filter>Source\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera\Camera.h">
+      <Filter>Source\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

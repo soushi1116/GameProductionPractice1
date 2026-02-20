@@ -1,0 +1,86 @@
+#include "DxLib.h"
+#include "S_Kurosawa.h"
+#include "../../Player/Player.h"
+#include "../../Effect/AnimationEffect.h"
+#include "../../Input/Input.h"
+#include"../../Scene/SceneManager.h"
+#include "../../Elements/ElementsManager.h"
+
+KurosawaData g_KurosawaData = { 0 };
+
+#define TEXTPOS_X (200)
+#define TEXTPOS_Y (0)
+
+void InitKuroScene()
+{
+	InitPlayer();
+
+	InitAnimationEffect();
+
+	InitElementsManager();
+
+	g_KurosawaData.textHandle = 0;
+}
+
+void LoadKuroScene()
+{
+	LoadPlayer();
+
+	LoadAnimationEffect();
+
+	LoadElementsManager();
+
+	g_KurosawaData.textHandle = LoadGraph("Data/Player/SceneForKurosawa.png");
+}
+
+void StartKuroScene()
+{
+	StartPlayer();
+
+	StartElementsManager();
+}
+
+void StepKuroScene()
+{
+	StepPlayer();
+
+	StepAnimationEffect();
+
+	StepElementsManager();
+
+	if (IsTriggerKey(KEY_K))
+	{
+		ChangeScene(SCENE_TITLE);
+	}
+}
+
+void UpdateKuroScene()
+{
+	UpdatePlayer();
+
+	UpdateAnimationEffect();
+
+	UpdateElementsManager();
+}
+
+void DrawKuroScene()
+{
+	DrawPlayer();
+
+	DrawAnimationEffect();
+
+	DrawElementsManager();
+
+	DrawGraph(TEXTPOS_X, TEXTPOS_Y, g_KurosawaData.textHandle, TRUE);
+}
+
+void FinKuroScene()
+{
+	FinPlayer();
+
+	FinAnimationEffect();
+
+	FinElementsManager();
+
+	DeleteGraph(g_KurosawaData.textHandle);
+}

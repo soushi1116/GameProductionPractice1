@@ -2,7 +2,7 @@
 #include "Title/TitleScene.h"
 #include "Option/OptionScene.h"
 #include "Play/PlayScene.h"
-#include "S.Kurosawa/S.Kurosawa.h"
+#include "S_Kurosawa/S_Kurosawa.h"
 
 int g_NowScene = SCENE_TITLE;
 
