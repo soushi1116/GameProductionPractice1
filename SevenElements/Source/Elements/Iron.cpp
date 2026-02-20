@@ -9,8 +9,6 @@
 #define IRON_REACH (200.0f)
 #define IRON_GRAVITY (0.5f)
 
-//Fire* fire[FIRE_MAX] = { 0 };
-
 Iron::Iron()
 {
 	pos.x = 0.0f;
@@ -100,4 +98,9 @@ void Iron::GetPos(float posX, float posY)
 {
 	posX = pos.x;
 	posY = pos.y;
+}
+
+const bool Iron::IsActive()
+{ 
+	return active;
 }

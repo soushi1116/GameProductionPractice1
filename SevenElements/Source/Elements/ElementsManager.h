@@ -12,3 +12,4 @@ void DrawElementsManager();
 void FinElementsManager();
 
 void Action(int posX, int posY, ElementType type, bool isTurn);
+
