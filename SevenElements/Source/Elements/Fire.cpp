@@ -47,7 +47,7 @@ void Fire::Step()
 			move.x = -FIREBALL_MOVE_SPEED;
 		}
 
-		if (pos.x < FIREBALL_ACTIVE_AREA_MIN || pos.x > FIREBALL_ACTIVE_AREA_MAX)
+		if (pos.x < FIREBALL_ACTIVE_AREA_MIN - FIRE_WIDTH || pos.x > FIREBALL_ACTIVE_AREA_MAX)
 		{
 			active = false;
 		}

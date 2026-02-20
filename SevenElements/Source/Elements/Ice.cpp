@@ -72,6 +72,7 @@ void Ice::Draw()
 	{
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, 192);
 		DrawRotaGraph(pos.x, pos.y, size, 0, handle, TRUE);
+		SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, 255);
 	}
 }
 

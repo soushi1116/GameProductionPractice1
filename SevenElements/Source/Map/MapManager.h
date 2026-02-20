@@ -6,4 +6,4 @@ void StartMap();
 void DrawMap();
 void FinMap();
 
-void ChceckMapPlayerCollision();
+//void ChceckMapPlayerCollision();

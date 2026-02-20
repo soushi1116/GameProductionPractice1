@@ -49,7 +49,7 @@ void Water::Step()
 			move.x = -WATER_MOVE_SPEED;
 		}
 
-		if (pos.x < WATER_ACTIVE_AREA_X_MIN || pos.x > WATER_ACTIVE_AREA_X_MAX)
+		if (pos.x < WATER_ACTIVE_AREA_X_MIN - WATER_WIDTH || pos.x > WATER_ACTIVE_AREA_X_MAX)
 		{
 			active = false;
 		}

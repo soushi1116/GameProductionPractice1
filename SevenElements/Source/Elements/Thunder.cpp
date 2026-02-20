@@ -43,7 +43,7 @@ void Thunder::Step()
 	{
 		move.y = THUNDER_MOVE_SPEED;
 
-		if (pos.x < THUNDER_ACTIVE_AREA_X_MIN || pos.x > THUNDER_ACTIVE_AREA_X_MAX)
+		if (pos.x < THUNDER_ACTIVE_AREA_X_MIN - THUNDER_WIDTH || pos.x > THUNDER_ACTIVE_AREA_X_MAX)
 		{
 			active = false;
 		}

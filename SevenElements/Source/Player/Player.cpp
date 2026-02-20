@@ -125,7 +125,7 @@ void StepPlayer()
 		g_PlayerData.move.y = 0;
 	}
 
-	if (IsTriggerKey(KEY_X))
+	if (IsTriggerKey(KEY_X) || IsTriggerPad(PAD_Y))
 	{
 		if (g_PlayerData.action) return;
 
@@ -190,7 +190,7 @@ void StepPlayer()
 			g_PlayerData.move.x = 0;
 		}
 	}
-	else if (IsInputKey(KEY_RIGHT))
+	else if (IsInputKey(KEY_RIGHT)|| IsInputPad(PAD_RIGHT))
 	{
 		g_PlayerData.animTimer++;
 
@@ -207,7 +207,7 @@ void StepPlayer()
 			g_PlayerData.move.x = PLAYER_MOVE_SPEED;
 		}
 	}
-	else if (IsInputKey(KEY_LEFT))
+	else if (IsInputKey(KEY_LEFT) || IsInputPad(PAD_LEFT))
 	{
 		g_PlayerData.animTimer++;
 
@@ -243,14 +243,14 @@ void StepPlayer()
 		g_PlayerData.runTimer = 0;
 	}
 
-	if (IsReleaseKey(KEY_RIGHT))
+	if (IsReleaseKey(KEY_RIGHT) || IsReleasePad(PAD_RIGHT))
 	{
 		if (!g_PlayerData.runRight)
 		{
 			g_PlayerData.runRight = true;
 		}
 	}
-	if (IsReleaseKey(KEY_LEFT))
+	if (IsReleaseKey(KEY_LEFT) || IsReleasePad(PAD_LEFT))
 	{
 		if (!g_PlayerData.runLeft)
 		{
@@ -258,7 +258,7 @@ void StepPlayer()
 		}
 	}
 
-	if (IsTriggerKey(KEY_UP))
+	if (IsTriggerKey(KEY_UP) || IsTriggerPad(PAD_B))
 	{
 		if (g_PlayerData.randing && !g_PlayerData.action)
 		{
@@ -266,7 +266,7 @@ void StepPlayer()
 		}
 	}
 
-	if (IsTriggerKey(KEY_Z))
+	if (IsTriggerKey(KEY_Z) || IsTriggerPad(PAD_X))
 	{		
 		if (!g_PlayerData.selectElements)
 		{
@@ -402,7 +402,7 @@ void UpdatePlayerAnimation()
 	{
 		StartPlayerAnimation(PLAYER_ANIM_JUMP);
 	}
-	else if (IsInputKey(KEY_RIGHT) || IsInputKey(KEY_LEFT))
+	else if (IsInputKey(KEY_RIGHT) || IsInputKey(KEY_LEFT) || IsInputPad(PAD_RIGHT) || IsInputPad(PAD_LEFT))
 	{
 		if (g_PlayerData.animTimer >= 0 && g_PlayerData.animTimer < 10)
 		{

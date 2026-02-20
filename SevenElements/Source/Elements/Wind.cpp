@@ -47,7 +47,7 @@ void Wind::Step()
 			move.x = -WIND_MOVE_SPEED;
 		}
 
-		if (pos.x < WIND_ACTIVE_AREA_MIN || pos.x > WIND_ACTIVE_AREA_MAX)
+		if (pos.x < WIND_ACTIVE_AREA_MIN - WIND_WIDTH || pos.x > WIND_ACTIVE_AREA_MAX)
 		{
 			active = false;
 		}

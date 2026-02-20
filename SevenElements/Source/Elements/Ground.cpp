@@ -41,7 +41,7 @@ void Ground::Step()
 {
 	if (active)
 	{
-		if (pos.x < GROUND_ACTIVE_AREA_X_MIN || pos.x > GROUND_ACTIVE_AREA_X_MAX)
+		if (pos.x < GROUND_ACTIVE_AREA_X_MIN - GROUND_WIDTH || pos.x > GROUND_ACTIVE_AREA_X_MAX)
 		{
 			active = false;
 		}

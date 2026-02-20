@@ -41,7 +41,7 @@ void Iron::Step()
 {
 	if (active)
 	{
-		if (pos.x < IRON_ACTIVE_AREA_X_MIN || pos.x > IRON_ACTIVE_AREA_X_MAX)
+		if (pos.x < IRON_ACTIVE_AREA_X_MIN - IRON_WIDTH || pos.x > IRON_ACTIVE_AREA_X_MAX)
 		{
 			active = false;
 		}

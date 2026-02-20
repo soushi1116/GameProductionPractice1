@@ -5,6 +5,7 @@
 #include "../../Input/Input.h"
 #include"../../Scene/SceneManager.h"
 #include "../../Elements/ElementsManager.h"
+#include "../../Map/MapManager.h"
 
 KurosawaData g_KurosawaData = { 0 };
 
@@ -20,6 +21,8 @@ void InitKuroScene()
 	InitElementsManager();
 
 	g_KurosawaData.textHandle = 0;
+
+	InitMap();
 }
 
 void LoadKuroScene()
@@ -31,6 +34,8 @@ void LoadKuroScene()
 	LoadElementsManager();
 
 	g_KurosawaData.textHandle = LoadGraph("Data/Player/SceneForKurosawa.png");
+
+	LoadMap();
 }
 
 void StartKuroScene()
@@ -38,6 +43,8 @@ void StartKuroScene()
 	StartPlayer();
 
 	StartElementsManager();
+
+	StartMap();
 }
 
 void StepKuroScene()
@@ -65,6 +72,8 @@ void UpdateKuroScene()
 
 void DrawKuroScene()
 {
+	DrawMap();
+
 	DrawPlayer();
 
 	DrawAnimationEffect();
@@ -76,6 +85,8 @@ void DrawKuroScene()
 
 void FinKuroScene()
 {
+	FinMap();
+
 	FinPlayer();
 
 	FinAnimationEffect();
