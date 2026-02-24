@@ -18,6 +18,7 @@ Iron::Iron()
 	move.y = 0.0f;
 
 	m_IsTurn = false;
+	m_Randing = false;
 }
 
 Iron::~Iron()
@@ -46,13 +47,10 @@ void Iron::Step()
 
 		if (pos.y >= IRON_POS_Y_MIN - IRON_HEIGHT)
 		{
-			move.x = 0;
-			move.y = 0;
+			IronHitFloor();
 		}
-		else
-		{
-			move.y += IRON_GRAVITY;
-		}
+		
+		move.y += IRON_GRAVITY;
 	}
 }
 
@@ -87,7 +85,7 @@ void Iron::Spawn(float posX, float posY, bool isTurn)
 		{
 			pos.x = posX - IRON_WIDTH / 2 - IRON_REACH;
 		}
-		pos.y = posY - IRON_HEIGHT * 2;
+		pos.y = 0.0f;
 
 		m_IsTurn = isTurn;
 	}
@@ -102,5 +100,18 @@ VECTOR Iron::GetPos()
 const bool Iron::IsActive()
 { 
 	return active;
+}
+
+void Iron::IronHitFloor()
+{
+	pos.y = IRON_POS_Y_MIN - IRON_HEIGHT;
+	m_Randing = true;
+	move.y = 0.0f;
+}
+
+void Iron::IronHitIron(int indexA, int indexB, float posY)
+{
+	move.y = 0.0f;
+	pos.y = posY - IRON_HEIGHT;
 }
 

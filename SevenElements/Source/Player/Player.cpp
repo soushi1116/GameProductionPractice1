@@ -12,7 +12,7 @@
 #define PLAYER_POS_Y_MIN (800)
 #define PLAYER_GRAVITY (0.5f)
 #define PLAYER_JUMP_POWER (15.0f)
-#define PLAYER_DEFAULT_LEVEL (2)
+#define PLAYER_DEFAULT_LEVEL (8)
 #define ELEMENTS_TEXT_DIF (128.0f)
 #define ELEMENTS_NUM_MAX (8)
 #define DOUBLE_PUSH_TIME (10)
@@ -500,6 +500,9 @@ void PlayerHitIron(int index)
 	player.posX = g_PlayerData.posX;
 	player.posY = g_PrevPlayerData.posY;
 
+	float xDiff = player.posX - ironPos.x + IRON_WIDTH;
+	float yDiff = player.posY - ironPos.y + IRON_HEIGHT;
+
 	if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > ironPos.y)
 	{
 		g_PlayerData.posX = ironPos.x - PLAYER_WIDTH;
@@ -510,10 +513,16 @@ void PlayerHitIron(int index)
 	}
 
 	if (player.posY <= ironPos.y - PLAYER_HEIGHT)
+	//if (g_PlayerData.move.y > 0.0f)
 	{
 		g_PlayerData.move.y = 0.0f;
 		g_PlayerData.randing = true;
 		g_PlayerData.posY = ironPos.y - PLAYER_HEIGHT;
+	}
+	else if (g_PlayerData.move.y < 0.0f && fabsf(xDiff) < fabsf(yDiff))
+	{
+		g_PlayerData.move.y = 0.0f;
+		g_PlayerData.posY = ironPos.y + IRON_HEIGHT;
 	}
 }
 

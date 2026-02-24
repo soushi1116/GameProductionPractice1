@@ -233,3 +233,18 @@ bool IsIronActive(int index)
 {
 	return iron[index].IsActive();
 }
+
+void IronHitIron(int indexA, int indexB)
+{
+	int ironAPosY = iron[indexA].GetPos().y;
+	int ironBPosY = iron[indexB].GetPos().y;
+
+	if (ironAPosY < ironBPosY)
+	{
+		iron[indexA].IronHitIron(indexA, indexB, ironBPosY);
+	}
+	else if (ironAPosY > ironBPosY)
+	{
+		iron[indexB].IronHitIron(indexA, indexB, ironAPosY);
+	}
+}

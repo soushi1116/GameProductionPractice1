@@ -21,11 +21,14 @@ public:
 
 	void Spawn(float posX, float posY, bool isTurn);
 
+	void IronHitFloor();
+	void IronHitIron(int indexA, int indexB, float posY);
+
 	const bool IsActive();
 
 	VECTOR GetPos();
 
 protected:
-
+	bool m_Randing;
 };
 
