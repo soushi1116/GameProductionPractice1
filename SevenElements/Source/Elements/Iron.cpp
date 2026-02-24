@@ -5,7 +5,7 @@
 #define IRON_MOVE_SPEED (5.0f)
 #define IRON_ACTIVE_AREA_X_MIN (0.0f)
 #define IRON_ACTIVE_AREA_X_MAX (1600.0f)
-#define IRON_POS_Y_MIN (600.0f)
+#define IRON_POS_Y_MIN (750.0f)
 #define IRON_REACH (200.0f)
 #define IRON_GRAVITY (0.5f)
 
@@ -44,7 +44,7 @@ void Iron::Step()
 			active = false;
 		}
 
-		if (pos.y >= IRON_POS_Y_MIN)
+		if (pos.y >= IRON_POS_Y_MIN - IRON_HEIGHT)
 		{
 			move.x = 0;
 			move.y = 0;
@@ -94,13 +94,13 @@ void Iron::Spawn(float posX, float posY, bool isTurn)
 	
 }
 
-void Iron::GetPos(float posX, float posY)
+VECTOR Iron::GetPos()
 {
-	posX = pos.x;
-	posY = pos.y;
+	return VGet(pos.x, pos.y, 0.0f);
 }
 
 const bool Iron::IsActive()
 { 
 	return active;
 }
+

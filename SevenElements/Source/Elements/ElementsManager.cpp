@@ -20,7 +20,15 @@ Wind wind       [WIND_MAX];
 
 void InitElementsManager()
 {
+	for (int i = 0; i < IRON_MAX; i++)
+	{
+		if (!iron[i].IsActive())
+		{
+			iron[i].Spawn(400.0f, 0.0f, false);
 
+			break;
+		}
+	}
 }
 
 void LoadElementsManager()
@@ -211,4 +219,17 @@ void Action(int posX, int posY, ElementType type, bool isTurn)
 	}
 
 	
+}
+
+VECTOR GetIronPos(int index)
+{
+	float posX = 0.0f;
+	float posY = 0.0f;
+	VECTOR pos = iron[index].GetPos();
+	return pos;
+}
+
+bool IsIronActive(int index)
+{
+	return iron[index].IsActive();
 }

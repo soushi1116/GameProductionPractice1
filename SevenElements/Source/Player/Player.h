@@ -60,4 +60,5 @@ void UpdatePlayerAnimation();
 void PlayerHitNormalBlockX(MapChipData mapChipData);
 void PlayerHitNormalBlockY(MapChipData mapChipData);
 
-void PlayerHitIron();
+void PlayerHitIron(int index);
+void PlayerHitFloor();

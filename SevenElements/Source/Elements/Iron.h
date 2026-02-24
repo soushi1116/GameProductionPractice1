@@ -23,8 +23,9 @@ public:
 
 	const bool IsActive();
 
-	void GetPos(float posX, float posY);
+	VECTOR GetPos();
 
 protected:
 
 };
+
