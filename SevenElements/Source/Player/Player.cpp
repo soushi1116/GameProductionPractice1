@@ -500,9 +500,6 @@ void PlayerHitIron(int index)
 	player.posX = g_PlayerData.posX;
 	player.posY = g_PrevPlayerData.posY;
 
-	float xDiff = player.posX - ironPos.x + IRON_WIDTH;
-	float yDiff = player.posY - ironPos.y + IRON_HEIGHT;
-
 	if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > ironPos.y)
 	{
 		g_PlayerData.posX = ironPos.x - PLAYER_WIDTH;
@@ -519,7 +516,7 @@ void PlayerHitIron(int index)
 		g_PlayerData.randing = true;
 		g_PlayerData.posY = ironPos.y - PLAYER_HEIGHT;
 	}
-	else if (g_PlayerData.move.y < 0.0f && fabsf(xDiff) < fabsf(yDiff))
+	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > ironPos.y + IRON_HEIGHT)
 	{
 		g_PlayerData.move.y = 0.0f;
 		g_PlayerData.posY = ironPos.y + IRON_HEIGHT;
