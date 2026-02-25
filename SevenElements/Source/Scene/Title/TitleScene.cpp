@@ -82,6 +82,9 @@ void TitleScene::StartTitleScene()
 	m_backHandle[5] = LoadGraph("");
 	m_logoHandle[5] = LoadGraph("");
 
+	m_backHandle[6] = LoadGraph("");
+	m_logoHandle[6] = LoadGraph("");
+
 	m_randomIndex = rand() % TITLE_PATTERN_MAX;
 
 	m_select = 0;
