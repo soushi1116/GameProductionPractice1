@@ -93,13 +93,13 @@ void TitleScene::StepTitleScene()
 
 void TitleScene::UpdateTitleScene()
 {
-	if (CheckHitKey(KEY_INPUT_UP))
+	if (IsTriggerKey(KEY_DOWN))
 	{
 		m_select++;
 		if (m_select < 0) m_select = 2;
 	}
 
-	if (CheckHitKey(KEY_INPUT_DOWN))
+	if (IsTriggerKey(KEY_UP))
 	{
 		m_select--;
 		if (m_select > 2) m_select = 0;
