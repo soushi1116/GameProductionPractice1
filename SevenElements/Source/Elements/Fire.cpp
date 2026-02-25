@@ -21,6 +21,7 @@ Fire::Fire()
 
 Fire::~Fire()
 {
+	active = false;
 	DeleteGraph(handle);
 }
 
@@ -82,6 +83,11 @@ void Fire::Spawn(float posX, float posY, bool isTurn)
 
 		m_IsTurn = isTurn;
 	}
+}
+
+void Fire::FireHitIron(int index)
+{
+	active = false;
 }
 
 VECTOR Fire::GetPos()

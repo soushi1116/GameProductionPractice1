@@ -304,7 +304,7 @@ void IronHitIron(int indexA, int indexB)
 	}
 }
 
-void FireHitIron(int IndexA)
+void FireHitIron(int index)
 {
-
+	fire[index].FireHitIron(index);
 }

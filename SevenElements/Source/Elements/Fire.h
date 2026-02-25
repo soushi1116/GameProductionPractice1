@@ -21,6 +21,8 @@ public:
 
 	void Spawn(float posX, float posY, bool isTurn);
 
+	void FireHitIron(int index);
+
 	const bool IsActive();
 
 	VECTOR GetPos();

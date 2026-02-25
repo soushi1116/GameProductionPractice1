@@ -20,4 +20,4 @@ bool IsElementActive(int index, ElementType type);
 
 void IronHitIron(int indexA, int indexB);
 
-void FireHitIron(int IndexA);
+void FireHitIron(int index);
