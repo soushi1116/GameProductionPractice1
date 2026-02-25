@@ -32,7 +32,7 @@ void FinMap()
 {
 }
 
-void ChceckMapPlayerCollision()
+void CheckMapPlayerCollision()
 {
 	PlayerData player = GetPlayer();
 	// プレイヤーの足元の座標をマップチップのインデックスに変換

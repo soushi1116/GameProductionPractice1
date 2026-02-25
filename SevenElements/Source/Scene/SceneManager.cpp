@@ -12,6 +12,8 @@ int g_SceneState = SCENE_STATE_INIT;
 
 bool g_IsLoopEnd = false;
 
+TitleScene* title = new TitleScene;
+
 void SceneManagerUpdate()
 {
 	switch (g_SceneState)
@@ -93,7 +95,7 @@ void LoadScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		LoadTitleScene();
+		title->LoadTitleScene();
 		break;
 	case SCENE_OPTION:
 		LoadOptionScene();
@@ -118,7 +120,7 @@ void StartScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		StartTitleScene();
+		title->StartTitleScene();
 		break;
 	case SCENE_OPTION:
 		StartOptionScene();
@@ -143,7 +145,7 @@ void StepScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		StepTitleScene();
+		title->StepTitleScene();
 		break;
 	case SCENE_OPTION:
 		StepOptionScene();
@@ -168,7 +170,7 @@ void UpdateScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		UpdateTitleScene();
+		title->UpdateTitleScene();
 		break;
 	case SCENE_OPTION:
 		UpdateOptionScene();
@@ -193,7 +195,7 @@ void DrawScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		DrawTitleScene();
+		title->DrawTitleScene();
 		break;
 	case SCENE_OPTION:
 		DrawOptionScene();
@@ -218,7 +220,7 @@ void FinScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		FinTitleScene();
+		delete title;
 		break;
 	case SCENE_OPTION:
 		FinOptionScene();

@@ -3,27 +3,34 @@
 #include "Player.h"
 #include "../Input/Input.h"
 #include "../Elements/ElementsManager.h"
+#include "../Elements/Iron.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
-#define PLAYER_RUN_SPEED (8.0f)
+#define PLAYER_RUN_SPEED (7.0f)
 #define PLAYER_DEFAULT_POS_X (800)
 #define PLAYER_DEFAULT_POS_Y (450)
-#define PLAYER_POS_Y_MIN (600)
-#define GRAVITY (0.5f)
-#define PLAYER_JUMP_POWER (10.0f)
-#define PLAYER_DEFAULT_LEVEL (2)
+#define PLAYER_POS_Y_MIN (800)
+#define PLAYER_GRAVITY (0.5f)
+#define PLAYER_JUMP_POWER (15.0f)
+#define PLAYER_DEFAULT_LEVEL (8)
 #define ELEMENTS_TEXT_DIF (128.0f)
 #define ELEMENTS_NUM_MAX (8)
 #define DOUBLE_PUSH_TIME (10)
+#define PLAYER_ANIM_INTERVAL (40)
+#define PLAYER_ACTION_FREEZE_TIME (20)
+#define PLAYER_MAP_COLLISION_OFFSET (0.05f)
 
 PlayerData g_PlayerData = { 0 };
+PlayerData g_PrevPlayerData = { 0 };
 
 int g_ElementsTextHandle[ELEMENTS_NUM_MAX] = { 0 };
 
+void CalcBoxCollision(PlayerData player, float& x, float& y, float& w, float& h);
+
 void InitPlayer()
 {
-	g_PlayerData.pos.x = 0.0f;
-	g_PlayerData.pos.y = 0.0f;
+	g_PlayerData.posX = 0.0f;
+	g_PlayerData.posY = 0.0f;
 
 	g_PlayerData.move.x = 0.0f;
 	g_PlayerData.move.y = 0.0f;
@@ -35,45 +42,62 @@ void InitPlayer()
 
 	g_PlayerData.level = 0;
 	g_PlayerData.selectState = -1;
+	g_PlayerData.runTimer = 0;
+	g_PlayerData.animTimer = 0;
 
 	g_PlayerData.active = false;
 	g_PlayerData.randing = false;
 	g_PlayerData.selectElements = false;
 	g_PlayerData.runRight = false;
 	g_PlayerData.runLeft = false;
+	g_PlayerData.isTurn = false;
+	g_PlayerData.action = false;
+
+	g_PlayerData.playAnim = PLAYER_ANIM_NONE;
 }
 
 void LoadPlayer()
 {
-	g_PlayerData.playerHandle = LoadGraph("Data/Player/Player(pre).png");
+	g_PlayerData.animation[PLAYER_ANIM_STOP].handle
+		= LoadGraph("Data/Player/Stop.png");
+	g_PlayerData.animation[PLAYER_ANIM_RUN_1].handle
+		= LoadGraph("Data/Player/Running-1.png");
+	g_PlayerData.animation[PLAYER_ANIM_RUN_2].handle
+		= LoadGraph("Data/Player/Running-2.png");
+	g_PlayerData.animation[PLAYER_ANIM_RUN_3].handle
+		= LoadGraph("Data/Player/Running-3.png");
+	g_PlayerData.animation[PLAYER_ANIM_JUMP].handle
+		= LoadGraph("Data/Player/Jump.png");
+	g_PlayerData.animation[PLAYER_ANIM_ACTION].handle
+		= LoadGraph("Data/Player/Action.png");
 
 	for (int i = 0; i < ELEMENTS_NUM_MAX; i++)
 	{
 		switch (i)
 		{
 		case 0:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Back(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/CancelIcon.png");
 			break;
 		case 1:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Fire(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/FireIcon.png");
 			break;
 		case 2:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Water(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/WaterIcon.png");
 			break;
 		case 3:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Thonder(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/ThunderIcon.png");
 			break;
 		case 4:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Wind(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/WindIcon.png");
 			break;
 		case 5:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Ground(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/GroundIcon.png");
 			break;
 		case 6:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Ice(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/IceIcon.png");
 			break;
 		case 7:
-			g_ElementsTextHandle[i] = LoadGraph("Data/Player/Iron(pre).png");
+			g_ElementsTextHandle[i] = LoadGraph("Data/Icon/IronIcon.png");
 			break;
 		default:
 			break;
@@ -84,28 +108,104 @@ void LoadPlayer()
 void StartPlayer()
 {
 	g_PlayerData.active = true;
-	g_PlayerData.pos.x = PLAYER_DEFAULT_POS_X;
-	g_PlayerData.pos.y = PLAYER_DEFAULT_POS_Y;
+	g_PlayerData.posX = PLAYER_DEFAULT_POS_X;
+	g_PlayerData.posY = PLAYER_DEFAULT_POS_Y;
 	g_PlayerData.level = PLAYER_DEFAULT_LEVEL;
+
+	StartPlayerAnimation(PLAYER_ANIM_STOP);
 }
 
 void StepPlayer()
 {
 	if (!g_PlayerData.active) return;
 
-	if (g_PlayerData.pos.y < PLAYER_POS_Y_MIN)
+	g_PrevPlayerData = g_PlayerData;
+
+	if (g_PlayerData.move.y < 0.0f || g_PlayerData.move.y > PLAYER_GRAVITY)
 	{
-		g_PlayerData.move.y += GRAVITY;
 		g_PlayerData.randing = false;
 	}
-	else
+	
+	g_PlayerData.move.y += PLAYER_GRAVITY;	
+
+	if (g_PlayerData.posY + PLAYER_HEIGHT > PLAYER_POS_Y_MIN)
 	{
-		g_PlayerData.randing = true;
-		g_PlayerData.move.y = 0;
+		PlayerHitFloor();
 	}
 
-	if (IsInputKey(KEY_RIGHT))
+	if (IsTriggerKey(KEY_X) || IsTriggerPad(PAD_Y))
 	{
+		if (g_PlayerData.action) return;
+
+		g_PlayerData.action = true;
+
+		g_PlayerData.animTimer = 0;
+
+		float playerCenterX = g_PlayerData.posX + PLAYER_WIDTH / 2;
+		float playerCenterY = g_PlayerData.posY + PLAYER_HEIGHT / 2;
+
+		switch (g_PlayerData.selectState)
+		{
+		case 0:
+			g_PlayerData.selectElements = false;
+			break;
+
+		case 1:
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_FIRE, g_PlayerData.isTurn);
+			g_PlayerData.selectElements = false;
+			break;
+
+		case 2:
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_WATER, g_PlayerData.isTurn);
+			g_PlayerData.selectElements = false;
+			break;
+
+		case 3:
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_THUNDER, g_PlayerData.isTurn);
+			g_PlayerData.selectElements = false;
+			break;
+
+		case 4:
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_WIND, g_PlayerData.isTurn);
+			g_PlayerData.selectElements = false;
+			break;
+
+		case 5:
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_GROUND, g_PlayerData.isTurn);
+			g_PlayerData.selectElements = false;
+			break;
+
+		case 6:
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_ICE, g_PlayerData.isTurn);
+			g_PlayerData.selectElements = false;
+			break;
+
+		case 7:
+			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_IRON, g_PlayerData.isTurn);
+			g_PlayerData.selectElements = false;
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	if (g_PlayerData.action)
+	{
+		g_PlayerData.animTimer++;
+		if (g_PlayerData.randing)
+		{
+			g_PlayerData.move.x = 0;
+		}
+	}
+	else if (IsInputKey(KEY_RIGHT)|| IsInputPad(PAD_RIGHT))
+	{
+		g_PlayerData.animTimer++;
+
+		g_PlayerData.isTurn = false;
+
+		g_PlayerData.runLeft = false;
+
 		if (g_PlayerData.runRight)
 		{
 			g_PlayerData.move.x = PLAYER_RUN_SPEED;
@@ -115,8 +215,14 @@ void StepPlayer()
 			g_PlayerData.move.x = PLAYER_MOVE_SPEED;
 		}
 	}
-	else if (IsInputKey(KEY_LEFT))
+	else if (IsInputKey(KEY_LEFT) || IsInputPad(PAD_LEFT))
 	{
+		g_PlayerData.animTimer++;
+
+		g_PlayerData.isTurn = true;
+
+		g_PlayerData.runRight = false;
+
 		if (g_PlayerData.runLeft)
 		{
 			g_PlayerData.move.x = -PLAYER_RUN_SPEED;
@@ -129,6 +235,8 @@ void StepPlayer()
 	else
 	{
 		g_PlayerData.move.x = 0;
+
+		g_PlayerData.animTimer = 0;
 
 		if (g_PlayerData.runRight || g_PlayerData.runLeft)
 		{
@@ -143,14 +251,14 @@ void StepPlayer()
 		g_PlayerData.runTimer = 0;
 	}
 
-	if (IsReleaseKey(KEY_RIGHT))
+	if (IsReleaseKey(KEY_RIGHT) || IsReleasePad(PAD_RIGHT))
 	{
 		if (!g_PlayerData.runRight)
 		{
 			g_PlayerData.runRight = true;
 		}
 	}
-	if (IsReleaseKey(KEY_LEFT))
+	if (IsReleaseKey(KEY_LEFT) || IsReleasePad(PAD_LEFT))
 	{
 		if (!g_PlayerData.runLeft)
 		{
@@ -158,66 +266,16 @@ void StepPlayer()
 		}
 	}
 
-	if (IsTriggerKey(KEY_UP))
+	if (IsTriggerKey(KEY_UP) || IsTriggerPad(PAD_B))
 	{
-		if (g_PlayerData.randing)
+		if (g_PlayerData.randing && !g_PlayerData.action)
 		{
+			g_PlayerData.randing = false;
 			g_PlayerData.move.y -= PLAYER_JUMP_POWER;
 		}
 	}
 
-	if (IsTriggerKey(KEY_X))
-	{
-		float playerCenterX = g_PlayerData.pos.x + PLAYER_WIDTH / 2;
-		float playerCenterY = g_PlayerData.pos.y + PLAYER_HEIGHT / 2;
-
-		switch (g_PlayerData.selectState)
-		{
-		case 0:
-			g_PlayerData.selectElements = false;
-			break;
-
-		case 1:
-			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_FIRE);
-			g_PlayerData.selectElements = false;
-			break;
-
-		case 2:
-			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_WATER);
-			g_PlayerData.selectElements = false;
-			break;
-
-		case 3:
-			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_THUNDER);
-			g_PlayerData.selectElements = false;
-			break;
-
-		case 4:
-			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_WIND);
-			g_PlayerData.selectElements = false;
-			break;
-
-		case 5:
-			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_GROUND);
-			g_PlayerData.selectElements = false;
-			break;
-
-		case 6:
-			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_ICE);
-			g_PlayerData.selectElements = false;
-			break;
-
-		case 7:
-			Action((int)playerCenterX, (int)playerCenterY, ELEMENT_TYPE_IRON);
-			g_PlayerData.selectElements = false;
-			break;
-
-		default:
-			break;
-		}
-	}
-
-	if (IsTriggerKey(KEY_Z))
+	if (IsTriggerKey(KEY_Z) || IsTriggerPad(PAD_X))
 	{		
 		if (!g_PlayerData.selectElements)
 		{
@@ -254,20 +312,41 @@ void UpdatePlayer()
 {
 	if (!g_PlayerData.active) return;
 
-	g_PlayerData.pos.x += g_PlayerData.move.x;
-	g_PlayerData.pos.y += g_PlayerData.move.y;
+	g_PlayerData.posX += g_PlayerData.move.x;
+	g_PlayerData.posY += g_PlayerData.move.y;
+
+	if (g_PlayerData.animTimer > PLAYER_ANIM_INTERVAL)
+	{
+		g_PlayerData.animTimer = 0;
+	}
+
+	if (g_PlayerData.animTimer > PLAYER_ACTION_FREEZE_TIME)
+	{
+		g_PlayerData.action = false;
+	}
+
+	UpdatePlayerAnimation();
 }
 
 void DrawPlayer()
 {
 	if (!g_PlayerData.active) return;
 
-	DrawGraph(g_PlayerData.pos.x, g_PlayerData.pos.y, g_PlayerData.playerHandle, TRUE);
+	PlayerAnimationType animType = g_PlayerData.playAnim;
+	AnimationData* animData = &g_PlayerData.animation[animType];
+	if (!g_PlayerData.isTurn)
+	{
+		DrawAnimation(animData, g_PlayerData.posX, g_PlayerData.posY);
+	}
+	else
+	{
+		DrawTurnAnimation(animData, g_PlayerData.posX, g_PlayerData.posY);
+	}
 
 	if (g_PlayerData.selectElements)
 	{
-		int playerCenterX = (int)g_PlayerData.pos.x + PLAYER_WIDTH / 2;
-		int playerCenterY = (int)g_PlayerData.pos.y + PLAYER_HEIGHT / 2;
+		int playerCenterX = (int)g_PlayerData.posX + PLAYER_WIDTH / 2;
+		int playerCenterY = (int)g_PlayerData.posY + PLAYER_HEIGHT / 2;
 
 		int textRotation = sinf(DX_PI_F);
 
@@ -304,7 +383,159 @@ PlayerData GetPlayer()
 	return g_PlayerData;
 }
 
-void PlayerHitMap()
+void StartPlayerAnimation(PlayerAnimationType anim)
 {
+	if (anim == g_PlayerData.playAnim) return;
 
+	g_PlayerData.playAnim = anim;
+
+	AnimationData* animData = &g_PlayerData.animation[anim];
+
+	StartAnimation(animData, g_PlayerData.posX, g_PlayerData.posY);
+}
+
+void UpdatePlayerAnimation()
+{
+	if (!g_PlayerData.active) return;
+
+	if (g_PlayerData.action)
+	{
+		StartPlayerAnimation(PLAYER_ANIM_ACTION);
+	}
+	else if (!g_PlayerData.randing)
+	{
+		StartPlayerAnimation(PLAYER_ANIM_JUMP);
+	}
+	else if (IsInputKey(KEY_RIGHT) || IsInputKey(KEY_LEFT) || IsInputPad(PAD_RIGHT) || IsInputPad(PAD_LEFT))
+	{
+		if (g_PlayerData.animTimer >= 0 && g_PlayerData.animTimer < 10)
+		{
+			StartPlayerAnimation(PLAYER_ANIM_RUN_2);
+		}
+		else if (g_PlayerData.animTimer >= 10 && g_PlayerData.animTimer < 20)
+		{
+			StartPlayerAnimation(PLAYER_ANIM_RUN_1);
+		}
+		else if (g_PlayerData.animTimer >= 20 && g_PlayerData.animTimer < 30)
+		{
+			StartPlayerAnimation(PLAYER_ANIM_RUN_2);
+		}
+		else if (g_PlayerData.animTimer >= 30 && g_PlayerData.animTimer < 40)
+		{
+			StartPlayerAnimation(PLAYER_ANIM_RUN_3);
+		}
+	}
+	else
+	{
+		StartPlayerAnimation(PLAYER_ANIM_STOP);
+	}
+}
+
+void PlayerHitNormalBlockX(MapChipData mapChipData)
+{
+	PlayerData player = g_PlayerData;
+	BlockData* block = mapChipData.data;
+	const float POS_OFFSET = PLAYER_MAP_COLLISION_OFFSET;
+	const float SIZE_OFFSET = PLAYER_MAP_COLLISION_OFFSET * 2;
+
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	player.posX = g_PlayerData.posX;
+	player.posY = g_PrevPlayerData.posY;
+
+	float x, y, w, h;
+	CalcBoxCollision(player, x, y, w, h);
+
+	if (CheckSquareSquare(x + POS_OFFSET, y + POS_OFFSET, w - SIZE_OFFSET, h - SIZE_OFFSET,
+		block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
+	{
+		if (player.move.x > 0.0f)
+		{
+			g_PlayerData.posX -= (x + w) - block->pos.x;
+		}
+		else if (player.move.x < 0.0f)
+		{
+			g_PlayerData.posX += (block->pos.x + MAP_CHIP_WIDTH) - x;
+		}
+	}
+}
+
+void PlayerHitNormalBlockY(MapChipData mapChipData)
+{
+	PlayerData player = g_PlayerData;
+	BlockData* block = mapChipData.data;
+	const float POS_OFFSET = PLAYER_MAP_COLLISION_OFFSET;
+	const float SIZE_OFFSET = PLAYER_MAP_COLLISION_OFFSET * 2;
+
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	float x, y, w, h;
+	CalcBoxCollision(player, x, y, w, h);
+
+	if (CheckSquareSquare(x + POS_OFFSET, y + POS_OFFSET, w - SIZE_OFFSET, h - SIZE_OFFSET,
+		block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
+	{
+
+		g_PlayerData.move.y = 0.0f;
+
+		if (player.move.y > 0.0f)
+		{
+			g_PlayerData.posY -= (y + h) - block->pos.y;
+			g_PlayerData.randing = true;
+		}
+		else if (player.move.y < 0.0f)
+		{
+			g_PlayerData.posY += (block->pos.y + MAP_CHIP_HEIGHT) - y;
+		}
+	}
+}
+
+void PlayerHitIron(int index)
+{
+	PlayerData player = GetPlayer();
+	VECTOR ironPos = GetIronPos(index);
+
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	player.posX = g_PlayerData.posX;
+	player.posY = g_PrevPlayerData.posY;
+
+	if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > ironPos.y)
+	{
+		g_PlayerData.posX = ironPos.x - PLAYER_WIDTH;
+	}
+	else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > ironPos.y)
+	{
+		g_PlayerData.posX = ironPos.x + IRON_WIDTH;
+	}
+
+	if (player.posY <= ironPos.y - PLAYER_HEIGHT)
+	//if (g_PlayerData.move.y > 0.0f)
+	{
+		g_PlayerData.move.y = 0.0f;
+		g_PlayerData.randing = true;
+		g_PlayerData.posY = ironPos.y - PLAYER_HEIGHT;
+	}
+	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > ironPos.y + IRON_HEIGHT)
+	{
+		g_PlayerData.move.y = 0.0f;
+		g_PlayerData.posY = ironPos.y + IRON_HEIGHT;
+	}
+}
+
+void PlayerHitFloor()
+{
+	g_PlayerData.posY = PLAYER_POS_Y_MIN - PLAYER_HEIGHT;
+	g_PlayerData.randing = true;
+	g_PlayerData.move.y = 0.0f;
+}
+
+void CalcBoxCollision(PlayerData player, float& x, float& y, float& w, float& h)
+{
+	x = player.isTurn ?
+		player.posX + PLAYER_WIDTH - player.boxCollision.posX - player.boxCollision.width :
+		player.posX + player.boxCollision.posY;
+	y = player.posY + player.boxCollision.posY;
+	w = player.boxCollision.width;
+	h = player.boxCollision.height;
 }

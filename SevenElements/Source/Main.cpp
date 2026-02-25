@@ -3,6 +3,8 @@
 #include "GameSetting/GameSetting.h"
 #include "Input/Input.h"
 #include "FPS/FPS.h"
+#include <stdlib.h>
+#include <time.h>
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR IpCmdline, _In_ int nShowCmd)
 {
@@ -14,6 +16,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	{
 		return -1;
 	}
+
+	srand((unsigned int)time(NULL));
 
 	SetWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	SetTransColor(TRANCE_COLOR_R, TRANCE_COLOR_G, TRANCE_COLOR_B);
