@@ -1,0 +1,21 @@
+#pragma	once
+#include "Elements.h"
+#include "DxLib.h"
+
+#define ELEMENTS_MAX 32
+
+void InitElementsManager();
+void LoadElementsManager();
+void StartElementsManager();
+void StepElementsManager();
+void UpdateElementsManager();
+void DrawElementsManager();
+void FinElementsManager();
+
+void Action(int posX, int posY, ElementType type, bool isTurn);
+
+VECTOR GetIronPos(int index);
+
+bool IsIronActive(int index);
+
+void IronHitIron(int indexA, int indexB);
