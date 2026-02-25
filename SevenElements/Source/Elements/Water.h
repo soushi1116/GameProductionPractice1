@@ -1,10 +1,20 @@
 #pragma once
 #include "DxLib.h"
 #include "Elements.h"
+#include "../Animation/Animation.h"
 
 #define WATER_MAX 32
 #define WATER_WIDTH (479)
 #define WATER_HEIGHT (32)
+
+enum WaterAnimationType
+{
+	WATER_ANIM_1,
+	WATER_ANIM_2,
+	WATER_ANIM_3,
+	WATER_ANIM_MAX,
+	WATER_ANIM_NONE = -1
+};
 
 class Water : public Element
 {
@@ -21,8 +31,15 @@ public:
 
 	void Spawn(float posX, float posY, bool isTurn);
 
+	void StartWaterAnimation(WaterAnimationType anim);
+	void UpdateWaterAnimation();
+
+
 	bool IsActive() { return active;  }
 
 protected:
 	bool m_IsAir;
+	int m_AnimTimer;
+	AnimationData animation[WATER_ANIM_MAX];
+	WaterAnimationType waterAnim;
 };

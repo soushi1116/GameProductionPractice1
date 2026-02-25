@@ -8,6 +8,7 @@
 #define WATER_POS_Y_MIN (800.0f)
 #define WATER_GRAVITY (0.5f)
 #define WATER_FRICTION (0.1f)
+#define WATER_ANIM_INTERVAL (10)
 
 //Fire* fire[FIRE_MAX] = { 0 };
 
@@ -21,6 +22,10 @@ Water::Water()
 
 	m_IsTurn = false;
 	m_IsAir = false;
+
+	m_AnimTimer = 0;
+
+	waterAnim = WATER_ANIM_NONE;
 }
 
 Water::~Water()
@@ -30,12 +35,14 @@ Water::~Water()
 
 void Water::Load()
 {
-	handle = LoadGraph("Data/Elements/Element_Water.png");
+	animation[WATER_ANIM_1].handle = LoadGraph("Data/Elements/Element_Water_1.png");
+	animation[WATER_ANIM_2].handle = LoadGraph("Data/Elements/Element_Water_2.png");
+	animation[WATER_ANIM_3].handle = LoadGraph("Data/Elements/Element_Water_3.png");
 }
 
 void Water::Start()
 {
-	
+	StartWaterAnimation(WATER_ANIM_1);
 }
 
 void Water::Step()
@@ -44,6 +51,8 @@ void Water::Step()
 	{
 		if (!m_IsAir)
 		{
+			m_AnimTimer++;
+
 			if (!m_IsTurn)
 			{
 				if (move.x > 0)
@@ -93,6 +102,13 @@ void Water::Update()
 	{
 		pos.x += move.x;
 		pos.y += move.y;
+
+		if (m_AnimTimer >= WATER_ANIM_INTERVAL * 5)
+		{
+			m_AnimTimer = 0;
+		}
+
+		UpdateWaterAnimation();
 	}
 }
 
@@ -100,13 +116,15 @@ void Water::Draw()
 {
 	if (active)
 	{
+		WaterAnimationType animType = waterAnim;
+		AnimationData* animData = &animation[animType];
 		if (!m_IsTurn)
 		{
-			DrawGraph(pos.x, pos.y, handle, TRUE);
+			DrawAnimation(animData, pos.x, pos.y);
 		}
 		else
 		{
-			DrawTurnGraph(pos.x, pos.y, handle, TRUE);
+			DrawTurnAnimation(animData, pos.x, pos.y);
 		}
 	}
 }
@@ -142,4 +160,33 @@ void Water::Spawn(float posX, float posY, bool isTurn)
 		m_IsAir = false;
 	}
 	
+}
+
+void Water::StartWaterAnimation(WaterAnimationType anim)
+{
+	if (anim == waterAnim) return;
+
+	waterAnim = anim;
+
+	AnimationData* animData = &animation[anim];
+
+	StartAnimation(animData, pos.x, pos.y);
+}
+
+void Water::UpdateWaterAnimation()
+{
+	if (!active) return;
+
+	if (m_AnimTimer >= 0 && m_AnimTimer < WATER_ANIM_INTERVAL)
+	{
+		StartWaterAnimation(WATER_ANIM_1);
+	}
+	else if (m_AnimTimer >= WATER_ANIM_INTERVAL && m_AnimTimer < WATER_ANIM_INTERVAL * 4)
+	{
+		StartWaterAnimation(WATER_ANIM_2);
+	}
+	else if (m_AnimTimer >= WATER_ANIM_INTERVAL * 4)
+	{
+		StartWaterAnimation(WATER_ANIM_3);
+	}
 }
