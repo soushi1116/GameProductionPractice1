@@ -49,6 +49,9 @@
     <Filter Include="Source\Camera">
       <UniqueIdentifier>{afb0a01e-19ca-444d-8870-cb318617e74f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Gimmick">
+      <UniqueIdentifier>{2fbb6089-3ad0-4165-a85f-f12bc0683842}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -125,6 +128,9 @@
     </ClCompile>
     <ClCompile Include="Source\Camera\Camera.cpp">
       <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Gimmick.cpp">
+      <Filter>Source\Gimmick</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="Source\Camera\Camera.h">
       <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Gimmick.h">
+      <Filter>Source\Gimmick</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

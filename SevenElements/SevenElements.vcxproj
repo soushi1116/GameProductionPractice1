@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Gimmick.cpp" />
     <ClCompile Include="Source\Animation\Animation.cpp" />
     <ClCompile Include="Source\Camera\Camera.cpp" />
     <ClCompile Include="Source\Effect\AnimationEffect.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="Source\UI\UIImage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Gimmick.h" />
     <ClInclude Include="Source\Animation\Animation.h" />
     <ClInclude Include="Source\Camera\Camera.h" />
     <ClInclude Include="Source\Effect\AnimationEffect.h" />
