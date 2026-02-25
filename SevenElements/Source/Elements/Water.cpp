@@ -5,7 +5,7 @@
 #define WATER_MOVE_SPEED (7.0f)
 #define WATER_ACTIVE_AREA_X_MIN (0.0f)
 #define WATER_ACTIVE_AREA_X_MAX (1600.0f)
-#define WATER_POS_Y_MIN (800.0f)
+#define WATER_POS_Y_MIN (700.0f)
 #define WATER_GRAVITY (0.5f)
 #define WATER_FRICTION (0.1f)
 #define WATER_ANIM_INTERVAL (10)
@@ -22,6 +22,7 @@ Water::Water()
 
 	m_IsTurn = false;
 	m_IsAir = false;
+	m_Freeze = false;
 
 	m_AnimTimer = 0;
 
@@ -38,6 +39,7 @@ void Water::Load()
 	animation[WATER_ANIM_1].handle = LoadGraph("Data/Elements/Element_Water_1.png");
 	animation[WATER_ANIM_2].handle = LoadGraph("Data/Elements/Element_Water_2.png");
 	animation[WATER_ANIM_3].handle = LoadGraph("Data/Elements/Element_Water_3.png");
+	animation[WATER_ANIM_FREEZE].handle = LoadGraph("Data/Elements/Element_Water_Freeze.png");
 }
 
 void Water::Start()
@@ -177,16 +179,38 @@ void Water::UpdateWaterAnimation()
 {
 	if (!active) return;
 
-	if (m_AnimTimer >= 0 && m_AnimTimer < WATER_ANIM_INTERVAL)
+	if (m_Freeze)
 	{
-		StartWaterAnimation(WATER_ANIM_1);
+		StartWaterAnimation(WATER_ANIM_FREEZE);
 	}
-	else if (m_AnimTimer >= WATER_ANIM_INTERVAL && m_AnimTimer < WATER_ANIM_INTERVAL * 4)
+	else
 	{
-		StartWaterAnimation(WATER_ANIM_2);
+		if (m_AnimTimer >= 0 && m_AnimTimer < WATER_ANIM_INTERVAL)
+		{
+			StartWaterAnimation(WATER_ANIM_1);
+		}
+		else if (m_AnimTimer >= WATER_ANIM_INTERVAL && m_AnimTimer < WATER_ANIM_INTERVAL * 4)
+		{
+			StartWaterAnimation(WATER_ANIM_2);
+		}
+		else if (m_AnimTimer >= WATER_ANIM_INTERVAL * 4)
+		{
+			StartWaterAnimation(WATER_ANIM_3);
+		}
 	}
-	else if (m_AnimTimer >= WATER_ANIM_INTERVAL * 4)
-	{
-		StartWaterAnimation(WATER_ANIM_3);
-	}
+}
+
+void Water::WaterHitIce()
+{
+	m_Freeze = true;
+}
+
+VECTOR Water::GetPos()
+{
+	return VGet(pos.x, pos.y, 0.0f);
+}
+
+const bool Water::IsActive()
+{
+	return active;
 }

@@ -21,7 +21,7 @@ public:
 
 	void Spawn(float posX, float posY, bool isTurn);
 
-	void FireHitIron(int index);
+	void FireHitIron();
 
 	const bool IsActive();
 

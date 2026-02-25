@@ -269,6 +269,7 @@ bool IsElementActive(int index, ElementType type)
 		active = fire[index].IsActive();
 		break;
 	case ELEMENT_TYPE_WATER:
+		active = water[index].IsActive();
 		break;
 	case ELEMENT_TYPE_THUNDER:
 		break;
@@ -277,6 +278,7 @@ bool IsElementActive(int index, ElementType type)
 	case ELEMENT_TYPE_GROUND:
 		break;
 	case ELEMENT_TYPE_ICE:
+		active = ice[index].IsActive();
 		break;
 	case ELEMENT_TYPE_IRON:
 		active = iron[index].IsActive();
@@ -306,5 +308,10 @@ void IronHitIron(int indexA, int indexB)
 
 void FireHitIron(int index)
 {
-	fire[index].FireHitIron(index);
+	fire[index].FireHitIron();
+}
+
+void WaterHitIce(int index)
+{
+	water[index].WaterHitIce();
 }

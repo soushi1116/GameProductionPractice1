@@ -89,3 +89,13 @@ void Ice::Spawn(float posX, float posY, bool isTurn)
 	}
 	
 }
+
+VECTOR Ice::GetPos()
+{
+	return VGet(pos.x, pos.y, 0.0f);
+}
+
+const bool Ice::IsActive()
+{
+	return active;
+}

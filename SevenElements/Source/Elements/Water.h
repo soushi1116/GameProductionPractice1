@@ -12,6 +12,7 @@ enum WaterAnimationType
 	WATER_ANIM_1,
 	WATER_ANIM_2,
 	WATER_ANIM_3,
+	WATER_ANIM_FREEZE,
 	WATER_ANIM_MAX,
 	WATER_ANIM_NONE = -1
 };
@@ -34,11 +35,15 @@ public:
 	void StartWaterAnimation(WaterAnimationType anim);
 	void UpdateWaterAnimation();
 
+	void WaterHitIce();
 
-	bool IsActive() { return active;  }
+	const bool IsActive();
+
+	VECTOR GetPos();
 
 protected:
 	bool m_IsAir;
+	bool m_Freeze;
 	int m_AnimTimer;
 	AnimationData animation[WATER_ANIM_MAX];
 	WaterAnimationType waterAnim;

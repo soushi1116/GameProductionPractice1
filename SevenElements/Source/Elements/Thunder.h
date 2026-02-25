@@ -21,7 +21,9 @@ public:
 
 	void Spawn(float posX, float posY, bool isTurn);
 
-	bool IsActive() { return active;  }
+	const bool IsActive();
+
+	VECTOR GetPos();
 
 protected:
 

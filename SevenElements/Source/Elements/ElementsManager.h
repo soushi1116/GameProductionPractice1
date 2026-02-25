@@ -21,3 +21,5 @@ bool IsElementActive(int index, ElementType type);
 void IronHitIron(int indexA, int indexB);
 
 void FireHitIron(int index);
+
+void WaterHitIce(int index);

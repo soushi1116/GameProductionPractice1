@@ -99,3 +99,13 @@ void Wind::Spawn(float posX, float posY, bool isTurn)
 	}
 	
 }
+
+VECTOR Wind::GetPos()
+{
+	return VGet(pos.x, pos.y, 0.0f);
+}
+
+const bool Wind::IsActive()
+{
+	return active;
+}

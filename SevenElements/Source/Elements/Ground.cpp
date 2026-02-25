@@ -107,3 +107,13 @@ void Ground::Spawn(float posX, float posY, bool isTurn)
 	}
 	
 }
+
+VECTOR Ground::GetPos()
+{
+	return VGet(pos.x, pos.y, 0.0f);
+}
+
+const bool Ground::IsActive()
+{
+	return active;
+}
