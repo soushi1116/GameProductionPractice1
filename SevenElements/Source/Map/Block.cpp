@@ -18,7 +18,7 @@ void InitBlock()
 
 void LoadBlock()
 {
-	g_BlockHandle[NORMAL_BLOCK] = LoadGraph("Data/Map/");
+	g_BlockHandle[NORMAL_BLOCK] = LoadGraph("Data/Map/NormalBlock.png");
 }
 
 void StartBlock()

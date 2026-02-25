@@ -79,7 +79,7 @@ void Fire::Spawn(float posX, float posY, bool isTurn)
 		active = true;
 
 		pos.x = posX - FIRE_WIDTH / 2;
-		pos.y = posY;
+		pos.y = posY - FIRE_HEIGHT;
 
 		m_IsTurn = isTurn;
 	}

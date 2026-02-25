@@ -237,6 +237,7 @@ VECTOR GetElementPos(int index, ElementType type)
 		pos = fire[index].GetPos();
 		break;
 	case ELEMENT_TYPE_WATER:
+		pos = water[index].GetPos();
 		break;
 	case ELEMENT_TYPE_THUNDER:
 		break;
@@ -245,6 +246,7 @@ VECTOR GetElementPos(int index, ElementType type)
 	case ELEMENT_TYPE_GROUND:
 		break;
 	case ELEMENT_TYPE_ICE:
+		pos = ice[index].GetPos();
 		break;
 	case ELEMENT_TYPE_IRON:
 		pos = iron[index].GetPos();
@@ -304,6 +306,16 @@ void IronHitIron(int indexA, int indexB)
 	{
 		iron[indexB].IronHitIron(indexA, indexB, ironAPosY);
 	}
+}
+
+void IronHitBlock(int indexA, int indexB)
+{
+	iron[indexA].IronHitBlock(indexB);
+}
+
+void WaterHitBlock(int indexA, int indexB)
+{
+	water[indexA].WaterHitBlock(indexB);
 }
 
 void FireHitIron(int index)

@@ -4,8 +4,8 @@
 #include "../Animation/Animation.h"
 
 #define WATER_MAX 32
-#define WATER_WIDTH (479)
-#define WATER_HEIGHT (32)
+#define WATER_WIDTH (448)
+#define WATER_HEIGHT (41)
 
 enum WaterAnimationType
 {
@@ -36,6 +36,7 @@ public:
 	void UpdateWaterAnimation();
 
 	void WaterHitIce();
+	void WaterHitBlock(int index);
 
 	const bool IsActive();
 

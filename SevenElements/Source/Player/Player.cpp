@@ -4,12 +4,12 @@
 #include "../Input/Input.h"
 #include "../Elements/ElementsManager.h"
 #include "../Elements/Iron.h"
+#include "../Map/Block.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
 #define PLAYER_RUN_SPEED (7.0f)
 #define PLAYER_DEFAULT_POS_X (800)
 #define PLAYER_DEFAULT_POS_Y (450)
-#define PLAYER_POS_Y_MIN (800)
 #define PLAYER_GRAVITY (0.5f)
 #define PLAYER_JUMP_POWER (15.0f)
 #define PLAYER_DEFAULT_LEVEL (8)
@@ -61,13 +61,15 @@ void LoadPlayer()
 	g_PlayerData.animation[PLAYER_ANIM_STOP].handle
 		= LoadGraph("Data/Player/Stop.png");
 	g_PlayerData.animation[PLAYER_ANIM_RUN_1].handle
-		= LoadGraph("Data/Player/Running-1.png");
+		= LoadGraph("Data/Player/Running_1.png");
 	g_PlayerData.animation[PLAYER_ANIM_RUN_2].handle
-		= LoadGraph("Data/Player/Running-2.png");
+		= LoadGraph("Data/Player/Running_2.png");
 	g_PlayerData.animation[PLAYER_ANIM_RUN_3].handle
-		= LoadGraph("Data/Player/Running-3.png");
+		= LoadGraph("Data/Player/Running_3.png");
 	g_PlayerData.animation[PLAYER_ANIM_JUMP].handle
 		= LoadGraph("Data/Player/Jump.png");
+	g_PlayerData.animation[PLAYER_ANIM_FALL].handle
+		= LoadGraph("Data/Player/Fall.png");
 	g_PlayerData.animation[PLAYER_ANIM_ACTION].handle
 		= LoadGraph("Data/Player/Action.png");
 
@@ -127,11 +129,6 @@ void StepPlayer()
 	}
 	
 	g_PlayerData.move.y += PLAYER_GRAVITY;	
-
-	if (g_PlayerData.pos.y + PLAYER_HEIGHT > PLAYER_POS_Y_MIN)
-	{
-		PlayerHitFloor();
-	}
 
 	if (IsTriggerKey(KEY_X) || IsTriggerPad(PAD_Y))
 	{
@@ -404,7 +401,14 @@ void UpdatePlayerAnimation()
 	}
 	else if (!g_PlayerData.randing)
 	{
-		StartPlayerAnimation(PLAYER_ANIM_JUMP);
+		if (g_PlayerData.move.y <= 0.0f)
+		{
+			StartPlayerAnimation(PLAYER_ANIM_JUMP);
+		}
+		else
+		{
+			StartPlayerAnimation(PLAYER_ANIM_FALL);
+		}
 	}
 	else if (IsInputKey(KEY_RIGHT) || IsInputKey(KEY_LEFT) || IsInputPad(PAD_RIGHT) || IsInputPad(PAD_LEFT))
 	{
@@ -490,6 +494,44 @@ void PlayerHitNormalBlockY(MapChipData mapChipData)
 	}
 }
 
+void PlayerHitBlock(int index)
+{
+	PlayerData player = GetPlayer();
+	BlockData* block = GetBlocks();
+
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	player.pos.x = g_PlayerData.pos.x;
+	player.pos.y = g_PrevPlayerData.pos.y;
+
+	for (int i = 0; i < BLOCK_MAX; i++, block++)
+	{
+		if (i != index) continue;
+
+		if (player.move.x > 0.0f && player.pos.y + PLAYER_HEIGHT > block->pos.y)
+		{
+			g_PlayerData.pos.x = block->pos.x - PLAYER_WIDTH;
+		}
+		else if (player.move.x < 0.0f && player.pos.y + PLAYER_HEIGHT > block->pos.y)
+		{
+			g_PlayerData.pos.x = block->pos.x + MAP_CHIP_WIDTH;
+		}
+
+		if (player.pos.y <= block->pos.y - PLAYER_HEIGHT)
+			//if (g_PlayerData.move.y > 0.0f)
+		{
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.randing = true;
+			g_PlayerData.pos.y = block->pos.y - PLAYER_HEIGHT;
+		}
+		else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.pos.y > block->pos.y + MAP_CHIP_HEIGHT)
+		{
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.pos.y = block->pos.y + MAP_CHIP_HEIGHT;
+		}
+	}
+}
+
 void PlayerHitIron(int index)
 {
 	PlayerData player = GetPlayer();
@@ -523,12 +565,6 @@ void PlayerHitIron(int index)
 	}
 }
 
-void PlayerHitFloor()
-{
-	g_PlayerData.pos.y = PLAYER_POS_Y_MIN - PLAYER_HEIGHT;
-	g_PlayerData.randing = true;
-	g_PlayerData.move.y = 0.0f;
-}
 
 void CalcBoxCollision(PlayerData player, float& x, float& y, float& w, float& h)
 {

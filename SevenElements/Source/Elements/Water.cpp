@@ -1,5 +1,6 @@
 #include "Water.h"
 #include "../Effect/AnimationEffect.h"
+#include "../Map/Block.h"
 
 #define EFFECT_INTERVAL (1)
 #define WATER_MOVE_SPEED (7.0f)
@@ -8,7 +9,7 @@
 #define WATER_POS_Y_MIN (700.0f)
 #define WATER_GRAVITY (0.5f)
 #define WATER_FRICTION (0.1f)
-#define WATER_ANIM_INTERVAL (10)
+#define WATER_ANIM_INTERVAL (20)
 
 //Fire* fire[FIRE_MAX] = { 0 };
 
@@ -51,6 +52,8 @@ void Water::Step()
 {
 	if (active)
 	{
+		move.y += WATER_GRAVITY;
+
 		if (!m_IsAir)
 		{
 			m_AnimTimer++;
@@ -83,18 +86,6 @@ void Water::Step()
 		{
 			active = false;
 		}
-
-		if (pos.y < WATER_POS_Y_MIN)
-		{
-			move.y += WATER_GRAVITY;
-			m_IsAir = true;
-		}
-		else
-		{
-			move.y = 0;
-			m_IsAir = false;
-			pos.y = WATER_POS_Y_MIN;
-		}
 	}
 }
 
@@ -105,7 +96,7 @@ void Water::Update()
 		pos.x += move.x;
 		pos.y += move.y;
 
-		if (m_AnimTimer >= WATER_ANIM_INTERVAL * 5)
+		if (m_AnimTimer >= WATER_ANIM_INTERVAL * 6)
 		{
 			m_AnimTimer = 0;
 		}
@@ -189,11 +180,11 @@ void Water::UpdateWaterAnimation()
 		{
 			StartWaterAnimation(WATER_ANIM_1);
 		}
-		else if (m_AnimTimer >= WATER_ANIM_INTERVAL && m_AnimTimer < WATER_ANIM_INTERVAL * 4)
+		else if (m_AnimTimer >= WATER_ANIM_INTERVAL && m_AnimTimer < WATER_ANIM_INTERVAL * 5)
 		{
 			StartWaterAnimation(WATER_ANIM_2);
 		}
-		else if (m_AnimTimer >= WATER_ANIM_INTERVAL * 4)
+		else if (m_AnimTimer >= WATER_ANIM_INTERVAL * 5)
 		{
 			StartWaterAnimation(WATER_ANIM_3);
 		}
@@ -203,6 +194,22 @@ void Water::UpdateWaterAnimation()
 void Water::WaterHitIce()
 {
 	m_Freeze = true;
+}
+
+void Water::WaterHitBlock(int index)
+{
+	BlockData* block = GetBlocks();
+
+	move.y = 0.0f;
+
+	m_IsAir = false;
+
+	for (int i = 0; i < BLOCK_MAX; i++, block++)
+	{
+		if (i != index) continue;
+
+		pos.y = block->pos.y - WATER_HEIGHT;
+	}
 }
 
 VECTOR Water::GetPos()

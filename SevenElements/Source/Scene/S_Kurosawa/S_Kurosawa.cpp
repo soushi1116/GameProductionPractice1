@@ -7,11 +7,15 @@
 #include "../../Elements/ElementsManager.h"
 #include "../../Map/MapManager.h"
 #include "../../Collision/Collision.h"
+#include "../../Map/Block.h"
+#include "../../Map/MapParameter.h"
 
 KurosawaData g_KurosawaData = { 0 };
 
 #define TEXTPOS_X (200)
 #define TEXTPOS_Y (0)
+#define BLOCK_NUM_MAX (32)
+#define MAP_POS_Y (800)
 
 void InitKuroScene()
 {
@@ -46,6 +50,13 @@ void StartKuroScene()
 	StartElementsManager();
 
 	StartMap();
+
+	for (int i = 0; i < BLOCK_NUM_MAX; i++)
+	{
+		VECTOR pos = VGet(MAP_CHIP_WIDTH * i, MAP_POS_Y, 0.0f);
+
+		CreateBlock(NORMAL_BLOCK, pos);
+	}
 }
 
 void StepKuroScene()
