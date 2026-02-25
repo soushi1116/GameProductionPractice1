@@ -21,8 +21,7 @@ enum PlayerAnimationType
 
 struct PlayerData
 {
-	float posX;
-	float posY;
+	VECTOR pos;
 	VECTOR move;
 
 	int playerHandle;
