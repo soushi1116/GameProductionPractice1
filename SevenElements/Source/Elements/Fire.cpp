@@ -82,5 +82,14 @@ void Fire::Spawn(float posX, float posY, bool isTurn)
 
 		m_IsTurn = isTurn;
 	}
+}
 
+VECTOR Fire::GetPos()
+{
+	return VGet(pos.x, pos.y, 0.0f);
+}
+
+const bool Fire::IsActive()
+{
+	return active;
 }

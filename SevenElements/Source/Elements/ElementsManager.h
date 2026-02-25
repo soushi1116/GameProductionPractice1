@@ -14,8 +14,10 @@ void FinElementsManager();
 
 void Action(int posX, int posY, ElementType type, bool isTurn);
 
-VECTOR GetIronPos(int index);
+VECTOR GetElementPos(int index, ElementType type);
 
-bool IsIronActive(int index);
+bool IsElementActive(int index, ElementType type);
 
 void IronHitIron(int indexA, int indexB);
+
+void FireHitIron(int IndexA);

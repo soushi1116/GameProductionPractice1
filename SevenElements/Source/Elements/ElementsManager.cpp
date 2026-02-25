@@ -1,3 +1,4 @@
+#include "DxLib.h"
 #include "ElementsManager.h"
 #include "Elements.h"
 #include "Fire.h"
@@ -221,17 +222,71 @@ void Action(int posX, int posY, ElementType type, bool isTurn)
 	
 }
 
-VECTOR GetIronPos(int index)
+VECTOR GetElementPos(int index, ElementType type)
 {
 	float posX = 0.0f;
 	float posY = 0.0f;
-	VECTOR pos = iron[index].GetPos();
+
+	VECTOR pos = VGet(0.0f, 0.0f, 0.0f);
+
+	switch (type)
+	{
+	case ELEMENT_TYPE_NONE:
+		break;
+	case ELEMENT_TYPE_FIRE:
+		pos = fire[index].GetPos();
+		break;
+	case ELEMENT_TYPE_WATER:
+		break;
+	case ELEMENT_TYPE_THUNDER:
+		break;
+	case ELEMENT_TYPE_WIND:
+		break;
+	case ELEMENT_TYPE_GROUND:
+		break;
+	case ELEMENT_TYPE_ICE:
+		break;
+	case ELEMENT_TYPE_IRON:
+		pos = iron[index].GetPos();
+		break;
+	case ELEMENT_TYPE_MAX:
+		break;
+	default:
+		break;
+	}
 	return pos;
 }
 
-bool IsIronActive(int index)
+bool IsElementActive(int index, ElementType type)
 {
-	return iron[index].IsActive();
+	bool active = false;
+
+	switch (type)
+	{
+	case ELEMENT_TYPE_NONE:
+		break;
+	case ELEMENT_TYPE_FIRE:
+		active = fire[index].IsActive();
+		break;
+	case ELEMENT_TYPE_WATER:
+		break;
+	case ELEMENT_TYPE_THUNDER:
+		break;
+	case ELEMENT_TYPE_WIND:
+		break;
+	case ELEMENT_TYPE_GROUND:
+		break;
+	case ELEMENT_TYPE_ICE:
+		break;
+	case ELEMENT_TYPE_IRON:
+		active = iron[index].IsActive();
+		break;
+	case ELEMENT_TYPE_MAX:
+		break;
+	default:
+		break;
+	}
+	return active;
 }
 
 void IronHitIron(int indexA, int indexB)
@@ -247,4 +302,9 @@ void IronHitIron(int indexA, int indexB)
 	{
 		iron[indexB].IronHitIron(indexA, indexB, ironAPosY);
 	}
+}
+
+void FireHitIron(int IndexA)
+{
+
 }

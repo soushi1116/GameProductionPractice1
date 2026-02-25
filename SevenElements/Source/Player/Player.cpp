@@ -493,7 +493,7 @@ void PlayerHitNormalBlockY(MapChipData mapChipData)
 void PlayerHitIron(int index)
 {
 	PlayerData player = GetPlayer();
-	VECTOR ironPos = GetIronPos(index);
+	VECTOR ironPos = GetElementPos(index, ELEMENT_TYPE_IRON);
 
 	player.isTurn = g_PrevPlayerData.isTurn;
 
