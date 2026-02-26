@@ -1,5 +1,6 @@
 #include "Block.h"
 #include "../Camera/Camera.h"
+#include "MapChip.cpp"
 
 BlockData g_Blocks[BLOCK_MAX] = { 0 };
 int g_BlockHandle[BLOCK_TYPE_MAX] = { 0 };
@@ -18,11 +19,24 @@ void InitBlock()
 
 void LoadBlock()
 {
-	g_BlockHandle[NORMAL_BLOCK] = LoadGraph("Data/Map/");
+	g_BlockHandle[NORMAL_BLOCK] = LoadGraph("Data/Map/NormalBlock.png");
 }
 
 void StartBlock()
 {
+	for (int i = 0; i < MAP_CHIP_Y_NUM; i++)
+	{
+		for (int j = 0; j < MAP_CHIP_Y_NUM; j++)
+		{
+			MapChipType type = (MapChipType)g_MapChip[i][j].mapChip;
+
+			if (type == MAP_CHIP_NONE) continue;
+
+			VECTOR pos = VGet(j * MAP_CHIP_WIDTH, i * MAP_CHIP_HEIGHT, 0.0f);
+
+			g_MapChip[i][j].data = CreateBlock(type, pos);
+		}
+	}
 }
 
 void StepBlock()

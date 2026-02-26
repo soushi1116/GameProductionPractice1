@@ -129,9 +129,7 @@
     <ClCompile Include="Source\Camera\Camera.cpp">
       <Filter>Source\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Gimmick.cpp">
-      <Filter>Source\Gimmick</Filter>
-    </ClCompile>
+    <ClCompile Include="Source\Collision\Collision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -215,8 +213,6 @@
     <ClInclude Include="Source\Camera\Camera.h">
       <Filter>Source\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Gimmick.h">
-      <Filter>Source\Gimmick</Filter>
-    </ClInclude>
+    <ClInclude Include="Source\Collision\Collision.h" />
   </ItemGroup>
 </Project>
