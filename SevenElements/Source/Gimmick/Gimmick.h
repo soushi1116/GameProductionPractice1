@@ -7,6 +7,7 @@ enum GimmickType
 {
 	GIMMICK_TYPE_NONE = -1,
 	GIMMICK_TYPE_TREE,
+	GIMMICK_TYPE_AIRBALLOON,
 	GIMMICK_TYPE_MAX,
 };
 
@@ -26,6 +27,7 @@ public:
 
 protected:
 	VECTOR pos;
+	VECTOR move;
 
 	bool active;
 

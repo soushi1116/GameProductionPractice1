@@ -19,6 +19,8 @@ KurosawaData g_KurosawaData = { 0 };
 #define MAP_POS_Y (800)
 #define GIMMICK_TREE_POS_X (300)
 #define GIMMICK_TREE_POS_Y (500)
+#define GIMMICK_AIRBALLOON_POS_X (1000)
+#define GIMMICK_AIRBALLOON_POS_Y (600)
 
 void InitKuroScene()
 {
@@ -70,6 +72,8 @@ void StartKuroScene()
 	CreateBlock(NORMAL_BLOCK, VGet(MAP_CHIP_WIDTH, MAP_POS_Y - MAP_CHIP_HEIGHT, 0.0f));
 
 	SpawnGimmick(GIMMICK_TREE_POS_X, GIMMICK_TREE_POS_Y, GIMMICK_TYPE_TREE);
+
+	SpawnGimmick(GIMMICK_AIRBALLOON_POS_X, GIMMICK_AIRBALLOON_POS_Y, GIMMICK_TYPE_AIRBALLOON);
 }
 
 void StepKuroScene()

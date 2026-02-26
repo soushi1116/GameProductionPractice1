@@ -28,9 +28,7 @@ void WaterHitBlock(int indexA, int indexB);
 
 void GroundHitBlock(int indexA, int indexB);
 
-void FireHitIron(int index);
-
-void FireHitWater(int index);
+void FireDelete(int index);
 
 void WaterHitWater(int indexA, int indexB);
 

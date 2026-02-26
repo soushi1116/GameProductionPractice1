@@ -5,6 +5,9 @@
 #include "../Elements/ElementsManager.h"
 #include "../Elements/Iron.h"
 #include "../Elements/Water.h"
+#include "../Gimmick/GimmickManager.h"
+#include "../Gimmick/Tree.h"
+#include "../Gimmick/AirBalloon.h"
 #include "../Map/Block.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
@@ -56,6 +59,7 @@ void InitPlayer()
 	g_PlayerData.isTurn = false;
 	g_PlayerData.action = false;
 	g_PlayerData.inWater = false;
+	g_PlayerData.ridingAirBalloon = false;
 
 	g_PlayerData.playAnim = PLAYER_ANIM_NONE;
 }
@@ -220,6 +224,11 @@ void StepPlayer()
 		{
 			g_PlayerData.move.x = PLAYER_MOVE_SPEED;
 		}
+
+		if (g_PlayerData.ridingAirBalloon)
+		{
+			g_PlayerData.ridingAirBalloon = false;
+		}
 	}
 	else if (IsInputKey(KEY_LEFT) || IsInputPad(PAD_LEFT))
 	{
@@ -236,6 +245,11 @@ void StepPlayer()
 		else
 		{
 			g_PlayerData.move.x = -PLAYER_MOVE_SPEED;
+		}
+
+		if (g_PlayerData.ridingAirBalloon)
+		{
+			g_PlayerData.ridingAirBalloon = false;
 		}
 	}
 	else
@@ -337,6 +351,8 @@ void UpdatePlayer()
 void DrawPlayer()
 {
 	if (!g_PlayerData.active) return;
+
+	if (g_PlayerData.ridingAirBalloon) return;
 
 	PlayerAnimationType animType = g_PlayerData.playAnim;
 	AnimationData* animData = &g_PlayerData.animation[animType];
@@ -611,6 +627,85 @@ void PlayerHitWater(int index)
 			g_PlayerData.move.y -= PLAYER_WATER_BUOYANCY;
 		}
 	}
+}
+
+void PlayerHitTree(int index)
+{
+	PlayerData player = GetPlayer();
+	VECTOR treePos = GetGimmickPos(index, GIMMICK_TYPE_TREE);
+
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	player.pos.x = g_PlayerData.pos.x;
+	player.pos.y = g_PrevPlayerData.pos.y;
+
+	if (player.move.x > 0.0f && player.pos.y + PLAYER_HEIGHT > treePos.y)
+	{
+		g_PlayerData.pos.x = treePos.x - PLAYER_WIDTH;
+	}
+	else if (player.move.x < 0.0f && player.pos.y + PLAYER_HEIGHT > treePos.y)
+	{
+		g_PlayerData.pos.x = treePos.x + TREE_WIDTH;
+	}
+
+	if (player.pos.y <= treePos.y - PLAYER_HEIGHT)
+	{
+		g_PlayerData.move.y = 0.0f;
+		g_PlayerData.randing = true;
+		g_PlayerData.pos.y = treePos.y - PLAYER_HEIGHT;
+	}
+	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.pos.y > treePos.y + TREE_HEIGHT)
+	{
+		g_PlayerData.move.y = 0.0f;
+		g_PlayerData.pos.y = treePos.y + TREE_HEIGHT;
+	}
+}
+
+void PlayerHitAirBalloon(int index)
+{
+	PlayerData player = GetPlayer();
+	VECTOR airBalloonPos = GetGimmickPos(index, GIMMICK_TYPE_AIRBALLOON);
+
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	player.pos.x = g_PlayerData.pos.x;
+	player.pos.y = g_PrevPlayerData.pos.y;
+
+	if (g_PlayerData.randing)
+	{
+		if (player.move.x > 0.0f && player.pos.y + PLAYER_HEIGHT > airBalloonPos.y)
+		{
+			g_PlayerData.pos.x = airBalloonPos.x - PLAYER_WIDTH;
+		}
+		else if (player.move.x < 0.0f && player.pos.y + PLAYER_HEIGHT > airBalloonPos.y)
+		{
+			g_PlayerData.pos.x = airBalloonPos.x + AIRBALLOON_WIDTH;
+		}
+
+		if (player.pos.y <= airBalloonPos.y - PLAYER_HEIGHT)
+		{
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.randing = true;
+			g_PlayerData.pos.y = airBalloonPos.y - PLAYER_HEIGHT;
+		}
+		else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.pos.y > airBalloonPos.y + AIRBALLOON_HEIGHT)
+		{
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.pos.y = airBalloonPos.y + AIRBALLOON_HEIGHT;
+		}
+	}
+	else
+	{
+		RideAirBalloon(airBalloonPos);
+	}
+}
+
+void RideAirBalloon(VECTOR airBalloonPos)
+{
+	g_PlayerData.pos = airBalloonPos;
+	g_PlayerData.move.x = 0.0f;
+	g_PlayerData.move.y = 0.0f;
+	g_PlayerData.ridingAirBalloon = true;
 }
 
 void CalcBoxCollision(PlayerData player, float& x, float& y, float& w, float& h)

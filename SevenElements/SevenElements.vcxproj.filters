@@ -144,6 +144,9 @@
     <ClCompile Include="Source\Gimmick\Tree.cpp">
       <Filter>Source\Gimmick</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Gimmick\AirBalloon.cpp">
+      <Filter>Source\Gimmick</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -237,6 +240,9 @@
       <Filter>Source\Gimmick</Filter>
     </ClInclude>
     <ClInclude Include="Source\Gimmick\Tree.h">
+      <Filter>Source\Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Gimmick\AirBalloon.h">
       <Filter>Source\Gimmick</Filter>
     </ClInclude>
   </ItemGroup>

@@ -85,12 +85,7 @@ void Fire::Spawn(float posX, float posY, bool isTurn)
 	}
 }
 
-void Fire::FireHitIron()
-{
-	active = false;
-}
-
-void Fire::FireHitWater()
+void Fire::FireDelete()
 {
 	active = false;
 }

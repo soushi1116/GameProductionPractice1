@@ -21,15 +21,7 @@ Wind wind       [WIND_MAX];
 
 void InitElementsManager()
 {
-	for (int i = 0; i < IRON_MAX; i++)
-	{
-		if (!iron[i].IsActive())
-		{
-			iron[i].Spawn(400.0f, 0.0f, false);
-
-			break;
-		}
-	}
+	
 }
 
 void LoadElementsManager()
@@ -330,14 +322,9 @@ void GroundHitBlock(int indexA, int indexB)
 	ground[indexA].GroundHitBlock(indexB);
 }
 
-void FireHitIron(int index)
+void FireDelete(int index)
 {
-	fire[index].FireHitIron();
-}
-
-void FireHitWater(int index)
-{
-	fire[index].FireHitWater();
+	fire[index].FireDelete();
 }
 
 void WaterHitWater(int indexA, int indexB)
