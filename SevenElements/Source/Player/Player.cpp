@@ -224,11 +224,6 @@ void StepPlayer()
 		{
 			g_PlayerData.move.x = PLAYER_MOVE_SPEED;
 		}
-
-		if (g_PlayerData.ridingAirBalloon)
-		{
-			g_PlayerData.ridingAirBalloon = false;
-		}
 	}
 	else if (IsInputKey(KEY_LEFT) || IsInputPad(PAD_LEFT))
 	{
@@ -245,12 +240,7 @@ void StepPlayer()
 		else
 		{
 			g_PlayerData.move.x = -PLAYER_MOVE_SPEED;
-		}
-
-		if (g_PlayerData.ridingAirBalloon)
-		{
-			g_PlayerData.ridingAirBalloon = false;
-		}
+		}	
 	}
 	else
 	{
@@ -269,6 +259,23 @@ void StepPlayer()
 		g_PlayerData.runRight = false;
 		g_PlayerData.runLeft = false;
 		g_PlayerData.runTimer = 0;
+	}
+
+	if (IsTriggerKey(KEY_RIGHT) || IsTriggerPad(PAD_RIGHT))
+	{
+		if (g_PlayerData.ridingAirBalloon)
+		{
+			g_PlayerData.pos.x += AIRBALLOON_WIDTH;
+			g_PlayerData.ridingAirBalloon = false;
+		}
+	}
+	if (IsTriggerKey(KEY_LEFT) || IsTriggerPad(PAD_LEFT))
+	{
+		if (g_PlayerData.ridingAirBalloon)
+		{
+			g_PlayerData.pos.x -= AIRBALLOON_WIDTH;
+			g_PlayerData.ridingAirBalloon = false;
+		}
 	}
 
 	if (IsReleaseKey(KEY_RIGHT) || IsReleasePad(PAD_RIGHT))
