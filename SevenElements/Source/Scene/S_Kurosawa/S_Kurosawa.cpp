@@ -9,6 +9,7 @@
 #include "../../Collision/Collision.h"
 #include "../../Map/Block.h"
 #include "../../Map/MapParameter.h"
+#include "../../Gimmick/GimmickManager.h"
 
 KurosawaData g_KurosawaData = { 0 };
 
@@ -16,6 +17,8 @@ KurosawaData g_KurosawaData = { 0 };
 #define TEXTPOS_Y (0)
 #define BLOCK_NUM_MAX (32)
 #define MAP_POS_Y (800)
+#define GIMMICK_TREE_POS_X (300)
+#define GIMMICK_TREE_POS_Y (500)
 
 void InitKuroScene()
 {
@@ -24,6 +27,8 @@ void InitKuroScene()
 	InitAnimationEffect();
 
 	InitElementsManager();
+
+	InitGimmickManager();
 
 	g_KurosawaData.textHandle = 0;
 
@@ -38,6 +43,8 @@ void LoadKuroScene()
 
 	LoadElementsManager();
 
+	LoadGimmickManager();
+
 	g_KurosawaData.textHandle = LoadGraph("Data/Player/SceneForKurosawa.png");
 
 	LoadMap();
@@ -49,6 +56,8 @@ void StartKuroScene()
 
 	StartElementsManager();
 
+	StartGimmickManager();
+
 	StartMap();
 
 	for (int i = 0; i < BLOCK_NUM_MAX; i++)
@@ -59,6 +68,8 @@ void StartKuroScene()
 	}
 
 	CreateBlock(NORMAL_BLOCK, VGet(MAP_CHIP_WIDTH, MAP_POS_Y - MAP_CHIP_HEIGHT, 0.0f));
+
+	SpawnGimmick(GIMMICK_TREE_POS_X, GIMMICK_TREE_POS_Y, GIMMICK_TYPE_TREE);
 }
 
 void StepKuroScene()
@@ -68,6 +79,8 @@ void StepKuroScene()
 	StepAnimationEffect();
 
 	StepElementsManager();
+
+	StepGimmickManager();
 
 	if (IsTriggerKey(KEY_K))
 	{
@@ -83,6 +96,8 @@ void UpdateKuroScene()
 
 	UpdateElementsManager();
 
+	UpdateGimmickManager();
+
 	CheckCollision();
 }
 
@@ -90,13 +105,15 @@ void DrawKuroScene()
 {
 	DrawMap();
 
-	DrawPlayer();
-
 	DrawAnimationEffect();
 
 	DrawElementsManager();
 
+	DrawGimmickManager();
+
 	DrawGraph(TEXTPOS_X, TEXTPOS_Y, g_KurosawaData.textHandle, TRUE);
+
+	DrawPlayer();
 }
 
 void FinKuroScene()
@@ -108,6 +125,8 @@ void FinKuroScene()
 	FinAnimationEffect();
 
 	FinElementsManager();
+
+	FinGimmickManager();
 
 	DeleteGraph(g_KurosawaData.textHandle);
 }

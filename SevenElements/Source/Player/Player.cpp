@@ -606,7 +606,10 @@ void PlayerHitWater(int index)
 	else
 	{
 		g_PlayerData.inWater = true;
-		g_PlayerData.move.y -= PLAYER_WATER_BUOYANCY;
+		if (g_PlayerData.move.y > 1.0f)
+		{
+			g_PlayerData.move.y -= PLAYER_WATER_BUOYANCY;
+		}
 	}
 }
 

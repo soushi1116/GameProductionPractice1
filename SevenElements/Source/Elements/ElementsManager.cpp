@@ -340,6 +340,22 @@ void FireHitWater(int index)
 	fire[index].FireHitWater();
 }
 
+void WaterHitWater(int indexA, int indexB)
+{
+	int waterAPosY = water[indexA].GetPos().y;
+	int waterBPosY = water[indexB].GetPos().y;
+
+	if (waterAPosY < waterBPosY)
+	{
+		water[indexA].WaterHitWater(indexA, indexB, waterBPosY);
+	}
+	else if (waterAPosY > waterBPosY)
+	{
+		water[indexB].WaterHitWater(indexA, indexB, waterAPosY);
+	}
+	
+}
+
 void WaterHitFire(int index)
 {
 	water[index].WaterHitFire();

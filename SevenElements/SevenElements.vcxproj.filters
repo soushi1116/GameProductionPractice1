@@ -138,6 +138,12 @@
     <ClCompile Include="Source\Collision\Collision.cpp">
       <Filter>Source\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Gimmick\GimmickManager.cpp">
+      <Filter>Source\Gimmick</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Gimmick\Tree.cpp">
+      <Filter>Source\Gimmick</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -226,6 +232,12 @@
     </ClInclude>
     <ClInclude Include="Source\Collision\Collision.h">
       <Filter>Source\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Gimmick\GimmickManager.h">
+      <Filter>Source\Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Gimmick\Tree.h">
+      <Filter>Source\Gimmick</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

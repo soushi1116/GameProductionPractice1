@@ -24,6 +24,7 @@ Water::Water()
 	m_IsTurn = false;
 	m_IsAir = false;
 	m_Freeze = false;
+	m_IsTop = false;
 
 	m_AnimTimer = 0;
 
@@ -151,6 +152,7 @@ void Water::Spawn(float posX, float posY, bool isTurn)
 		m_IsTurn = isTurn;
 
 		m_IsAir = false;
+		m_IsTop = true;
 	}
 	
 }
@@ -190,6 +192,13 @@ void Water::UpdateWaterAnimation()
 		}
 	}
 }
+
+void Water::WaterHitWater(int indexA, int indexB, float posY)
+{
+	move.y = 0.0f;
+	pos.y = posY - WATER_HEIGHT;
+}
+
 
 void Water::WaterHitIce()
 {

@@ -35,6 +35,7 @@ public:
 	void StartWaterAnimation(WaterAnimationType anim);
 	void UpdateWaterAnimation();
 
+	void WaterHitWater(int indexA, int indexB, float posY);
 	void WaterHitIce();
 	void WaterHitFire();
 	void WaterHitBlock(int index);
@@ -47,6 +48,7 @@ public:
 protected:
 	bool m_IsAir;
 	bool m_Freeze;
+	bool m_IsTop;
 	int m_AnimTimer;
 	AnimationData animation[WATER_ANIM_MAX];
 	WaterAnimationType waterAnim;

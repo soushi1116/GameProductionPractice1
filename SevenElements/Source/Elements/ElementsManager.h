@@ -32,6 +32,8 @@ void FireHitIron(int index);
 
 void FireHitWater(int index);
 
+void WaterHitWater(int indexA, int indexB);
+
 void WaterHitFire(int index);
 
 void WaterHitIce(int index);
