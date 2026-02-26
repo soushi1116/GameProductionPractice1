@@ -57,6 +57,8 @@ void StartKuroScene()
 
 		CreateBlock(NORMAL_BLOCK, pos);
 	}
+
+	CreateBlock(NORMAL_BLOCK, VGet(MAP_CHIP_WIDTH, MAP_POS_Y - MAP_CHIP_HEIGHT, 0.0f));
 }
 
 void StepKuroScene()

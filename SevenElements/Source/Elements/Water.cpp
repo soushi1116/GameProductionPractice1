@@ -196,6 +196,11 @@ void Water::WaterHitIce()
 	m_Freeze = true;
 }
 
+void Water::WaterHitFire()
+{
+	m_Freeze = false;
+}
+
 void Water::WaterHitBlock(int index)
 {
 	BlockData* block = GetBlocks();
@@ -208,7 +213,15 @@ void Water::WaterHitBlock(int index)
 	{
 		if (i != index) continue;
 
-		pos.y = block->pos.y - WATER_HEIGHT;
+		if (pos.y > block->pos.y)
+		{
+			move.x = 0.0f;
+			pos.x = block->pos.x + MAP_CHIP_WIDTH;
+		}
+		else
+		{
+			pos.y = block->pos.y - WATER_HEIGHT;
+		}
 	}
 }
 
@@ -220,4 +233,9 @@ VECTOR Water::GetPos()
 const bool Water::IsActive()
 {
 	return active;
+}
+
+const bool Water::IsFreeze()
+{
+	return m_Freeze;
 }

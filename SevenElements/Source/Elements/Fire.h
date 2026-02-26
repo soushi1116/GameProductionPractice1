@@ -23,6 +23,8 @@ public:
 
 	void FireHitIron();
 
+	void FireHitWater();
+
 	const bool IsActive();
 
 	VECTOR GetPos();

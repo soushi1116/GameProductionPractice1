@@ -38,6 +38,7 @@ struct PlayerData
 	bool runLeft;
 	bool isTurn;
 	bool action;
+	bool inWater;
 
 	AnimationData animation[PLAYER_ANIM_MAX];
 	PlayerAnimationType playAnim;
@@ -63,3 +64,4 @@ void PlayerHitNormalBlockY(MapChipData mapChipData);
 void PlayerHitBlock(int index);
 
 void PlayerHitIron(int index);
+void PlayerHitWater(int index);

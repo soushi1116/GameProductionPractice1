@@ -244,6 +244,7 @@ VECTOR GetElementPos(int index, ElementType type)
 	case ELEMENT_TYPE_WIND:
 		break;
 	case ELEMENT_TYPE_GROUND:
+		pos = ground[index].GetPos();
 		break;
 	case ELEMENT_TYPE_ICE:
 		pos = ice[index].GetPos();
@@ -278,6 +279,7 @@ bool IsElementActive(int index, ElementType type)
 	case ELEMENT_TYPE_WIND:
 		break;
 	case ELEMENT_TYPE_GROUND:
+		active = ground[index].IsActive();
 		break;
 	case ELEMENT_TYPE_ICE:
 		active = ice[index].IsActive();
@@ -291,6 +293,11 @@ bool IsElementActive(int index, ElementType type)
 		break;
 	}
 	return active;
+}
+
+bool IsWaterFreeze(int index)
+{
+	return water[index].IsFreeze();
 }
 
 void IronHitIron(int indexA, int indexB)
@@ -318,9 +325,24 @@ void WaterHitBlock(int indexA, int indexB)
 	water[indexA].WaterHitBlock(indexB);
 }
 
+void GroundHitBlock(int indexA, int indexB)
+{
+	ground[indexA].GroundHitBlock(indexB);
+}
+
 void FireHitIron(int index)
 {
 	fire[index].FireHitIron();
+}
+
+void FireHitWater(int index)
+{
+	fire[index].FireHitWater();
+}
+
+void WaterHitFire(int index)
+{
+	water[index].WaterHitFire();
 }
 
 void WaterHitIce(int index)

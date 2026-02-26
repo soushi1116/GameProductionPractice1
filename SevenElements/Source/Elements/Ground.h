@@ -21,10 +21,12 @@ public:
 
 	void Spawn(float posX, float posY, bool isTurn);
 
+	void GroundHitBlock(int index);
+
 	const bool IsActive();
 
 	VECTOR GetPos();
 
 protected:
-
+	bool m_IsAir;
 };

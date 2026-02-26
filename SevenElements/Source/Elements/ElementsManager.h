@@ -18,12 +18,20 @@ VECTOR GetElementPos(int index, ElementType type);
 
 bool IsElementActive(int index, ElementType type);
 
+bool IsWaterFreeze(int index);
+
 void IronHitIron(int indexA, int indexB);
 
 void IronHitBlock(int indexA, int indexB);
 
 void WaterHitBlock(int indexA, int indexB);
 
+void GroundHitBlock(int indexA, int indexB);
+
 void FireHitIron(int index);
+
+void FireHitWater(int index);
+
+void WaterHitFire(int index);
 
 void WaterHitIce(int index);

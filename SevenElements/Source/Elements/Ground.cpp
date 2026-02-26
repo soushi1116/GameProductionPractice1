@@ -1,5 +1,6 @@
 #include "Ground.h"
 #include "../Effect/AnimationEffect.h"
+#include "../Map/Block.h"
 
 #define EFFECT_INTERVAL (1)
 #define GROUND_MOVE_SPEED (7.0f)
@@ -20,6 +21,7 @@ Ground::Ground()
 	move.y = 0.0f;
 
 	m_IsTurn = false;
+	m_IsAir = false;
 }
 
 Ground::~Ground()
@@ -46,24 +48,22 @@ void Ground::Step()
 			active = false;
 		}
 
-		if (pos.y >= GROUND_POS_Y_MIN)
-		{
-			move.x = 0;
-			move.y = 0;
-		}
 		else
 		{
-			if (!m_IsTurn)
+			if (m_IsAir)
 			{
-				move.x = GROUND_MOVE_SPEED;
+				if (!m_IsTurn)
+				{
+					move.x = GROUND_MOVE_SPEED;
+				}
+				else
+				{
+					move.x = -GROUND_MOVE_SPEED;
+				}
 			}
-			else
-			{
-				move.x = -GROUND_MOVE_SPEED;
-			}
-			move.y += GROUND_GRAVITY;
 		}
 
+		move.y += GROUND_GRAVITY;
 	}
 }
 
@@ -90,6 +90,8 @@ void Ground::Spawn(float posX, float posY, bool isTurn)
 	{
 		active = true;
 
+		m_IsAir = true;
+
 		if (!isTurn)
 		{
 			pos.x = posX;
@@ -106,6 +108,25 @@ void Ground::Spawn(float posX, float posY, bool isTurn)
 		m_IsTurn = isTurn;
 	}
 	
+}
+
+void Ground::GroundHitBlock(int index)
+{
+	BlockData* block = GetBlocks();
+
+	move.y = 0.0f;
+
+	for (int i = 0; i < BLOCK_MAX; i++, block++)
+	{
+		if (i != index) continue;
+
+		pos.y = block->pos.y - GROUND_HEIGHT;
+
+		m_IsAir = false;
+
+		move.x = 0;
+		move.y = 0;
+	}
 }
 
 VECTOR Ground::GetPos()

@@ -36,9 +36,11 @@ public:
 	void UpdateWaterAnimation();
 
 	void WaterHitIce();
+	void WaterHitFire();
 	void WaterHitBlock(int index);
 
 	const bool IsActive();
+	const bool IsFreeze();
 
 	VECTOR GetPos();
 

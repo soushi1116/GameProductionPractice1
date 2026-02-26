@@ -4,6 +4,7 @@
 #include "../Input/Input.h"
 #include "../Elements/ElementsManager.h"
 #include "../Elements/Iron.h"
+#include "../Elements/Water.h"
 #include "../Map/Block.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
@@ -19,6 +20,8 @@
 #define PLAYER_ANIM_INTERVAL (40)
 #define PLAYER_ACTION_FREEZE_TIME (20)
 #define PLAYER_MAP_COLLISION_OFFSET (0.05f)
+#define PLAYER_WATER_BUOYANCY (0.5f)
+#define PLAYER_WATER_COLLISION_OFFSET_Y (10)
 
 PlayerData g_PlayerData = { 0 };
 PlayerData g_PrevPlayerData = { 0 };
@@ -52,6 +55,7 @@ void InitPlayer()
 	g_PlayerData.runLeft = false;
 	g_PlayerData.isTurn = false;
 	g_PlayerData.action = false;
+	g_PlayerData.inWater = false;
 
 	g_PlayerData.playAnim = PLAYER_ANIM_NONE;
 }
@@ -125,8 +129,13 @@ void StepPlayer()
 
 	if (g_PlayerData.move.y < 0.0f || g_PlayerData.move.y > PLAYER_GRAVITY)
 	{
-		g_PlayerData.randing = false;
+		if (!g_PlayerData.inWater)
+		{
+			g_PlayerData.randing = false;
+		}
 	}
+
+	g_PlayerData.inWater = false;
 	
 	g_PlayerData.move.y += PLAYER_GRAVITY;	
 
@@ -518,7 +527,6 @@ void PlayerHitBlock(int index)
 		}
 
 		if (player.pos.y <= block->pos.y - PLAYER_HEIGHT)
-			//if (g_PlayerData.move.y > 0.0f)
 		{
 			g_PlayerData.move.y = 0.0f;
 			g_PlayerData.randing = true;
@@ -552,7 +560,6 @@ void PlayerHitIron(int index)
 	}
 
 	if (player.pos.y <= ironPos.y - PLAYER_HEIGHT)
-	//if (g_PlayerData.move.y > 0.0f)
 	{
 		g_PlayerData.move.y = 0.0f;
 		g_PlayerData.randing = true;
@@ -565,6 +572,43 @@ void PlayerHitIron(int index)
 	}
 }
 
+void PlayerHitWater(int index)
+{
+	PlayerData player = GetPlayer();
+	VECTOR waterPos = GetElementPos(index, ELEMENT_TYPE_WATER);
+	bool waterFreeze = IsWaterFreeze(index);
+
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	player.pos.x = g_PlayerData.pos.x;
+	player.pos.y = g_PrevPlayerData.pos.y;
+
+	g_PlayerData.randing = true;
+
+	if (waterFreeze)
+	{
+		if (player.move.x > 0.0f && player.pos.y + PLAYER_HEIGHT > waterPos.y)
+		{
+			g_PlayerData.pos.x = waterPos.x - PLAYER_WIDTH;
+		}
+		else if (player.move.x < 0.0f && player.pos.y + PLAYER_HEIGHT > waterPos.y)
+		{
+			g_PlayerData.pos.x = waterPos.x + WATER_WIDTH;
+		}
+
+		if (player.pos.y <= waterPos.y - PLAYER_HEIGHT)
+		{
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.randing = true;
+			g_PlayerData.pos.y = waterPos.y - PLAYER_HEIGHT;
+		}
+	}
+	else
+	{
+		g_PlayerData.inWater = true;
+		g_PlayerData.move.y -= PLAYER_WATER_BUOYANCY;
+	}
+}
 
 void CalcBoxCollision(PlayerData player, float& x, float& y, float& w, float& h)
 {

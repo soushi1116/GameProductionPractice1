@@ -90,6 +90,11 @@ void Fire::FireHitIron()
 	active = false;
 }
 
+void Fire::FireHitWater()
+{
+	active = false;
+}
+
 VECTOR Fire::GetPos()
 {
 	return VGet(pos.x, pos.y, 0.0f);
