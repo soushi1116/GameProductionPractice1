@@ -21,11 +21,7 @@ public:
 
 	void Spawn(float posX, float posY, bool isTurn);
 
-	void FireDelete();
-
-	const bool IsActive();
-
-	VECTOR GetPos();
+	bool IsActive() { return active;  }
 
 protected:
 

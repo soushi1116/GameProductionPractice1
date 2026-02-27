@@ -1,9 +1,44 @@
 #include "Block.h"
 #include "../Camera/Camera.h"
+#include "MapChip.h"
+#include <fstream>
+#include <sstream>
+#include <string>
+#define MAP_WIDTH   10      
+#define MAP_HEIGHT  5       
+#define CHIP_SIZE   64 
+int mapData[MAP_HEIGHT][MAP_WIDTH];
 
 BlockData g_Blocks[BLOCK_MAX] = { 0 };
 int g_BlockHandle[BLOCK_TYPE_MAX] = { 0 };
 
+void LoadMapCSV(const char* filename)
+{
+	std::ifstream file(filename);
+
+	if (!file.is_open())
+		return;
+
+	std::string line;
+	int y = 0;
+
+	while (std::getline(file, line) && y < MAP_HEIGHT)
+	{
+		std::stringstream ss(line);
+		std::string value;
+		int x = 0;
+
+		while (std::getline(ss, value, ',') && x < MAP_WIDTH)
+		{
+			mapData[y][x] = atoi(value.c_str());
+			x++;
+		}
+
+		y++;
+	}
+
+	file.close();
+}
 
 void InitBlock()
 {
@@ -23,10 +58,24 @@ void LoadBlock()
 
 void StartBlock()
 {
+	LoadMapCSV("Data/Map/map.csv");
+
+	for (int y = 0; y < MAP_HEIGHT; y++)
+	{
+		for (int x = 0; x < MAP_WIDTH; x++)
+		{
+			if (mapData[y][x] == 1)
+			{
+				VECTOR pos = VGet(x * CHIP_SIZE, y * CHIP_SIZE, 0.0f);
+				CreateBlock(NORMAL_BLOCK, pos);
+			}
+		}
+	}
 }
 
 void StepBlock()
 {
+
 }
 
 void DrawBlock()

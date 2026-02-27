@@ -92,13 +92,3 @@ void Thunder::Spawn(float posX, float posY, bool isTurn)
 	}
 	
 }
-
-VECTOR Thunder::GetPos()
-{
-	return VGet(pos.x, pos.y, 0.0f);
-}
-
-const bool Thunder::IsActive()
-{
-	return active;
-}

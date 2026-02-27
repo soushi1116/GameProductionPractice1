@@ -21,7 +21,6 @@ Fire::Fire()
 
 Fire::~Fire()
 {
-	active = false;
 	DeleteGraph(handle);
 }
 
@@ -79,23 +78,9 @@ void Fire::Spawn(float posX, float posY, bool isTurn)
 		active = true;
 
 		pos.x = posX - FIRE_WIDTH / 2;
-		pos.y = posY - FIRE_HEIGHT;
+		pos.y = posY;
 
 		m_IsTurn = isTurn;
 	}
-}
 
-void Fire::FireDelete()
-{
-	active = false;
-}
-
-VECTOR Fire::GetPos()
-{
-	return VGet(pos.x, pos.y, 0.0f);
-}
-
-const bool Fire::IsActive()
-{
-	return active;
 }

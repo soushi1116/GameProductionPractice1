@@ -21,7 +21,7 @@ public:
 
 	void Spawn(float posX, float posY, bool isTurn);
 
-	void IronHitBlock(int index);
+	void IronHitFloor();
 	void IronHitIron(int indexA, int indexB, float posY);
 
 	const bool IsActive();

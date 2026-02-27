@@ -4,17 +4,12 @@
 #include "../Input/Input.h"
 #include "../Elements/ElementsManager.h"
 #include "../Elements/Iron.h"
-#include "../Elements/Water.h"
-#include "../Gimmick/GimmickManager.h"
-#include "../Gimmick/Tree.h"
-#include "../Gimmick/AirBalloon.h"
-#include "../Gimmick/WoodBlock.h"
-#include "../Map/Block.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
 #define PLAYER_RUN_SPEED (7.0f)
 #define PLAYER_DEFAULT_POS_X (800)
 #define PLAYER_DEFAULT_POS_Y (450)
+#define PLAYER_POS_Y_MIN (800)
 #define PLAYER_GRAVITY (0.5f)
 #define PLAYER_JUMP_POWER (15.0f)
 #define PLAYER_DEFAULT_LEVEL (8)
@@ -24,8 +19,6 @@
 #define PLAYER_ANIM_INTERVAL (40)
 #define PLAYER_ACTION_FREEZE_TIME (20)
 #define PLAYER_MAP_COLLISION_OFFSET (0.05f)
-#define PLAYER_WATER_BUOYANCY (0.5f)
-#define PLAYER_WATER_COLLISION_OFFSET_Y (10)
 
 PlayerData g_PlayerData = { 0 };
 PlayerData g_PrevPlayerData = { 0 };
@@ -36,8 +29,8 @@ void CalcBoxCollision(PlayerData player, float& x, float& y, float& w, float& h)
 
 void InitPlayer()
 {
-	g_PlayerData.pos.x = 0.0f;
-	g_PlayerData.pos.y = 0.0f;
+	g_PlayerData.posX = 0.0f;
+	g_PlayerData.posY = 0.0f;
 
 	g_PlayerData.move.x = 0.0f;
 	g_PlayerData.move.y = 0.0f;
@@ -59,8 +52,6 @@ void InitPlayer()
 	g_PlayerData.runLeft = false;
 	g_PlayerData.isTurn = false;
 	g_PlayerData.action = false;
-	g_PlayerData.inWater = false;
-	g_PlayerData.ridingAirBalloon = false;
 
 	g_PlayerData.playAnim = PLAYER_ANIM_NONE;
 }
@@ -70,15 +61,13 @@ void LoadPlayer()
 	g_PlayerData.animation[PLAYER_ANIM_STOP].handle
 		= LoadGraph("Data/Player/Stop.png");
 	g_PlayerData.animation[PLAYER_ANIM_RUN_1].handle
-		= LoadGraph("Data/Player/Running_1.png");
+		= LoadGraph("Data/Player/Running-1.png");
 	g_PlayerData.animation[PLAYER_ANIM_RUN_2].handle
-		= LoadGraph("Data/Player/Running_2.png");
+		= LoadGraph("Data/Player/Running-2.png");
 	g_PlayerData.animation[PLAYER_ANIM_RUN_3].handle
-		= LoadGraph("Data/Player/Running_3.png");
+		= LoadGraph("Data/Player/Running-3.png");
 	g_PlayerData.animation[PLAYER_ANIM_JUMP].handle
 		= LoadGraph("Data/Player/Jump.png");
-	g_PlayerData.animation[PLAYER_ANIM_FALL].handle
-		= LoadGraph("Data/Player/Fall.png");
 	g_PlayerData.animation[PLAYER_ANIM_ACTION].handle
 		= LoadGraph("Data/Player/Action.png");
 
@@ -119,8 +108,8 @@ void LoadPlayer()
 void StartPlayer()
 {
 	g_PlayerData.active = true;
-	g_PlayerData.pos.x = PLAYER_DEFAULT_POS_X;
-	g_PlayerData.pos.y = PLAYER_DEFAULT_POS_Y;
+	g_PlayerData.posX = PLAYER_DEFAULT_POS_X;
+	g_PlayerData.posY = PLAYER_DEFAULT_POS_Y;
 	g_PlayerData.level = PLAYER_DEFAULT_LEVEL;
 
 	StartPlayerAnimation(PLAYER_ANIM_STOP);
@@ -134,15 +123,15 @@ void StepPlayer()
 
 	if (g_PlayerData.move.y < 0.0f || g_PlayerData.move.y > PLAYER_GRAVITY)
 	{
-		if (!g_PlayerData.inWater)
-		{
-			g_PlayerData.randing = false;
-		}
+		g_PlayerData.randing = false;
 	}
-
-	g_PlayerData.inWater = false;
 	
 	g_PlayerData.move.y += PLAYER_GRAVITY;	
+
+	if (g_PlayerData.posY + PLAYER_HEIGHT > PLAYER_POS_Y_MIN)
+	{
+		PlayerHitFloor();
+	}
 
 	if (IsTriggerKey(KEY_X) || IsTriggerPad(PAD_Y))
 	{
@@ -152,8 +141,8 @@ void StepPlayer()
 
 		g_PlayerData.animTimer = 0;
 
-		float playerCenterX = g_PlayerData.pos.x + PLAYER_WIDTH / 2;
-		float playerCenterY = g_PlayerData.pos.y + PLAYER_HEIGHT / 2;
+		float playerCenterX = g_PlayerData.posX + PLAYER_WIDTH / 2;
+		float playerCenterY = g_PlayerData.posY + PLAYER_HEIGHT / 2;
 
 		switch (g_PlayerData.selectState)
 		{
@@ -241,7 +230,7 @@ void StepPlayer()
 		else
 		{
 			g_PlayerData.move.x = -PLAYER_MOVE_SPEED;
-		}	
+		}
 	}
 	else
 	{
@@ -260,23 +249,6 @@ void StepPlayer()
 		g_PlayerData.runRight = false;
 		g_PlayerData.runLeft = false;
 		g_PlayerData.runTimer = 0;
-	}
-
-	if (IsTriggerKey(KEY_RIGHT) || IsTriggerPad(PAD_RIGHT))
-	{
-		if (g_PlayerData.ridingAirBalloon)
-		{
-			g_PlayerData.pos.x += AIRBALLOON_WIDTH;
-			g_PlayerData.ridingAirBalloon = false;
-		}
-	}
-	if (IsTriggerKey(KEY_LEFT) || IsTriggerPad(PAD_LEFT))
-	{
-		if (g_PlayerData.ridingAirBalloon)
-		{
-			g_PlayerData.pos.x -= AIRBALLOON_WIDTH;
-			g_PlayerData.ridingAirBalloon = false;
-		}
 	}
 
 	if (IsReleaseKey(KEY_RIGHT) || IsReleasePad(PAD_RIGHT))
@@ -340,8 +312,8 @@ void UpdatePlayer()
 {
 	if (!g_PlayerData.active) return;
 
-	g_PlayerData.pos.x += g_PlayerData.move.x;
-	g_PlayerData.pos.y += g_PlayerData.move.y;
+	g_PlayerData.posX += g_PlayerData.move.x;
+	g_PlayerData.posY += g_PlayerData.move.y;
 
 	if (g_PlayerData.animTimer > PLAYER_ANIM_INTERVAL)
 	{
@@ -360,23 +332,21 @@ void DrawPlayer()
 {
 	if (!g_PlayerData.active) return;
 
-	if (g_PlayerData.ridingAirBalloon) return;
-
 	PlayerAnimationType animType = g_PlayerData.playAnim;
 	AnimationData* animData = &g_PlayerData.animation[animType];
 	if (!g_PlayerData.isTurn)
 	{
-		DrawAnimation(animData, g_PlayerData.pos.x, g_PlayerData.pos.y);
+		DrawAnimation(animData, g_PlayerData.posX, g_PlayerData.posY);
 	}
 	else
 	{
-		DrawTurnAnimation(animData, g_PlayerData.pos.x, g_PlayerData.pos.y);
+		DrawTurnAnimation(animData, g_PlayerData.posX, g_PlayerData.posY);
 	}
 
 	if (g_PlayerData.selectElements)
 	{
-		int playerCenterX = (int)g_PlayerData.pos.x + PLAYER_WIDTH / 2;
-		int playerCenterY = (int)g_PlayerData.pos.y + PLAYER_HEIGHT / 2;
+		int playerCenterX = (int)g_PlayerData.posX + PLAYER_WIDTH / 2;
+		int playerCenterY = (int)g_PlayerData.posY + PLAYER_HEIGHT / 2;
 
 		int textRotation = sinf(DX_PI_F);
 
@@ -421,7 +391,7 @@ void StartPlayerAnimation(PlayerAnimationType anim)
 
 	AnimationData* animData = &g_PlayerData.animation[anim];
 
-	StartAnimation(animData, g_PlayerData.pos.x, g_PlayerData.pos.y);
+	StartAnimation(animData, g_PlayerData.posX, g_PlayerData.posY);
 }
 
 void UpdatePlayerAnimation()
@@ -434,14 +404,7 @@ void UpdatePlayerAnimation()
 	}
 	else if (!g_PlayerData.randing)
 	{
-		if (g_PlayerData.move.y <= 0.0f)
-		{
-			StartPlayerAnimation(PLAYER_ANIM_JUMP);
-		}
-		else
-		{
-			StartPlayerAnimation(PLAYER_ANIM_FALL);
-		}
+		StartPlayerAnimation(PLAYER_ANIM_JUMP);
 	}
 	else if (IsInputKey(KEY_RIGHT) || IsInputKey(KEY_LEFT) || IsInputPad(PAD_RIGHT) || IsInputPad(PAD_LEFT))
 	{
@@ -477,8 +440,8 @@ void PlayerHitNormalBlockX(MapChipData mapChipData)
 
 	player.isTurn = g_PrevPlayerData.isTurn;
 
-	player.pos.x = g_PlayerData.pos.x;
-	player.pos.y = g_PrevPlayerData.pos.y;
+	player.posX = g_PlayerData.posX;
+	player.posY = g_PrevPlayerData.posY;
 
 	float x, y, w, h;
 	CalcBoxCollision(player, x, y, w, h);
@@ -488,11 +451,11 @@ void PlayerHitNormalBlockX(MapChipData mapChipData)
 	{
 		if (player.move.x > 0.0f)
 		{
-			g_PlayerData.pos.x -= (x + w) - block->pos.x;
+			g_PlayerData.posX -= (x + w) - block->pos.x;
 		}
 		else if (player.move.x < 0.0f)
 		{
-			g_PlayerData.pos.y += (block->pos.x + MAP_CHIP_WIDTH) - x;
+			g_PlayerData.posX += (block->pos.x + MAP_CHIP_WIDTH) - x;
 		}
 	}
 }
@@ -517,49 +480,12 @@ void PlayerHitNormalBlockY(MapChipData mapChipData)
 
 		if (player.move.y > 0.0f)
 		{
-			g_PlayerData.pos.y -= (y + h) - block->pos.y;
+			g_PlayerData.posY -= (y + h) - block->pos.y;
 			g_PlayerData.randing = true;
 		}
 		else if (player.move.y < 0.0f)
 		{
-			g_PlayerData.pos.y += (block->pos.y + MAP_CHIP_HEIGHT) - y;
-		}
-	}
-}
-
-void PlayerHitBlock(int index)
-{
-	PlayerData player = GetPlayer();
-	BlockData* block = GetBlocks();
-
-	player.isTurn = g_PrevPlayerData.isTurn;
-
-	player.pos.x = g_PlayerData.pos.x;
-	player.pos.y = g_PrevPlayerData.pos.y;
-
-	for (int i = 0; i < BLOCK_MAX; i++, block++)
-	{
-		if (i != index) continue;
-
-		if (player.move.x > 0.0f && player.pos.y + PLAYER_HEIGHT > block->pos.y)
-		{
-			g_PlayerData.pos.x = block->pos.x - PLAYER_WIDTH;
-		}
-		else if (player.move.x < 0.0f && player.pos.y + PLAYER_HEIGHT > block->pos.y)
-		{
-			g_PlayerData.pos.x = block->pos.x + MAP_CHIP_WIDTH;
-		}
-
-		if (player.pos.y <= block->pos.y - PLAYER_HEIGHT)
-		{
-			g_PlayerData.move.y = 0.0f;
-			g_PlayerData.randing = true;
-			g_PlayerData.pos.y = block->pos.y - PLAYER_HEIGHT;
-		}
-		else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.pos.y > block->pos.y + MAP_CHIP_HEIGHT)
-		{
-			g_PlayerData.move.y = 0.0f;
-			g_PlayerData.pos.y = block->pos.y + MAP_CHIP_HEIGHT;
+			g_PlayerData.posY += (block->pos.y + MAP_CHIP_HEIGHT) - y;
 		}
 	}
 }
@@ -567,193 +493,49 @@ void PlayerHitBlock(int index)
 void PlayerHitIron(int index)
 {
 	PlayerData player = GetPlayer();
-	VECTOR ironPos = GetElementPos(index, ELEMENT_TYPE_IRON);
+	VECTOR ironPos = GetIronPos(index);
 
 	player.isTurn = g_PrevPlayerData.isTurn;
 
-	player.pos.x = g_PlayerData.pos.x;
-	player.pos.y = g_PrevPlayerData.pos.y;
+	player.posX = g_PlayerData.posX;
+	player.posY = g_PrevPlayerData.posY;
 
-	if (player.move.x > 0.0f && player.pos.y + PLAYER_HEIGHT > ironPos.y)
+	if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > ironPos.y)
 	{
-		g_PlayerData.pos.x = ironPos.x - PLAYER_WIDTH;
+		g_PlayerData.posX = ironPos.x - PLAYER_WIDTH;
 	}
-	else if (player.move.x < 0.0f && player.pos.y + PLAYER_HEIGHT > ironPos.y)
+	else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > ironPos.y)
 	{
-		g_PlayerData.pos.x = ironPos.x + IRON_WIDTH;
+		g_PlayerData.posX = ironPos.x + IRON_WIDTH;
 	}
 
-	if (player.pos.y <= ironPos.y - PLAYER_HEIGHT)
+	if (player.posY <= ironPos.y - PLAYER_HEIGHT)
+	//if (g_PlayerData.move.y > 0.0f)
 	{
 		g_PlayerData.move.y = 0.0f;
 		g_PlayerData.randing = true;
-		g_PlayerData.pos.y = ironPos.y - PLAYER_HEIGHT;
+		g_PlayerData.posY = ironPos.y - PLAYER_HEIGHT;
 	}
-	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.pos.y > ironPos.y + IRON_HEIGHT)
+	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > ironPos.y + IRON_HEIGHT)
 	{
 		g_PlayerData.move.y = 0.0f;
-		g_PlayerData.pos.y = ironPos.y + IRON_HEIGHT;
+		g_PlayerData.posY = ironPos.y + IRON_HEIGHT;
 	}
 }
 
-void PlayerHitWater(int index)
+void PlayerHitFloor()
 {
-	PlayerData player = GetPlayer();
-	VECTOR waterPos = GetElementPos(index, ELEMENT_TYPE_WATER);
-	bool waterFreeze = IsWaterFreeze(index);
-
-	player.isTurn = g_PrevPlayerData.isTurn;
-
-	player.pos.x = g_PlayerData.pos.x;
-	player.pos.y = g_PrevPlayerData.pos.y;
-
+	g_PlayerData.posY = PLAYER_POS_Y_MIN - PLAYER_HEIGHT;
 	g_PlayerData.randing = true;
-
-	if (waterFreeze)
-	{
-		if (player.move.x > 0.0f && player.pos.y + PLAYER_HEIGHT > waterPos.y)
-		{
-			g_PlayerData.pos.x = waterPos.x - PLAYER_WIDTH;
-		}
-		else if (player.move.x < 0.0f && player.pos.y + PLAYER_HEIGHT > waterPos.y)
-		{
-			g_PlayerData.pos.x = waterPos.x + WATER_WIDTH;
-		}
-
-		if (player.pos.y <= waterPos.y - PLAYER_HEIGHT)
-		{
-			g_PlayerData.move.y = 0.0f;
-			g_PlayerData.randing = true;
-			g_PlayerData.pos.y = waterPos.y - PLAYER_HEIGHT;
-		}
-	}
-	else
-	{
-		g_PlayerData.inWater = true;
-		if (g_PlayerData.move.y > 1.0f)
-		{
-			g_PlayerData.move.y -= PLAYER_WATER_BUOYANCY;
-		}
-	}
-}
-
-void PlayerHitTree(int index)
-{
-	PlayerData player = GetPlayer();
-	VECTOR treePos = GetGimmickPos(index, GIMMICK_TYPE_TREE);
-
-	player.isTurn = g_PrevPlayerData.isTurn;
-
-	player.pos.x = g_PlayerData.pos.x;
-	player.pos.y = g_PrevPlayerData.pos.y;
-
-	if (player.move.x > 0.0f && player.pos.y + PLAYER_HEIGHT > treePos.y)
-	{
-		g_PlayerData.pos.x = treePos.x - PLAYER_WIDTH;
-	}
-	else if (player.move.x < 0.0f && player.pos.y + PLAYER_HEIGHT > treePos.y)
-	{
-		g_PlayerData.pos.x = treePos.x + TREE_WIDTH;
-	}
-
-	if (player.pos.y <= treePos.y - PLAYER_HEIGHT)
-	{
-		g_PlayerData.move.y = 0.0f;
-		g_PlayerData.randing = true;
-		g_PlayerData.pos.y = treePos.y - PLAYER_HEIGHT;
-	}
-	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.pos.y > treePos.y + TREE_HEIGHT)
-	{
-		g_PlayerData.move.y = 0.0f;
-		g_PlayerData.pos.y = treePos.y + TREE_HEIGHT;
-	}
-}
-
-void PlayerHitAirBalloon(int index)
-{
-	PlayerData player = GetPlayer();
-	VECTOR airBalloonPos = GetGimmickPos(index, GIMMICK_TYPE_AIRBALLOON);
-
-	player.isTurn = g_PrevPlayerData.isTurn;
-
-	player.pos.x = g_PlayerData.pos.x;
-	player.pos.y = g_PrevPlayerData.pos.y;
-
-	if (g_PlayerData.randing)
-	{
-		if (player.move.x > 0.0f && player.pos.y + PLAYER_HEIGHT > airBalloonPos.y)
-		{
-			g_PlayerData.pos.x = airBalloonPos.x - PLAYER_WIDTH;
-		}
-		else if (player.move.x < 0.0f && player.pos.y + PLAYER_HEIGHT > airBalloonPos.y)
-		{
-			g_PlayerData.pos.x = airBalloonPos.x + AIRBALLOON_WIDTH;
-		}
-
-		if (player.pos.y <= airBalloonPos.y - PLAYER_HEIGHT)
-		{
-			g_PlayerData.move.y = 0.0f;
-			g_PlayerData.randing = true;
-			g_PlayerData.pos.y = airBalloonPos.y - PLAYER_HEIGHT;
-		}
-		else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.pos.y > airBalloonPos.y + AIRBALLOON_HEIGHT)
-		{
-			g_PlayerData.move.y = 0.0f;
-			g_PlayerData.pos.y = airBalloonPos.y + AIRBALLOON_HEIGHT;
-		}
-	}
-	else
-	{
-		RideAirBalloon(airBalloonPos);
-	}
-}
-
-void PlayerHitWoodBlock(int index)
-{
-	PlayerData player = GetPlayer();
-	VECTOR woodBlockPos = GetGimmickPos(index, GIMMICK_TYPE_WOODBLOCK);
-
-	player.isTurn = g_PrevPlayerData.isTurn;
-
-	player.pos.x = g_PlayerData.pos.x;
-	player.pos.y = g_PrevPlayerData.pos.y;
-
-	if (player.move.x > 0.0f && player.pos.y + PLAYER_HEIGHT > woodBlockPos.y)
-	{
-		g_PlayerData.pos.x = woodBlockPos.x - PLAYER_WIDTH;
-	}
-	else if (player.move.x < 0.0f && player.pos.y + PLAYER_HEIGHT > woodBlockPos.y)
-	{
-		g_PlayerData.pos.x = woodBlockPos.x + WOODBLOCK_WIDTH;
-	}
-
-	if (player.pos.y <= woodBlockPos.y - PLAYER_HEIGHT)
-	{
-		g_PlayerData.move.y = 0.0f;
-		g_PlayerData.randing = true;
-		g_PlayerData.pos.y = woodBlockPos.y - PLAYER_HEIGHT;
-	}
-	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.pos.y > woodBlockPos.y + WOODBLOCK_HEIGHT)
-	{
-		g_PlayerData.move.y = 0.0f;
-		g_PlayerData.pos.y = woodBlockPos.y + WOODBLOCK_HEIGHT;
-	}
-}
-
-void RideAirBalloon(VECTOR airBalloonPos)
-{
-	g_PlayerData.pos = airBalloonPos;
-	g_PlayerData.move.x = 0.0f;
 	g_PlayerData.move.y = 0.0f;
-	g_PlayerData.ridingAirBalloon = true;
 }
 
 void CalcBoxCollision(PlayerData player, float& x, float& y, float& w, float& h)
 {
 	x = player.isTurn ?
-		player.pos.x + PLAYER_WIDTH - player.boxCollision.posX - player.boxCollision.width :
-		player.pos.x + player.boxCollision.posY;
-	y = player.pos.y + player.boxCollision.posY;
+		player.posX + PLAYER_WIDTH - player.boxCollision.posX - player.boxCollision.width :
+		player.posX + player.boxCollision.posY;
+	y = player.posY + player.boxCollision.posY;
 	w = player.boxCollision.width;
 	h = player.boxCollision.height;
 }

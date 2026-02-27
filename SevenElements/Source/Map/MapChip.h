@@ -1,5 +1,4 @@
 #pragma once
-
 #include "MapParameter.h"
 
 void LoadMapChipData();

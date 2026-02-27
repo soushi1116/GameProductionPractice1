@@ -7,22 +7,22 @@
 #include "../../Elements/ElementsManager.h"
 #include "../../Map/MapManager.h"
 #include "../../Collision/Collision.h"
-#include "../../Map/Block.h"
-#include "../../Map/MapParameter.h"
-#include "../../Gimmick/GimmickManager.h"
 
 KurosawaData g_KurosawaData = { 0 };
 
 #define TEXTPOS_X (200)
 #define TEXTPOS_Y (0)
+<<<<<<< HEAD
 #define BLOCK_NUM_MAX (32)
-#define MAP_POS_Y (800)
+#define MAP_POS_Y (700)
 #define GIMMICK_TREE_POS_X (300)
 #define GIMMICK_TREE_POS_Y (500)
 #define GIMMICK_AIRBALLOON_POS_X (1000)
 #define GIMMICK_AIRBALLOON_POS_Y (600)
 #define GIMMICK_WOODBLOCK_POS_X (300)
 #define GIMMICK_WOODBLOCK_POS_Y (750)
+=======
+>>>>>>> a0613ae3a66c5326738d75cefefc4c5b61859f0f
 
 void InitKuroScene()
 {
@@ -31,8 +31,6 @@ void InitKuroScene()
 	InitAnimationEffect();
 
 	InitElementsManager();
-
-	InitGimmickManager();
 
 	g_KurosawaData.textHandle = 0;
 
@@ -47,8 +45,6 @@ void LoadKuroScene()
 
 	LoadElementsManager();
 
-	LoadGimmickManager();
-
 	g_KurosawaData.textHandle = LoadGraph("Data/Player/SceneForKurosawa.png");
 
 	LoadMap();
@@ -60,24 +56,43 @@ void StartKuroScene()
 
 	StartElementsManager();
 
-	StartGimmickManager();
-
 	StartMap();
+<<<<<<< HEAD
 
 	for (int i = 0; i < BLOCK_NUM_MAX; i++)
 	{
-		VECTOR pos = VGet(MAP_CHIP_WIDTH * i, MAP_POS_Y, 0.0f);
+		VECTOR pos = VGet(0.0f, 0.0f, 0.0f);
+
+		if (i > 18 && i < 25)
+		{
+			pos = VGet(MAP_CHIP_WIDTH * i, MAP_POS_Y + MAP_CHIP_HEIGHT * 3, 0.0f);
+		}
+		else
+		{
+			pos = VGet(MAP_CHIP_WIDTH * i, MAP_POS_Y, 0.0f);
+		}
 
 		CreateBlock(NORMAL_BLOCK, pos);
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		VECTOR pos1 = VGet(MAP_CHIP_WIDTH * 18, MAP_POS_Y + MAP_CHIP_HEIGHT * (i + 1), 0.0f);
+		VECTOR pos2 = VGet(MAP_CHIP_WIDTH * 25, MAP_POS_Y + MAP_CHIP_HEIGHT * (i + 1), 0.0f);
+
+		CreateBlock(NORMAL_BLOCK, pos1);
+		CreateBlock(NORMAL_BLOCK, pos2);
 	}
 
 	CreateBlock(NORMAL_BLOCK, VGet(MAP_CHIP_WIDTH, MAP_POS_Y - MAP_CHIP_HEIGHT, 0.0f));
 
 	//SpawnGimmick(GIMMICK_TREE_POS_X, GIMMICK_TREE_POS_Y, GIMMICK_TYPE_TREE);
 
-	SpawnGimmick(GIMMICK_AIRBALLOON_POS_X, GIMMICK_AIRBALLOON_POS_Y, GIMMICK_TYPE_AIRBALLOON);
+	//SpawnGimmick(GIMMICK_AIRBALLOON_POS_X, GIMMICK_AIRBALLOON_POS_Y, GIMMICK_TYPE_AIRBALLOON);
 
-	SpawnGimmick(GIMMICK_WOODBLOCK_POS_X, GIMMICK_WOODBLOCK_POS_Y, GIMMICK_TYPE_WOODBLOCK);
+	//SpawnGimmick(GIMMICK_WOODBLOCK_POS_X, GIMMICK_WOODBLOCK_POS_Y, GIMMICK_TYPE_WOODBLOCK);
+=======
+>>>>>>> a0613ae3a66c5326738d75cefefc4c5b61859f0f
 }
 
 void StepKuroScene()
@@ -87,8 +102,6 @@ void StepKuroScene()
 	StepAnimationEffect();
 
 	StepElementsManager();
-
-	StepGimmickManager();
 
 	if (IsTriggerKey(KEY_K))
 	{
@@ -104,8 +117,6 @@ void UpdateKuroScene()
 
 	UpdateElementsManager();
 
-	UpdateGimmickManager();
-
 	CheckCollision();
 }
 
@@ -113,15 +124,13 @@ void DrawKuroScene()
 {
 	DrawMap();
 
+	DrawPlayer();
+
 	DrawAnimationEffect();
 
 	DrawElementsManager();
 
-	DrawGimmickManager();
-
 	DrawGraph(TEXTPOS_X, TEXTPOS_Y, g_KurosawaData.textHandle, TRUE);
-
-	DrawPlayer();
 }
 
 void FinKuroScene()
@@ -133,8 +142,6 @@ void FinKuroScene()
 	FinAnimationEffect();
 
 	FinElementsManager();
-
-	FinGimmickManager();
 
 	DeleteGraph(g_KurosawaData.textHandle);
 }

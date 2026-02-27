@@ -52,9 +52,6 @@
     <Filter Include="Source\Gimmick">
       <UniqueIdentifier>{2fbb6089-3ad0-4165-a85f-f12bc0683842}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Collision">
-      <UniqueIdentifier>{3d98a759-5888-428c-815d-08e7a97d024e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -132,9 +129,11 @@
     <ClCompile Include="Source\Camera\Camera.cpp">
       <Filter>Source\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Collision\Collision.cpp" />
     <ClCompile Include="Source\Gimmick\Gimmick.cpp">
       <Filter>Source\Gimmick</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Source\Collision\Collision.cpp">
       <Filter>Source\Collision</Filter>
     </ClCompile>
@@ -150,6 +149,11 @@
     <ClCompile Include="Source\Gimmick\WoodBlock.cpp">
       <Filter>Source\Gimmick</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Gimmick\WaterGimmick.cpp">
+      <Filter>Source\Gimmick</Filter>
+    </ClCompile>
+=======
+>>>>>>> a0613ae3a66c5326738d75cefefc4c5b61859f0f
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -233,9 +237,14 @@
     <ClInclude Include="Source\Camera\Camera.h">
       <Filter>Source\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Collision\Collision.h" />
+    <ClInclude Include="Source\Gimmick\GameDefine.h">
+      <Filter>Source\Gimmick</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Gimmick\Gimmick.h">
       <Filter>Source\Gimmick</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Source\Collision\Collision.h">
       <Filter>Source\Collision</Filter>
     </ClInclude>
@@ -251,5 +260,10 @@
     <ClInclude Include="Source\Gimmick\WoodBlock.h">
       <Filter>Source\Gimmick</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Gimmick\WaterGimmick.h">
+      <Filter>Source\Gimmick</Filter>
+    </ClInclude>
+=======
+>>>>>>> a0613ae3a66c5326738d75cefefc4c5b61859f0f
   </ItemGroup>
 </Project>
