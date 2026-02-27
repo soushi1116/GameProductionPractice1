@@ -21,8 +21,21 @@ public:
 
 	void Spawn(float posX, float posY, bool isTurn);
 
-	bool IsActive() { return active;  }
+	void WaterHitBlock(int index);
+
+	void WaterHitWater(int indexA, int indexB, int posY);
+
+	void WaterHitFire();
+
+	void WaterHitIce();
+
+	bool IsActive() { return active; }
+
+	bool IsFreeze() { return m_IsFreeze; }
+
+	VECTOR GetPos() { return pos; }
 
 protected:
 	bool m_IsAir;
+	bool m_IsFreeze;
 };

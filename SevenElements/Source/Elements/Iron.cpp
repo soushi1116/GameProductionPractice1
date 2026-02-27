@@ -1,5 +1,6 @@
 #include "Iron.h"
 #include "../Effect/AnimationEffect.h"
+#include "../Map/Block.h"
 
 #define EFFECT_INTERVAL (1)
 #define IRON_MOVE_SPEED (5.0f)
@@ -45,11 +46,6 @@ void Iron::Step()
 			active = false;
 		}
 
-		if (pos.y >= IRON_POS_Y_MIN - IRON_HEIGHT)
-		{
-			IronHitFloor();
-		}
-		
 		move.y += IRON_GRAVITY;
 	}
 }
@@ -92,21 +88,16 @@ void Iron::Spawn(float posX, float posY, bool isTurn)
 	
 }
 
-VECTOR Iron::GetPos()
+void Iron::IronHitBlock(int index)
 {
-	return VGet(pos.x, pos.y, 0.0f);
-}
+	BlockData* block = GetBlocks();
+	for (int i = 0; i < BLOCK_MAX; i++, block++)
+	{
+		if (i != index) continue;
 
-const bool Iron::IsActive()
-{ 
-	return active;
-}
-
-void Iron::IronHitFloor()
-{
-	pos.y = IRON_POS_Y_MIN - IRON_HEIGHT;
-	m_Randing = true;
-	move.y = 0.0f;
+		move.y = 0.0f;
+		pos.y = block->pos.y - MAP_CHIP_HEIGHT;
+	}
 }
 
 void Iron::IronHitIron(int indexA, int indexB, float posY)

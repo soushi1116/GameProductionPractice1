@@ -22,6 +22,13 @@ void FindSpawn(Attribute map[][MAP_W])
 			}
 		}
 	}
+
+	pos.x = 0.0f;
+	pos.y = 0.0f;
+
+	active = false;
+
+	handle = 0;
 }
 
 void InitGimmick()

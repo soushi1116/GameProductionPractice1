@@ -221,17 +221,79 @@ void Action(int posX, int posY, ElementType type, bool isTurn)
 	
 }
 
-VECTOR GetIronPos(int index)
+VECTOR GetElementPos(int index, ElementType type)
 {
-	float posX = 0.0f;
-	float posY = 0.0f;
-	VECTOR pos = iron[index].GetPos();
+	VECTOR pos = VGet(0.0f, 0.0f, 0.0f);
+
+	switch (type)
+	{
+	case ELEMENT_TYPE_NONE:
+		break;
+	case ELEMENT_TYPE_FIRE:
+		pos = fire[index].GetPos();
+		break;
+	case ELEMENT_TYPE_WATER:
+		pos = water[index].GetPos();
+		break;
+	case ELEMENT_TYPE_THUNDER:
+		break;
+	case ELEMENT_TYPE_WIND:
+		break;
+	case ELEMENT_TYPE_GROUND:
+		pos = ground[index].GetPos();
+		break;
+	case ELEMENT_TYPE_ICE:
+		pos = ice[index].GetPos();
+		break;
+	case ELEMENT_TYPE_IRON:
+		pos = iron[index].GetPos();
+		break;
+	case ELEMENT_TYPE_MAX:
+		break;
+	default:
+		break;
+	}
 	return pos;
 }
 
-bool IsIronActive(int index)
+bool IsElementActive(int index, ElementType type)
 {
-	return iron[index].IsActive();
+	bool active = false;
+
+	switch (type)
+	{
+	case ELEMENT_TYPE_NONE:
+		break;
+	case ELEMENT_TYPE_FIRE:
+		active = fire[index].IsActive();
+		break;
+	case ELEMENT_TYPE_WATER:
+		active = water[index].IsActive();
+		break;
+	case ELEMENT_TYPE_THUNDER:
+		break;
+	case ELEMENT_TYPE_WIND:
+		break;
+	case ELEMENT_TYPE_GROUND:
+		active = ground[index].IsActive();
+		break;
+	case ELEMENT_TYPE_ICE:
+		active = ice[index].IsActive();
+		break;
+	case ELEMENT_TYPE_IRON:
+		active = iron[index].IsActive();
+		break;
+	case ELEMENT_TYPE_MAX:
+		break;
+	default:
+		break;
+	}
+	return active;
+}
+
+bool IsWaterFreeze(int index)
+{
+	return water[index].IsFreeze();
 }
 
 void IronHitIron(int indexA, int indexB)
@@ -247,4 +309,54 @@ void IronHitIron(int indexA, int indexB)
 	{
 		iron[indexB].IronHitIron(indexA, indexB, ironAPosY);
 	}
+}
+
+void IronHitBlock(int indexA, int indexB)
+{
+	iron[indexA].IronHitBlock(indexB);
+}
+
+void WaterHitBlock(int indexA, int indexB)
+{
+	water[indexA].WaterHitBlock(indexB);
+}
+
+void GroundHitBlock(int indexA, int indexB)
+{
+	ground[indexA].GroundHitBlock(indexB);
+}
+
+void FireDelete(int index)
+{
+	fire[index].FireDelete();
+}
+
+void WindDelete(int index)
+{
+	wind[index].WindDelete();
+}
+
+void WaterHitWater(int indexA, int indexB)
+{
+	int waterAPosY = water[indexA].GetPos().y;
+	int waterBPosY = water[indexB].GetPos().y;
+
+	if (waterAPosY < waterBPosY)
+	{
+		water[indexA].WaterHitWater(indexA, indexB, waterBPosY);
+	}
+	else if (waterAPosY > waterBPosY)
+	{
+		water[indexB].WaterHitWater(indexA, indexB, waterAPosY);
+	}	
+}
+
+void WaterHitFire(int index)
+{
+	water[index].WaterHitFire();
+}
+
+void WaterHitIce(int index)
+{
+	water[index].WaterHitIce();
 }

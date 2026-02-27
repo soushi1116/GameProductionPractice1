@@ -21,8 +21,7 @@ enum PlayerAnimationType
 
 struct PlayerData
 {
-	float posX;
-	float posY;
+	VECTOR pos;
 	VECTOR move;
 
 	int playerHandle;
@@ -38,6 +37,7 @@ struct PlayerData
 	bool runLeft;
 	bool isTurn;
 	bool action;
+	bool ridingAirBalloon;
 
 	AnimationData animation[PLAYER_ANIM_MAX];
 	PlayerAnimationType playAnim;
@@ -60,5 +60,15 @@ void UpdatePlayerAnimation();
 void PlayerHitNormalBlockX(MapChipData mapChipData);
 void PlayerHitNormalBlockY(MapChipData mapChipData);
 
+void PlayerHitBlock(int index);
+
 void PlayerHitIron(int index);
-void PlayerHitFloor();
+
+void PlayerHitWater(int index);
+
+void PlayerHitTree(int index);
+void PlayerHitAirBalloon(int index);
+void PlayerHitWoodBlock(int index);
+
+void RideAirBalloon(VECTOR airBalloonPos);
+

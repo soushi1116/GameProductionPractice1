@@ -21,7 +21,12 @@ public:
 
 	void Spawn(float posX, float posY, bool isTurn);
 
-	bool IsActive() { return active;  }
+	void WindDelete() { active = false; }
+
+	bool IsActive() { return active; }
+
+	VECTOR GetPos() { return pos; }
+
 
 protected:
 

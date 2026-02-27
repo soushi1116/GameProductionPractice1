@@ -7,12 +7,12 @@
 #include "../../Elements/ElementsManager.h"
 #include "../../Map/MapManager.h"
 #include "../../Collision/Collision.h"
+#include "../../Gimmick/Gimmick.h"
 
 KurosawaData g_KurosawaData = { 0 };
 
 #define TEXTPOS_X (200)
 #define TEXTPOS_Y (0)
-<<<<<<< HEAD
 #define BLOCK_NUM_MAX (32)
 #define MAP_POS_Y (700)
 #define GIMMICK_TREE_POS_X (300)
@@ -21,8 +21,6 @@ KurosawaData g_KurosawaData = { 0 };
 #define GIMMICK_AIRBALLOON_POS_Y (600)
 #define GIMMICK_WOODBLOCK_POS_X (300)
 #define GIMMICK_WOODBLOCK_POS_Y (750)
-=======
->>>>>>> a0613ae3a66c5326738d75cefefc4c5b61859f0f
 
 void InitKuroScene()
 {
@@ -57,7 +55,6 @@ void StartKuroScene()
 	StartElementsManager();
 
 	StartMap();
-<<<<<<< HEAD
 
 	for (int i = 0; i < BLOCK_NUM_MAX; i++)
 	{
@@ -86,13 +83,12 @@ void StartKuroScene()
 
 	CreateBlock(NORMAL_BLOCK, VGet(MAP_CHIP_WIDTH, MAP_POS_Y - MAP_CHIP_HEIGHT, 0.0f));
 
-	//SpawnGimmick(GIMMICK_TREE_POS_X, GIMMICK_TREE_POS_Y, GIMMICK_TYPE_TREE);
+	SpawnGimmick(GIMMICK_TREE_POS_X, GIMMICK_TREE_POS_Y, GIMMICK_TYPE_TREE);
 
 	//SpawnGimmick(GIMMICK_AIRBALLOON_POS_X, GIMMICK_AIRBALLOON_POS_Y, GIMMICK_TYPE_AIRBALLOON);
 
 	//SpawnGimmick(GIMMICK_WOODBLOCK_POS_X, GIMMICK_WOODBLOCK_POS_Y, GIMMICK_TYPE_WOODBLOCK);
-=======
->>>>>>> a0613ae3a66c5326738d75cefefc4c5b61859f0f
+	SpawnGimmick(GIMMICK_AIRBALLOON_POS_X, GIMMICK_AIRBALLOON_POS_Y, GIMMICK_TYPE_AIRBALLOON);
 }
 
 void StepKuroScene()
