@@ -130,7 +130,7 @@
       <Filter>Source\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\Collision\Collision.cpp" />
-    <ClCompile Include="Gimmick.cpp">
+    <ClCompile Include="Source\Gimmick\Gimmick.cpp">
       <Filter>Source\Gimmick</Filter>
     </ClCompile>
   </ItemGroup>
@@ -217,10 +217,10 @@
       <Filter>Source\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Source\Collision\Collision.h" />
-    <ClInclude Include="Gimmick.h">
+    <ClInclude Include="Source\Gimmick\GameDefine.h">
       <Filter>Source\Gimmick</Filter>
     </ClInclude>
-    <ClInclude Include="GameDefine.h">
+    <ClInclude Include="Source\Gimmick\Gimmick.h">
       <Filter>Source\Gimmick</Filter>
     </ClInclude>
   </ItemGroup>
