@@ -8,6 +8,7 @@
 #include "../Gimmick/GimmickManager.h"
 #include "../Gimmick/Tree.h"
 #include "../Gimmick/AirBalloon.h"
+#include "../Gimmick/WoodBlock.h"
 #include "../Map/Block.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
@@ -704,6 +705,38 @@ void PlayerHitAirBalloon(int index)
 	else
 	{
 		RideAirBalloon(airBalloonPos);
+	}
+}
+
+void PlayerHitWoodBlock(int index)
+{
+	PlayerData player = GetPlayer();
+	VECTOR woodBlockPos = GetGimmickPos(index, GIMMICK_TYPE_WOODBLOCK);
+
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	player.pos.x = g_PlayerData.pos.x;
+	player.pos.y = g_PrevPlayerData.pos.y;
+
+	if (player.move.x > 0.0f && player.pos.y + PLAYER_HEIGHT > woodBlockPos.y)
+	{
+		g_PlayerData.pos.x = woodBlockPos.x - PLAYER_WIDTH;
+	}
+	else if (player.move.x < 0.0f && player.pos.y + PLAYER_HEIGHT > woodBlockPos.y)
+	{
+		g_PlayerData.pos.x = woodBlockPos.x + WOODBLOCK_WIDTH;
+	}
+
+	if (player.pos.y <= woodBlockPos.y - PLAYER_HEIGHT)
+	{
+		g_PlayerData.move.y = 0.0f;
+		g_PlayerData.randing = true;
+		g_PlayerData.pos.y = woodBlockPos.y - PLAYER_HEIGHT;
+	}
+	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.pos.y > woodBlockPos.y + WOODBLOCK_HEIGHT)
+	{
+		g_PlayerData.move.y = 0.0f;
+		g_PlayerData.pos.y = woodBlockPos.y + WOODBLOCK_HEIGHT;
 	}
 }
 

@@ -30,6 +30,8 @@ void GroundHitBlock(int indexA, int indexB);
 
 void FireDelete(int index);
 
+void WindDelete(int index);
+
 void WaterHitWater(int indexA, int indexB);
 
 void WaterHitFire(int index);

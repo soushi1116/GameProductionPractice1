@@ -232,8 +232,10 @@ VECTOR GetElementPos(int index, ElementType type)
 		pos = water[index].GetPos();
 		break;
 	case ELEMENT_TYPE_THUNDER:
+		pos = thunder[index].GetPos();
 		break;
 	case ELEMENT_TYPE_WIND:
+		pos = wind[index].GetPos();
 		break;
 	case ELEMENT_TYPE_GROUND:
 		pos = ground[index].GetPos();
@@ -267,8 +269,10 @@ bool IsElementActive(int index, ElementType type)
 		active = water[index].IsActive();
 		break;
 	case ELEMENT_TYPE_THUNDER:
+		active = thunder[index].IsActive();
 		break;
 	case ELEMENT_TYPE_WIND:
+		active = wind[index].IsActive();
 		break;
 	case ELEMENT_TYPE_GROUND:
 		active = ground[index].IsActive();
@@ -325,6 +329,11 @@ void GroundHitBlock(int indexA, int indexB)
 void FireDelete(int index)
 {
 	fire[index].FireDelete();
+}
+
+void WindDelete(int index)
+{
+	wind[index].WindDelete();
 }
 
 void WaterHitWater(int indexA, int indexB)

@@ -69,5 +69,6 @@ void PlayerHitWater(int index);
 
 void PlayerHitTree(int index);
 void PlayerHitAirBalloon(int index);
+void PlayerHitWoodBlock(int index);
 
 void RideAirBalloon(VECTOR airBalloonPos);

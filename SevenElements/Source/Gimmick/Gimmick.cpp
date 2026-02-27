@@ -9,6 +9,8 @@ Gimmick::Gimmick()
 {
 	pos.x = 0.0f;
 	pos.y = 0.0f;
+	move.x = 0.0f;
+	move.y = 0.0f;
 
 	active = false;
 

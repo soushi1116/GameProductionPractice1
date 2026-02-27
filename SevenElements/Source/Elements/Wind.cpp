@@ -100,6 +100,11 @@ void Wind::Spawn(float posX, float posY, bool isTurn)
 	
 }
 
+void Wind::WindDelete()
+{
+	active = false;
+}
+
 VECTOR Wind::GetPos()
 {
 	return VGet(pos.x, pos.y, 0.0f);
