@@ -130,6 +130,9 @@
       <Filter>Source\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\Collision\Collision.cpp" />
+    <ClCompile Include="Gimmick.cpp">
+      <Filter>Source\Gimmick</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -214,5 +217,11 @@
       <Filter>Source\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Source\Collision\Collision.h" />
+    <ClInclude Include="Gimmick.h">
+      <Filter>Source\Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDefine.h">
+      <Filter>Source\Gimmick</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

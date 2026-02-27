@@ -1,10 +1,44 @@
 #include "Block.h"
 #include "../Camera/Camera.h"
-#include "MapChip.cpp"
+#include "MapChip.h"
+#include <fstream>
+#include <sstream>
+#include <string>
+#define MAP_WIDTH   10      
+#define MAP_HEIGHT  5       
+#define CHIP_SIZE   64 
+int mapData[MAP_HEIGHT][MAP_WIDTH];
 
 BlockData g_Blocks[BLOCK_MAX] = { 0 };
 int g_BlockHandle[BLOCK_TYPE_MAX] = { 0 };
 
+void LoadMapCSV(const char* filename)
+{
+	std::ifstream file(filename);
+
+	if (!file.is_open())
+		return;
+
+	std::string line;
+	int y = 0;
+
+	while (std::getline(file, line) && y < MAP_HEIGHT)
+	{
+		std::stringstream ss(line);
+		std::string value;
+		int x = 0;
+
+		while (std::getline(ss, value, ',') && x < MAP_WIDTH)
+		{
+			mapData[y][x] = atoi(value.c_str());
+			x++;
+		}
+
+		y++;
+	}
+
+	file.close();
+}
 
 void InitBlock()
 {
@@ -24,23 +58,24 @@ void LoadBlock()
 
 void StartBlock()
 {
-	for (int i = 0; i < MAP_CHIP_Y_NUM; i++)
+	LoadMapCSV("Data/Map/map.csv");
+
+	for (int y = 0; y < MAP_HEIGHT; y++)
 	{
-		for (int j = 0; j < MAP_CHIP_Y_NUM; j++)
+		for (int x = 0; x < MAP_WIDTH; x++)
 		{
-			MapChipType type = (MapChipType)g_MapChip[i][j].mapChip;
-
-			if (type == MAP_CHIP_NONE) continue;
-
-			VECTOR pos = VGet(j * MAP_CHIP_WIDTH, i * MAP_CHIP_HEIGHT, 0.0f);
-
-			g_MapChip[i][j].data = CreateBlock(type, pos);
+			if (mapData[y][x] == 1)
+			{
+				VECTOR pos = VGet(x * CHIP_SIZE, y * CHIP_SIZE, 0.0f);
+				CreateBlock(NORMAL_BLOCK, pos);
+			}
 		}
 	}
 }
 
 void StepBlock()
 {
+
 }
 
 void DrawBlock()
