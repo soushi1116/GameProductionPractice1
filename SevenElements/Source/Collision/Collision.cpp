@@ -53,8 +53,6 @@ void CheckPlayerMap()
 		{
 			if (!block->active) continue;
 
-			VECTOR ironPos = GetElementPos(i, ELEMENT_TYPE_IRON);
-
 			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
 				block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
 			{

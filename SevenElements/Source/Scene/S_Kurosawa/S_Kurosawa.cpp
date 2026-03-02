@@ -9,6 +9,8 @@
 #include "../../Collision/Collision.h"
 #include "../../Gimmick/Gimmick.h"
 #include "../../Map/Block.h"
+#include "../../UI/UIImage.h"
+#include "../../Sound/SoundManager.h"
 
 KurosawaData g_KurosawaData = { 0 };
 
@@ -34,6 +36,8 @@ void InitKuroScene()
 	g_KurosawaData.textHandle = 0;
 
 	InitMap();
+
+	InitUIImage();
 }
 
 void LoadKuroScene()
@@ -47,6 +51,8 @@ void LoadKuroScene()
 	g_KurosawaData.textHandle = LoadGraph("Data/Player/SceneForKurosawa.png");
 
 	LoadMap();
+
+	LoadUIImage();
 }
 
 void StartKuroScene()
@@ -83,6 +89,16 @@ void StartKuroScene()
 	}
 
 	CreateBlock(NORMAL_BLOCK, VGet(MAP_CHIP_WIDTH, MAP_POS_Y - MAP_CHIP_HEIGHT, 0.0f));
+
+	CreateUIImage(UI_IMAGE_LIFETEXT, 30.0f, 50.0f);
+
+	PlayerData player = GetPlayer();
+	for (int i = 0; i < player.life; i++)
+	{
+		CreateUIImage(UI_IMAGE_LIFE, (float)(200 + i * 60), 50.0f);
+	}
+
+	PlayBGM(BGM_PLAY);
 
 	//SpawnGimmick(GIMMICK_TREE_POS_X, GIMMICK_TREE_POS_Y, GIMMICK_TYPE_TREE);
 
@@ -127,7 +143,9 @@ void DrawKuroScene()
 
 	DrawElementsManager();
 
-	DrawGraph(TEXTPOS_X, TEXTPOS_Y, g_KurosawaData.textHandle, TRUE);
+	DrawUIImage();
+
+	//DrawGraph(TEXTPOS_X, TEXTPOS_Y, g_KurosawaData.textHandle, TRUE);
 }
 
 void FinKuroScene()
@@ -141,4 +159,8 @@ void FinKuroScene()
 	FinElementsManager();
 
 	DeleteGraph(g_KurosawaData.textHandle);
+
+	ResetUIImage();
+
+	StopBGM(BGM_PLAY);
 }

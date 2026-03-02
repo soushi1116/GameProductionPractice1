@@ -1,5 +1,6 @@
 #include "Thunder.h"
 #include "../Effect/AnimationEffect.h"
+#include "../Sound/SoundManager.h"
 
 #define EFFECT_INTERVAL (1)
 #define THUNDER_MOVE_SPEED (20.0f)
@@ -89,6 +90,8 @@ void Thunder::Spawn(float posX, float posY, bool isTurn)
 		pos.y = -THUNDER_HEIGHT;
 
 		m_IsTurn = isTurn;
+
+		PlaySE(SE_THUNDER);
 	}
 	
 }

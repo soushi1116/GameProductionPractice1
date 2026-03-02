@@ -24,6 +24,7 @@
 #define PLAYER_ANIM_INTERVAL (40)
 #define PLAYER_ACTION_FREEZE_TIME (20)
 #define PLAYER_MAP_COLLISION_OFFSET (0.05f)
+#define PLAYER_DEFAULT_LIFE (5)
 
 PlayerData g_PlayerData = { 0 };
 PlayerData g_PrevPlayerData = { 0 };
@@ -49,6 +50,7 @@ void InitPlayer()
 	g_PlayerData.selectState = -1;
 	g_PlayerData.runTimer = 0;
 	g_PlayerData.animTimer = 0;
+	g_PlayerData.life = 0;
 
 	g_PlayerData.active = false;
 	g_PlayerData.randing = false;
@@ -74,6 +76,8 @@ void LoadPlayer()
 		= LoadGraph("Data/Player/Running-3.png");
 	g_PlayerData.animation[PLAYER_ANIM_JUMP].handle
 		= LoadGraph("Data/Player/Jump.png");
+	g_PlayerData.animation[PLAYER_ANIM_FALL].handle
+		= LoadGraph("Data/Player/Fall.png");
 	g_PlayerData.animation[PLAYER_ANIM_ACTION].handle
 		= LoadGraph("Data/Player/Action.png");
 
@@ -117,6 +121,7 @@ void StartPlayer()
 	g_PlayerData.posX = PLAYER_DEFAULT_POS_X;
 	g_PlayerData.posY = PLAYER_DEFAULT_POS_Y;
 	g_PlayerData.level = PLAYER_DEFAULT_LEVEL;
+	g_PlayerData.life = PLAYER_DEFAULT_LIFE;
 
 	StartPlayerAnimation(PLAYER_ANIM_STOP);
 }
@@ -406,7 +411,14 @@ void UpdatePlayerAnimation()
 	}
 	else if (!g_PlayerData.randing)
 	{
-		StartPlayerAnimation(PLAYER_ANIM_JUMP);
+		if (g_PlayerData.move.y < 0.0f)
+		{
+			StartPlayerAnimation(PLAYER_ANIM_JUMP);
+		}
+		else
+		{
+			StartPlayerAnimation(PLAYER_ANIM_FALL);
+		}
 	}
 	else if (IsInputKey(KEY_RIGHT) || IsInputKey(KEY_LEFT) || IsInputPad(PAD_RIGHT) || IsInputPad(PAD_LEFT))
 	{
@@ -495,7 +507,7 @@ void PlayerHitNormalBlockY(MapChipData mapChipData)
 void PlayerHitBlock(int index)
 {
 	PlayerData player = GetPlayer();
-	BlockData* block = GetBlocks();
+	BlockData* block = GetBlocks(index);
 	player.isTurn = g_PrevPlayerData.isTurn;
 
 	player.posX = g_PlayerData.posX;
