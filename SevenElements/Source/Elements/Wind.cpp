@@ -97,4 +97,5 @@ void Wind::Spawn(float posX, float posY, bool isTurn)
 
 		m_IsTurn = isTurn;
 	}
+	
 }

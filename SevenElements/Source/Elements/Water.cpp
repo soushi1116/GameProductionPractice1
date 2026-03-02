@@ -73,6 +73,18 @@ void Water::Step()
 		{
 			active = false;
 		}
+
+		if (pos.y < WATER_POS_Y_MIN)
+		{
+			move.y += WATER_GRAVITY;
+			m_IsAir = true;
+		}
+		else
+		{
+			move.y = 0;
+			m_IsAir = false;
+			pos.y = WATER_POS_Y_MIN;
+		}
 	}
 }
 
@@ -165,4 +177,5 @@ void Water::WaterHitIce()
 	{
 		m_IsFreeze = true;
 	}
+	
 }

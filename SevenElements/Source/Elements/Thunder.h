@@ -25,7 +25,6 @@ public:
 
 	VECTOR GetPos() { return pos; }
 
-
 protected:
 
 };

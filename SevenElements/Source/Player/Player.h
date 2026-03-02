@@ -21,7 +21,8 @@ enum PlayerAnimationType
 
 struct PlayerData
 {
-	VECTOR pos;
+	float posX;
+	float posY;
 	VECTOR move;
 
 	int playerHandle;
@@ -60,11 +61,11 @@ void UpdatePlayerAnimation();
 void PlayerHitNormalBlockX(MapChipData mapChipData);
 void PlayerHitNormalBlockY(MapChipData mapChipData);
 
-void PlayerHitBlock(int index);
-
 void PlayerHitIron(int index);
 
 void PlayerHitWater(int index);
+
+void PlayerHitBlock(int index);
 
 void PlayerHitTree(int index);
 void PlayerHitAirBalloon(int index);
@@ -72,3 +73,4 @@ void PlayerHitWoodBlock(int index);
 
 void RideAirBalloon(VECTOR airBalloonPos);
 
+void PlayerHitFloor();

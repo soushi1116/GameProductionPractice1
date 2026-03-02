@@ -55,7 +55,7 @@ void CheckPlayerMap()
 
 			VECTOR ironPos = GetElementPos(i, ELEMENT_TYPE_IRON);
 
-			if (CheckSquareSquare(player.pos.x, player.pos.y, PLAYER_WIDTH, PLAYER_HEIGHT,
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
 				block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
 			{
 				PlayerHitBlock(i);
@@ -168,7 +168,7 @@ void CheckPlayerIron()
 
 			VECTOR ironPos = GetElementPos(i, ELEMENT_TYPE_IRON);
 
-			if (CheckSquareSquare(player.pos.x, player.pos.y, PLAYER_WIDTH, PLAYER_HEIGHT,
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
 				ironPos.x, ironPos.y, IRON_WIDTH, IRON_HEIGHT))
 			{
 				PlayerHitIron(i);
@@ -189,7 +189,7 @@ void CheckPlayerWater()
 
 			VECTOR waterPos = GetElementPos(i, ELEMENT_TYPE_WATER);
 
-			if (CheckSquareSquare(player.pos.x, player.pos.y, PLAYER_WIDTH, PLAYER_HEIGHT,
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
 				waterPos.x, waterPos.y, WATER_WIDTH, WATER_HEIGHT))
 			{
 				PlayerHitWater(i);
@@ -210,7 +210,7 @@ void CheckPlayerTree()
 
 			VECTOR treePos = GetGimmickPos(i, GIMMICK_TYPE_TREE);
 
-			if (CheckSquareSquare(player.pos.x, player.pos.y, PLAYER_WIDTH, PLAYER_HEIGHT,
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
 				treePos.x, treePos.y, TREE_WIDTH, TREE_HEIGHT))
 			{
 				PlayerHitTree(i);
@@ -231,7 +231,7 @@ void CheckPlayerAirBalloon()
 
 			VECTOR airballoonPos = GetGimmickPos(i, GIMMICK_TYPE_AIRBALLOON);
 
-			if (CheckSquareSquare(player.pos.x, player.pos.y, PLAYER_WIDTH, PLAYER_HEIGHT,
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
 				airballoonPos.x, airballoonPos.y, AIRBALLOON_WIDTH, AIRBALLOON_HEIGHT))
 			{
 				PlayerHitAirBalloon(i);
@@ -252,7 +252,7 @@ void CheckPlayerWoodBlock()
 
 			VECTOR woodBlockPos = GetGimmickPos(i, GIMMICK_TYPE_WOODBLOCK);
 
-			if (CheckSquareSquare(player.pos.x, player.pos.y, PLAYER_WIDTH, PLAYER_HEIGHT,
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
 				woodBlockPos.x, woodBlockPos.y, WOODBLOCK_WIDTH, WOODBLOCK_HEIGHT))
 			{
 				PlayerHitWoodBlock(i);

@@ -56,6 +56,23 @@ void Ground::Step()
 			move.x = -GROUND_MOVE_SPEED;
 		}
 		move.y += GROUND_GRAVITY;
+		if (pos.y >= GROUND_POS_Y_MIN)
+		{
+			move.x = 0;
+			move.y = 0;
+		}
+		else
+		{
+			if (!m_IsTurn)
+			{
+				move.x = GROUND_MOVE_SPEED;
+			}
+			else
+			{
+				move.x = -GROUND_MOVE_SPEED;
+			}
+			move.y += GROUND_GRAVITY;
+		}
 
 	}
 }
@@ -112,4 +129,5 @@ void Ground::GroundHitBlock(int index)
 			move.y = 0.0f;
 		}
 	}
+	
 }

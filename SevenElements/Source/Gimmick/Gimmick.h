@@ -48,25 +48,30 @@ void DrawGimmick();
 void FindSpawn(Attribute map[][MAP_W]);
 //void CheckEvent(Attribute map[][MAP_W]);
 
+void InitGimmick();
+void LoadGimmick();
+void StartGimmick();
+void StepGimmick(int xA, int yA, int xB, int yB, Attribute map[][MAP_W]);
+void DrawGimmick();
+void FinGimmick();
+void FindSpawn(Attribute map[][MAP_W]);
+void CheckEvent(Attribute map[][MAP_W]);
+
 class Gimmick
 {
 public:
-	Gimmick();
-	~Gimmick();
-
-public:
-	virtual void Load();
-	virtual void Start();
-	virtual void Step();
-	virtual void Update();
-	virtual void Draw();
+	Gimmick(){}
+	~Gimmick(){}
+	virtual void Load() = 0;
+	virtual void Start() = 0;
+	virtual void Step() = 0;
+	virtual void Update() = 0;
+	virtual void Draw() = 0;
 
 protected:
 	VECTOR pos;
 	VECTOR move;
-
-	bool active;
-
 	int handle;
+	bool active;
 };
 

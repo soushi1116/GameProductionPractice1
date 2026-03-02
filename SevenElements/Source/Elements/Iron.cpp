@@ -46,6 +46,11 @@ void Iron::Step()
 			active = false;
 		}
 
+		if (pos.y >= IRON_POS_Y_MIN - IRON_HEIGHT)
+		{
+			IronHitFloor();
+		}
+		
 		move.y += IRON_GRAVITY;
 	}
 }
@@ -100,9 +105,19 @@ void Iron::IronHitBlock(int index)
 	}
 }
 
+
+
+void Iron::IronHitFloor()
+{
+	pos.y = IRON_POS_Y_MIN - IRON_HEIGHT;
+	m_Randing = true;
+	move.y = 0.0f;
+}
+
 void Iron::IronHitIron(int indexA, int indexB, float posY)
 {
 	move.y = 0.0f;
 	pos.y = posY - IRON_HEIGHT;
 }
+
 

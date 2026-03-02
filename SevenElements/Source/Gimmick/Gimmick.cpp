@@ -1,7 +1,6 @@
 #include "Gimmick.h"
 #include <map>
 
-
 Reaction gReactionTable[ATTR_MAX][ATTR_MAX];
 bool gIsFrozen = false;
 int gPlayerX = 0;
@@ -177,30 +176,6 @@ int main()
 	return 0;
 }
 
-Gimmick::Gimmick()
-{
-}
 
-Gimmick::~Gimmick()
-{
-}
 
-void Gimmick::Load()
-{
-}
 
-void Gimmick::Start()
-{
-}
-
-void Gimmick::Step()
-{
-}
-
-void Gimmick::Update()
-{
-}
-
-void Gimmick::Draw()
-{
-}

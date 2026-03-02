@@ -6,7 +6,7 @@
 #include "WoodBlock.h"
 #include "WaterGimmick.h"
 
-Gimmick* gimmick = new Gimmick;
+Gimmick* gimmick = nullptr;
 
 Tree tree[TREE_MAX];
 AirBalloon airBalloon[AIRBALLOON_MAX];

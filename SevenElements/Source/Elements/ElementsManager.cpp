@@ -294,6 +294,7 @@ bool IsElementActive(int index, ElementType type)
 bool IsWaterFreeze(int index)
 {
 	return water[index].IsFreeze();
+	return iron[index].IsActive();
 }
 
 void IronHitIron(int indexA, int indexB)
