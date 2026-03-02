@@ -53,7 +53,7 @@
       <UniqueIdentifier>{2fbb6089-3ad0-4165-a85f-f12bc0683842}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Collision">
-      <UniqueIdentifier>{3d98a759-5888-428c-815d-08e7a97d024e}</UniqueIdentifier>
+      <UniqueIdentifier>{c9c7e814-527f-43d9-acd3-881d5cd8f66e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -135,20 +135,23 @@
     <ClCompile Include="Source\Gimmick\Gimmick.cpp">
       <Filter>Source\Gimmick</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Collision\Collision.cpp">
-      <Filter>Source\Collision</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Gimmick\GimmickManager.cpp">
-      <Filter>Source\Gimmick</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Gimmick\Tree.cpp">
       <Filter>Source\Gimmick</Filter>
     </ClCompile>
     <ClCompile Include="Source\Gimmick\AirBalloon.cpp">
       <Filter>Source\Gimmick</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Gimmick\Tree.cpp">
+      <Filter>Source\Gimmick</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Gimmick\WaterGimmick.cpp">
+      <Filter>Source\Gimmick</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Gimmick\WoodBlock.cpp">
       <Filter>Source\Gimmick</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collision\Collision.cpp">
+      <Filter>Source\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -233,23 +236,29 @@
     <ClInclude Include="Source\Camera\Camera.h">
       <Filter>Source\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Gimmick\GameDefine.h">
+      <Filter>Source\Gimmick</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Gimmick\Gimmick.h">
       <Filter>Source\Gimmick</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Collision\Collision.h">
-      <Filter>Source\Collision</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Gimmick\GimmickManager.h">
-      <Filter>Source\Gimmick</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Gimmick\Tree.h">
       <Filter>Source\Gimmick</Filter>
     </ClInclude>
     <ClInclude Include="Source\Gimmick\AirBalloon.h">
       <Filter>Source\Gimmick</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Gimmick\Tree.h">
+      <Filter>Source\Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Gimmick\WaterGimmick.h">
+      <Filter>Source\Gimmick</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Gimmick\WoodBlock.h">
       <Filter>Source\Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Collision\Collision.h">
+      <Filter>Source\Collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

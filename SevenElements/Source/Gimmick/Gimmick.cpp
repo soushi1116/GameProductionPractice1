@@ -22,13 +22,6 @@ void FindSpawn(Attribute map[][MAP_W])
 			}
 		}
 	}
-
-	pos.x = 0.0f;
-	pos.y = 0.0f;
-
-	active = false;
-
-	handle = 0;
 }
 
 void InitGimmick()
@@ -149,7 +142,7 @@ int main()
 {
 	InitGimmick();
 	LoadGimmick();
-	StartGimmick();
+	//StartGimmick();
 
 	Attribute map[MAP_H][MAP_W];
 
@@ -173,7 +166,7 @@ int main()
 	}
 	while (true)
 	{
-		CheckEvent(map);
+		//CheckEvent(map);
 
 		if (gStageClear)
 		{
@@ -182,4 +175,32 @@ int main()
 		}
 	}
 	return 0;
+}
+
+Gimmick::Gimmick()
+{
+}
+
+Gimmick::~Gimmick()
+{
+}
+
+void Gimmick::Load()
+{
+}
+
+void Gimmick::Start()
+{
+}
+
+void Gimmick::Step()
+{
+}
+
+void Gimmick::Update()
+{
+}
+
+void Gimmick::Draw()
+{
 }

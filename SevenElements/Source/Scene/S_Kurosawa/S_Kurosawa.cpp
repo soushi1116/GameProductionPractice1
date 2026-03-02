@@ -8,6 +8,7 @@
 #include "../../Map/MapManager.h"
 #include "../../Collision/Collision.h"
 #include "../../Gimmick/Gimmick.h"
+#include "../../Map/Block.h"
 
 KurosawaData g_KurosawaData = { 0 };
 
@@ -83,12 +84,12 @@ void StartKuroScene()
 
 	CreateBlock(NORMAL_BLOCK, VGet(MAP_CHIP_WIDTH, MAP_POS_Y - MAP_CHIP_HEIGHT, 0.0f));
 
-	SpawnGimmick(GIMMICK_TREE_POS_X, GIMMICK_TREE_POS_Y, GIMMICK_TYPE_TREE);
+	//SpawnGimmick(GIMMICK_TREE_POS_X, GIMMICK_TREE_POS_Y, GIMMICK_TYPE_TREE);
 
 	//SpawnGimmick(GIMMICK_AIRBALLOON_POS_X, GIMMICK_AIRBALLOON_POS_Y, GIMMICK_TYPE_AIRBALLOON);
 
 	//SpawnGimmick(GIMMICK_WOODBLOCK_POS_X, GIMMICK_WOODBLOCK_POS_Y, GIMMICK_TYPE_WOODBLOCK);
-	SpawnGimmick(GIMMICK_AIRBALLOON_POS_X, GIMMICK_AIRBALLOON_POS_Y, GIMMICK_TYPE_AIRBALLOON);
+	//SpawnGimmick(GIMMICK_AIRBALLOON_POS_X, GIMMICK_AIRBALLOON_POS_Y, GIMMICK_TYPE_AIRBALLOON);
 }
 
 void StepKuroScene()

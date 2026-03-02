@@ -134,18 +134,6 @@ void SpawnGimmick(int posX, int posY, GimmickType type)
 		}
 		break;
 
-	case GIMMICK_TYPE_WATER_GIMMICK:
-		for (int i = 0; i < WATER_GIMMICK_MAX; i++)
-		{
-			if (!waterGimmick[i].IsActive())
-			{
-				waterGimmick[i].Spawn(posX, posY);
-
-				break;
-			}
-		}
-		break;
-
 	case GIMMICK_TYPE_MAX:
 		break;
 	default:

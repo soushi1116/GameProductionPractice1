@@ -530,6 +530,10 @@ void PlayerHitIron(int index)
 	}
 }
 
+void PlayerHitWater(int index)
+{
+}
+
 void PlayerHitTree(int index)
 {
 	PlayerData player = GetPlayer();

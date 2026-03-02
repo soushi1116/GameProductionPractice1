@@ -157,6 +157,7 @@
     <ClCompile Include="Source\Gimmick\Gimmick.cpp" />
     <ClCompile Include="Source\Gimmick\GimmickManager.cpp" />
     <ClCompile Include="Source\Gimmick\Tree.cpp" />
+    <ClCompile Include="Source\Gimmick\WaterGimmick.cpp" />
     <ClCompile Include="Source\Gimmick\WoodBlock.cpp" />
     <ClCompile Include="Source\Input\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -189,9 +190,11 @@
     <ClInclude Include="Source\FPS\FPS.h" />
     <ClInclude Include="Source\GameSetting\GameSetting.h" />
     <ClInclude Include="Source\Gimmick\AirBalloon.h" />
+    <ClInclude Include="Source\Gimmick\GameDefine.h" />
     <ClInclude Include="Source\Gimmick\Gimmick.h" />
     <ClInclude Include="Source\Gimmick\GimmickManager.h" />
     <ClInclude Include="Source\Gimmick\Tree.h" />
+    <ClInclude Include="Source\Gimmick\WaterGimmick.h" />
     <ClInclude Include="Source\Gimmick\WoodBlock.h" />
     <ClInclude Include="Source\Input\Input.h" />
     <ClInclude Include="Source\Map\Block.h" />
