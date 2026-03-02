@@ -91,6 +91,12 @@ void StartKuroScene()
 
 	CreateUIImage(UI_IMAGE_LIFETEXT, 30.0f, 50.0f);
 
+	PlayerData player = GetPlayer();
+	for (int i = 0; i < player.life; i++)
+	{
+		CreateUIImage(UI_IMAGE_LIFE, (float)(200 + i * 60), 50.0f);
+	}
+
 	//SpawnGimmick(GIMMICK_TREE_POS_X, GIMMICK_TREE_POS_Y, GIMMICK_TYPE_TREE);
 
 	//SpawnGimmick(GIMMICK_AIRBALLOON_POS_X, GIMMICK_AIRBALLOON_POS_Y, GIMMICK_TYPE_AIRBALLOON);

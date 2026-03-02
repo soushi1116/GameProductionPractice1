@@ -24,6 +24,7 @@
 #define PLAYER_ANIM_INTERVAL (40)
 #define PLAYER_ACTION_FREEZE_TIME (20)
 #define PLAYER_MAP_COLLISION_OFFSET (0.05f)
+#define PLAYER_DEFAULT_LIFE (5)
 
 PlayerData g_PlayerData = { 0 };
 PlayerData g_PrevPlayerData = { 0 };
@@ -49,6 +50,7 @@ void InitPlayer()
 	g_PlayerData.selectState = -1;
 	g_PlayerData.runTimer = 0;
 	g_PlayerData.animTimer = 0;
+	g_PlayerData.life = 0;
 
 	g_PlayerData.active = false;
 	g_PlayerData.randing = false;
@@ -119,6 +121,7 @@ void StartPlayer()
 	g_PlayerData.posX = PLAYER_DEFAULT_POS_X;
 	g_PlayerData.posY = PLAYER_DEFAULT_POS_Y;
 	g_PlayerData.level = PLAYER_DEFAULT_LEVEL;
+	g_PlayerData.life = PLAYER_DEFAULT_LIFE;
 
 	StartPlayerAnimation(PLAYER_ANIM_STOP);
 }

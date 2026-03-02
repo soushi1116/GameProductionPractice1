@@ -31,6 +31,7 @@ struct PlayerData
 	int selectState;
 	int runTimer;
 	int animTimer;
+	int life;
 
 	bool active;
 	bool randing;
