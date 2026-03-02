@@ -23,11 +23,3 @@ private:
 	int m_backHandle[TITLE_PATTERN_MAX];
 	int m_logoHandle[TITLE_PATTERN_MAX];
 };
-
-void InitTitleScene();
-void LoadTitleScene();
-void StartTitleScene();
-void StepTitleScene();
-void UpdateTitleScene();
-void DrawTitleScene();
-void FinTitleScene();

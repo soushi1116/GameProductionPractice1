@@ -4,8 +4,8 @@
 #include "../Map/MapParameter.h"
 #include "../Collision/Collision.h"
 
-#define PLAYER_WIDTH (64)
-#define PLAYER_HEIGHT (126)
+#define PLAYER_WIDTH (98)
+#define PLAYER_HEIGHT (110)
 
 enum PlayerAnimationType
 {

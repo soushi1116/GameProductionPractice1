@@ -8,6 +8,7 @@
 #include "../Gimmick/Tree.h"
 #include "../Gimmick/AirBalloon.h"
 #include "../Gimmick/WoodBlock.h"
+#include "../Map/Block.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
 #define PLAYER_RUN_SPEED (7.0f)
@@ -133,10 +134,6 @@ void StepPlayer()
 	
 	g_PlayerData.move.y += PLAYER_GRAVITY;	
 
-	if (g_PlayerData.posY + PLAYER_HEIGHT > PLAYER_POS_Y_MIN)
-	{
-		PlayerHitFloor();
-	}
 
 	if (IsTriggerKey(KEY_X) || IsTriggerPad(PAD_Y))
 	{
@@ -497,7 +494,40 @@ void PlayerHitNormalBlockY(MapChipData mapChipData)
 
 void PlayerHitBlock(int index)
 {
-	
+	PlayerData player = GetPlayer();
+	BlockData* block = GetBlocks();
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	player.posX = g_PlayerData.posX;
+	player.posY = g_PrevPlayerData.posY;
+
+	for (int i = 0; i < BLOCK_MAX; i++)
+	{
+		if (i != index) continue;
+
+		if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > block->pos.y)
+		{
+			g_PlayerData.posX = block->pos.x - PLAYER_WIDTH;
+		}
+		else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > block->pos.y)
+		{
+			g_PlayerData.posX = block->pos.x + MAP_CHIP_WIDTH;
+		}
+
+		if (player.posY <= block->pos.y - PLAYER_HEIGHT)
+		{
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.randing = true;
+			g_PlayerData.posY = block->pos.y - PLAYER_HEIGHT;
+		}
+		else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > block->pos.y + MAP_CHIP_HEIGHT)
+		{
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.posY = block->pos.y + MAP_CHIP_HEIGHT;
+		}
+
+		break;
+	}
 }
 
 void PlayerHitIron(int index)
