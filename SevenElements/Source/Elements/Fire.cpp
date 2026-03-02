@@ -1,5 +1,6 @@
 #include "Fire.h"
 #include "../Effect/AnimationEffect.h"
+#include "../Sound/SoundManager.h"
 
 #define EFFECT_INTERVAL (1)
 #define FIREBALL_MOVE_SPEED (7.0f)
@@ -81,6 +82,8 @@ void Fire::Spawn(float posX, float posY, bool isTurn)
 		pos.y = posY;
 
 		m_IsTurn = isTurn;
+
+		PlaySE(SE_FIRE);
 	}
 
 }
