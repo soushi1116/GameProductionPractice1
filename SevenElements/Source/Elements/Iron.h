@@ -24,9 +24,11 @@ public:
 	void IronHitFloor();
 	void IronHitIron(int indexA, int indexB, float posY);
 
-	const bool IsActive();
+	void IronHitBlock(int index);
 
-	VECTOR GetPos();
+	bool IsActive() { return active; }
+
+	VECTOR GetPos() { return pos; }
 
 protected:
 	bool m_Randing;

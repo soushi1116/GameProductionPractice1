@@ -4,8 +4,8 @@
 #include "../Map/MapParameter.h"
 #include "../Collision/Collision.h"
 
-#define PLAYER_WIDTH (64)
-#define PLAYER_HEIGHT (126)
+#define PLAYER_WIDTH (98)
+#define PLAYER_HEIGHT (110)
 
 enum PlayerAnimationType
 {
@@ -21,7 +21,8 @@ enum PlayerAnimationType
 
 struct PlayerData
 {
-	VECTOR pos;
+	float posX;
+	float posY;
 	VECTOR move;
 
 	int playerHandle;
@@ -37,6 +38,7 @@ struct PlayerData
 	bool runLeft;
 	bool isTurn;
 	bool action;
+	bool ridingAirBalloon;
 
 	AnimationData animation[PLAYER_ANIM_MAX];
 	PlayerAnimationType playAnim;
@@ -60,4 +62,15 @@ void PlayerHitNormalBlockX(MapChipData mapChipData);
 void PlayerHitNormalBlockY(MapChipData mapChipData);
 
 void PlayerHitIron(int index);
+
+void PlayerHitWater(int index);
+
+void PlayerHitBlock(int index);
+
+void PlayerHitTree(int index);
+void PlayerHitAirBalloon(int index);
+void PlayerHitWoodBlock(int index);
+
+void RideAirBalloon(VECTOR airBalloonPos);
+
 void PlayerHitFloor();

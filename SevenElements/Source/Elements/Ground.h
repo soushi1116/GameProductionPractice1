@@ -21,7 +21,11 @@ public:
 
 	void Spawn(float posX, float posY, bool isTurn);
 
+	void GroundHitBlock(int index);
+
 	bool IsActive() { return active;  }
+
+	VECTOR GetPos() { return pos;  }
 
 protected:
 

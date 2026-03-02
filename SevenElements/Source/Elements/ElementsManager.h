@@ -20,4 +20,24 @@ bool IsElementActive(int index, ElementType type);
 
 void IronHitIron(int indexA, int indexB);
 
-void FireHitIron(int IndexA);
+bool IsWaterFreeze(int index);
+
+void IronHitIron(int indexA, int indexB);
+
+void IronHitBlock(int indexA, int indexB);
+
+void WaterHitBlock(int indexA, int indexB);
+
+void GroundHitBlock(int indexA, int indexB);
+
+void FireDelete(int index);
+
+void WindDelete(int index);
+
+void WaterHitWater(int indexA, int indexB);
+
+void WaterHitFire(int index);
+
+void WaterHitIce(int index);
+
+void IronHitIron(int indexA, int indexB);

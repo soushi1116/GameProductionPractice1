@@ -139,7 +139,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Gimmick.cpp" />
     <ClCompile Include="Source\Animation\Animation.cpp" />
     <ClCompile Include="Source\Camera\Camera.cpp" />
     <ClCompile Include="Source\Collision\Collision.cpp" />
@@ -154,6 +153,12 @@
     <ClCompile Include="Source\Elements\Water.cpp" />
     <ClCompile Include="Source\Elements\Wind.cpp" />
     <ClCompile Include="Source\FPS\FPS.cpp" />
+    <ClCompile Include="Source\Gimmick\AirBalloon.cpp" />
+    <ClCompile Include="Source\Gimmick\Gimmick.cpp" />
+    <ClCompile Include="Source\Gimmick\GimmickManager.cpp" />
+    <ClCompile Include="Source\Gimmick\Tree.cpp" />
+    <ClCompile Include="Source\Gimmick\WaterGimmick.cpp" />
+    <ClCompile Include="Source\Gimmick\WoodBlock.cpp" />
     <ClCompile Include="Source\Input\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Map\Block.cpp" />
@@ -168,7 +173,6 @@
     <ClCompile Include="Source\UI\UIImage.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Gimmick.h" />
     <ClInclude Include="Source\Animation\Animation.h" />
     <ClInclude Include="Source\Camera\Camera.h" />
     <ClInclude Include="Source\Collision\Collision.h" />
@@ -185,6 +189,13 @@
     <ClInclude Include="Source\Elements\Wind.h" />
     <ClInclude Include="Source\FPS\FPS.h" />
     <ClInclude Include="Source\GameSetting\GameSetting.h" />
+    <ClInclude Include="Source\Gimmick\AirBalloon.h" />
+    <ClInclude Include="Source\Gimmick\GameDefine.h" />
+    <ClInclude Include="Source\Gimmick\Gimmick.h" />
+    <ClInclude Include="Source\Gimmick\GimmickManager.h" />
+    <ClInclude Include="Source\Gimmick\Tree.h" />
+    <ClInclude Include="Source\Gimmick\WaterGimmick.h" />
+    <ClInclude Include="Source\Gimmick\WoodBlock.h" />
     <ClInclude Include="Source\Input\Input.h" />
     <ClInclude Include="Source\Map\Block.h" />
     <ClInclude Include="Source\Map\MapChip.h" />

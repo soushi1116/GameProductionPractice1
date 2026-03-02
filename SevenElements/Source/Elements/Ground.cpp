@@ -1,5 +1,6 @@
 #include "Ground.h"
 #include "../Effect/AnimationEffect.h"
+#include "../Map/Block.h"
 
 #define EFFECT_INTERVAL (1)
 #define GROUND_MOVE_SPEED (7.0f)
@@ -46,6 +47,15 @@ void Ground::Step()
 			active = false;
 		}
 
+		if (!m_IsTurn)
+		{
+			move.x = GROUND_MOVE_SPEED;
+		}
+		else
+		{
+			move.x = -GROUND_MOVE_SPEED;
+		}
+		move.y += GROUND_GRAVITY;
 		if (pos.y >= GROUND_POS_Y_MIN)
 		{
 			move.x = 0;
@@ -104,6 +114,20 @@ void Ground::Spawn(float posX, float posY, bool isTurn)
 		move.y = -GROUND_THROW_POW;
 
 		m_IsTurn = isTurn;
+	}
+}
+
+void Ground::GroundHitBlock(int index)
+{
+	BlockData* block = GetBlocks();
+	for (int i = 0; i < BLOCK_MAX; i++, block++)
+	{
+		if (i != index)
+		{
+			pos.y = block->pos.y - MAP_CHIP_HEIGHT;
+			move.x = 0.0f;
+			move.y = 0.0f;
+		}
 	}
 	
 }

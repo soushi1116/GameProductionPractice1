@@ -23,6 +23,8 @@ public:
 
 	bool IsActive() { return active;  }
 
+	VECTOR GetPos() { return pos; }
+
 protected:
 	int timer;
 	double size;

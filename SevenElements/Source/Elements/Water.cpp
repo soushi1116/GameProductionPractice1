@@ -1,5 +1,6 @@
 #include "Water.h"
 #include "../Effect/AnimationEffect.h"
+#include "../Map/Block.h"
 
 #define EFFECT_INTERVAL (1)
 #define WATER_MOVE_SPEED (7.0f)
@@ -140,6 +141,41 @@ void Water::Spawn(float posX, float posY, bool isTurn)
 		m_IsTurn = isTurn;
 
 		m_IsAir = false;
+	}
+}
+
+void Water::WaterHitBlock(int index)
+{
+	BlockData* block = GetBlocks();
+	for (int i = 0; i < BLOCK_MAX; i++, block++)
+	{
+		if (i != index) continue;
+
+		pos.y = block->pos.y - MAP_CHIP_HEIGHT;
+
+		m_IsAir = false;
+	}
+}
+
+void Water::WaterHitWater(int indexA, int indexB, int posY)
+{
+	pos.y = posY - WATER_HEIGHT;
+	m_IsAir = false;
+}
+
+void Water::WaterHitFire()
+{
+	if (m_IsFreeze)
+	{
+		m_IsFreeze = false;
+	}
+}
+
+void Water::WaterHitIce()
+{
+	if (!m_IsFreeze)
+	{
+		m_IsFreeze = true;
 	}
 	
 }
