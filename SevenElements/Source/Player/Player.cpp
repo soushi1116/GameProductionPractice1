@@ -74,6 +74,8 @@ void LoadPlayer()
 		= LoadGraph("Data/Player/Running-3.png");
 	g_PlayerData.animation[PLAYER_ANIM_JUMP].handle
 		= LoadGraph("Data/Player/Jump.png");
+	g_PlayerData.animation[PLAYER_ANIM_FALL].handle
+		= LoadGraph("Data/Player/Fall.png");
 	g_PlayerData.animation[PLAYER_ANIM_ACTION].handle
 		= LoadGraph("Data/Player/Action.png");
 
@@ -406,7 +408,14 @@ void UpdatePlayerAnimation()
 	}
 	else if (!g_PlayerData.randing)
 	{
-		StartPlayerAnimation(PLAYER_ANIM_JUMP);
+		if (g_PlayerData.move.y < 0.0f)
+		{
+			StartPlayerAnimation(PLAYER_ANIM_JUMP);
+		}
+		else
+		{
+			StartPlayerAnimation(PLAYER_ANIM_FALL);
+		}
 	}
 	else if (IsInputKey(KEY_RIGHT) || IsInputKey(KEY_LEFT) || IsInputPad(PAD_RIGHT) || IsInputPad(PAD_LEFT))
 	{
@@ -495,7 +504,7 @@ void PlayerHitNormalBlockY(MapChipData mapChipData)
 void PlayerHitBlock(int index)
 {
 	PlayerData player = GetPlayer();
-	BlockData* block = GetBlocks();
+	BlockData* block = GetBlocks(index);
 	player.isTurn = g_PrevPlayerData.isTurn;
 
 	player.posX = g_PlayerData.posX;
