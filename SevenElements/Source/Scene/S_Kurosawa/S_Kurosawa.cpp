@@ -10,6 +10,7 @@
 #include "../../Gimmick/Gimmick.h"
 #include "../../Map/Block.h"
 #include "../../UI/UIImage.h"
+#include "../../Sound/SoundManager.h"
 
 KurosawaData g_KurosawaData = { 0 };
 
@@ -97,6 +98,8 @@ void StartKuroScene()
 		CreateUIImage(UI_IMAGE_LIFE, (float)(200 + i * 60), 50.0f);
 	}
 
+	PlayBGM(BGM_PLAY);
+
 	//SpawnGimmick(GIMMICK_TREE_POS_X, GIMMICK_TREE_POS_Y, GIMMICK_TYPE_TREE);
 
 	//SpawnGimmick(GIMMICK_AIRBALLOON_POS_X, GIMMICK_AIRBALLOON_POS_Y, GIMMICK_TYPE_AIRBALLOON);
@@ -158,4 +161,6 @@ void FinKuroScene()
 	DeleteGraph(g_KurosawaData.textHandle);
 
 	ResetUIImage();
+
+	StopBGM(BGM_PLAY);
 }
