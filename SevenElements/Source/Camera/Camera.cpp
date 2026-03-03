@@ -4,12 +4,15 @@
 #include "../Player/Player.h"
 
 #define DEBUG_CAMERA_SPEED (4.0f)
-#define CAMERA_SCROLL_START_X (200.0f)
+#define CAMERA_SCROLL_START_X (600.0f)
+#define CAMERA_SCROLL_START_Y (600.0f)
 
 CameraData g_CameraData = { 0 };
 
 void InitCamera()
 {
+	g_CameraData.posX = 0.0f;
+	g_CameraData.posY = 0.0f;
 }
 
 void StepCamera()
@@ -27,6 +30,17 @@ void StepCamera()
 	{
 		// ’´‚¦‚Ä‚¢‚È‚¯‚ê‚Î’èˆÊ’u
 		g_CameraData.posX = 0.0f;
+	}
+
+	if (player.posY >= CAMERA_SCROLL_START_Y)
+	{
+		// ƒ‰ƒCƒ“‚ð’´‚¦‚Ä‚¢‚é•ª‚¾‚¯ˆÚ“®‚·‚é
+		g_CameraData.posY = player.posY - CAMERA_SCROLL_START_Y;
+	}
+	else
+	{
+		// ’´‚¦‚Ä‚¢‚È‚¯‚ê‚Î’èˆÊ’u
+		g_CameraData.posY = 0.0f;
 	}
 }
 

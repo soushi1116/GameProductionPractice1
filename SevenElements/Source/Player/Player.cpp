@@ -10,6 +10,7 @@
 #include "../Gimmick/WoodBlock.h"
 #include "../Map/Block.h"
 #include "../Sound/SoundManager.h"
+#include "../Camera/Camera.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
 #define PLAYER_RUN_SPEED (7.0f)
@@ -345,21 +346,23 @@ void DrawPlayer()
 {
 	if (!g_PlayerData.active) return;
 
+	CameraData camera = GetCamera();
+
 	PlayerAnimationType animType = g_PlayerData.playAnim;
 	AnimationData* animData = &g_PlayerData.animation[animType];
 	if (!g_PlayerData.isTurn)
 	{
-		DrawAnimation(animData, g_PlayerData.posX, g_PlayerData.posY);
+		DrawAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
 	}
 	else
 	{
-		DrawTurnAnimation(animData, g_PlayerData.posX, g_PlayerData.posY);
+		DrawTurnAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
 	}
 
 	if (g_PlayerData.selectElements)
 	{
-		int playerCenterX = (int)g_PlayerData.posX + PLAYER_WIDTH / 2;
-		int playerCenterY = (int)g_PlayerData.posY + PLAYER_HEIGHT / 2;
+		int playerCenterX = (int)g_PlayerData.posX + PLAYER_WIDTH / 2 - camera.posX;
+		int playerCenterY = (int)g_PlayerData.posY + PLAYER_HEIGHT / 2 - camera.posY;
 
 		int textRotation = sinf(DX_PI_F);
 

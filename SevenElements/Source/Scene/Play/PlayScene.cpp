@@ -6,7 +6,7 @@
 #include "../../Elements/ElementsManager.h"
 #include "../../Map/MapManager.h"
 #include "../../Collision/Collision.h"
-
+#include "../../Camera/Camera.h"
 
 void InitPlayScene()
 {
@@ -17,6 +17,8 @@ void InitPlayScene()
 	InitAnimationEffect();
 
 	InitElementsManager();
+
+	InitCamera();
 }
 
 void LoadPlayScene()
@@ -46,6 +48,8 @@ void StepPlayScene()
 	StepAnimationEffect();
 
 	StepElementsManager();
+
+	StepCamera();
 }
 
 void UpdatePlayScene()
@@ -68,6 +72,8 @@ void DrawPlayScene()
 	DrawAnimationEffect();
 
 	DrawElementsManager();
+
+	DrawCamera();
 }
 
 void FinPlayScene()
