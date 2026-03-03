@@ -1,6 +1,7 @@
 #include "Iron.h"
 #include "../Effect/AnimationEffect.h"
 #include "../Map/Block.h"
+#include "../Sound/SoundManager.h"
 
 #define EFFECT_INTERVAL (1)
 #define IRON_MOVE_SPEED (5.0f)
@@ -86,9 +87,10 @@ void Iron::Spawn(float posX, float posY, bool isTurn)
 		{
 			pos.x = posX - IRON_WIDTH / 2 - IRON_REACH;
 		}
-		pos.y = 0.0f;
 
 		m_IsTurn = isTurn;
+
+		PlaySE(SE_IRON);
 	}
 	
 }

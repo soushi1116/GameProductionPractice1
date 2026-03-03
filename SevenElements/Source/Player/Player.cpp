@@ -9,6 +9,7 @@
 #include "../Gimmick/AirBalloon.h"
 #include "../Gimmick/WoodBlock.h"
 #include "../Map/Block.h"
+#include "../Sound/SoundManager.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
 #define PLAYER_RUN_SPEED (7.0f)
@@ -205,7 +206,7 @@ void StepPlayer()
 			g_PlayerData.move.x = 0;
 		}
 	}
-	else if (IsInputKey(KEY_RIGHT)|| IsInputPad(PAD_RIGHT))
+	else if (IsInputKey(KEY_RIGHT) || IsInputPad(PAD_RIGHT))
 	{
 		g_PlayerData.animTimer++;
 
@@ -249,6 +250,11 @@ void StepPlayer()
 		{
 			g_PlayerData.runTimer++;
 		}
+	}
+
+	if (IsTriggerKey(KEY_RIGHT) || IsTriggerPad(PAD_RIGHT))
+	{
+		
 	}
 
 	if (g_PlayerData.runTimer >= DOUBLE_PUSH_TIME)

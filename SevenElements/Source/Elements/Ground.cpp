@@ -1,6 +1,7 @@
 #include "Ground.h"
 #include "../Effect/AnimationEffect.h"
 #include "../Map/Block.h"
+#include "../Sound/SoundManager.h"
 
 #define EFFECT_INTERVAL (1)
 #define GROUND_MOVE_SPEED (7.0f)
@@ -114,6 +115,8 @@ void Ground::Spawn(float posX, float posY, bool isTurn)
 		move.y = -GROUND_THROW_POW;
 
 		m_IsTurn = isTurn;
+
+		PlaySE(SE_GROUND);
 	}
 }
 

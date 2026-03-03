@@ -10,8 +10,6 @@
 #define THUNDER_ACTIVE_AREA_Y_MAX (900.0f)
 #define THUNDER_REACH (300.0f)
 
-//Fire* fire[FIRE_MAX] = { 0 };
-
 Thunder::Thunder()
 {
 	pos.x = 0.0f;

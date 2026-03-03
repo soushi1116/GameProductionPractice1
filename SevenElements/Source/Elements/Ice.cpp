@@ -1,5 +1,6 @@
 #include "Ice.h"
 #include "../Effect/AnimationEffect.h"
+#include "../Sound/SoundManager.h"
 
 #define EFFECT_INTERVAL (1)
 #define ICE_ACTIVE_AREA_MIN (0.0f)
@@ -86,6 +87,8 @@ void Ice::Spawn(float posX, float posY, bool isTurn)
 		pos.y = posY;
 
 		size = 0.0;
+
+		PlaySE(SE_ICE);
 	}
 	
 }

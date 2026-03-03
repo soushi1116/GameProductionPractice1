@@ -1,5 +1,6 @@
 #include "Wind.h"
 #include "../Effect/AnimationEffect.h"
+#include "../Sound/SoundManager.h"
 
 #define EFFECT_INTERVAL (1)
 #define WIND_MOVE_SPEED (10.0f)
@@ -96,6 +97,8 @@ void Wind::Spawn(float posX, float posY, bool isTurn)
 		pos.y = posY;
 
 		m_IsTurn = isTurn;
+
+		PlaySE(SE_WIND);
 	}
 	
 }

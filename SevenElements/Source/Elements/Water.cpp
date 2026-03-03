@@ -1,6 +1,7 @@
 #include "Water.h"
 #include "../Effect/AnimationEffect.h"
 #include "../Map/Block.h"
+#include "../Sound/SoundManager.h"
 
 #define EFFECT_INTERVAL (1)
 #define WATER_MOVE_SPEED (7.0f)
@@ -9,8 +10,6 @@
 #define WATER_POS_Y_MIN (800.0f)
 #define WATER_GRAVITY (0.5f)
 #define WATER_FRICTION (0.1f)
-
-//Fire* fire[FIRE_MAX] = { 0 };
 
 Water::Water()
 {
@@ -22,6 +21,7 @@ Water::Water()
 
 	m_IsTurn = false;
 	m_IsAir = false;
+	m_IsFreeze = false;
 }
 
 Water::~Water()
@@ -141,6 +141,8 @@ void Water::Spawn(float posX, float posY, bool isTurn)
 		m_IsTurn = isTurn;
 
 		m_IsAir = false;
+
+		PlaySE(SE_WATER);
 	}
 }
 
