@@ -4,18 +4,20 @@ enum BGMType
 {
 	BGM_PLAY,
 
+	BGM_WALK,
+	BGM_RUN,
+
 	BGM_TYPE_MAX,
 };
 
 void LoadBGM();
 void PlayBGM(BGMType type);
+bool IsPlayingBGM(BGMType type);
 void StopBGM(BGMType type);
 void FinBGM();
 
 enum SEType
 {
-	SE_WALK,
-	SE_RUN,
 	SE_JUMP,
 	SE_RAND,
 

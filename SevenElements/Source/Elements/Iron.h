@@ -21,7 +21,6 @@ public:
 
 	void Spawn(float posX, float posY, bool isTurn);
 
-	void IronHitFloor();
 	void IronHitIron(int indexA, int indexB, float posY);
 
 	void IronHitBlock(int index);

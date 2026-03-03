@@ -1,11 +1,10 @@
 #include "Thunder.h"
 #include "../Effect/AnimationEffect.h"
 #include "../Sound/SoundManager.h"
+#include "../Camera/Camera.h"
 
 #define EFFECT_INTERVAL (1)
 #define THUNDER_MOVE_SPEED (20.0f)
-#define THUNDER_ACTIVE_AREA_X_MIN (0.0f)
-#define THUNDER_ACTIVE_AREA_X_MAX (1600.0f)
 #define THUNDER_ACTIVE_AREA_Y_MIN (0.0f)
 #define THUNDER_ACTIVE_AREA_Y_MAX (900.0f)
 #define THUNDER_REACH (300.0f)
@@ -42,11 +41,6 @@ void Thunder::Step()
 	{
 		move.y = THUNDER_MOVE_SPEED;
 
-		if (pos.x < THUNDER_ACTIVE_AREA_X_MIN - THUNDER_WIDTH || pos.x > THUNDER_ACTIVE_AREA_X_MAX)
-		{
-			active = false;
-		}
-
 		if (pos.y < -THUNDER_HEIGHT || pos.y > THUNDER_ACTIVE_AREA_Y_MAX)
 		{
 			active = false;
@@ -67,7 +61,9 @@ void Thunder::Draw()
 {
 	if (active)
 	{
-		DrawGraph(pos.x, pos.y, handle, TRUE);
+		CameraData camera = GetCamera();
+
+		DrawGraph(pos.x - camera.posX, pos.y - camera.posY, handle, TRUE);
 	}
 }
 

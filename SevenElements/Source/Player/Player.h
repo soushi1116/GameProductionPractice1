@@ -61,6 +61,8 @@ PlayerData GetPlayer();
 void StartPlayerAnimation(PlayerAnimationType anim);
 void UpdatePlayerAnimation();
 
+void PlayerRand();
+
 void PlayerHitNormalBlockX(MapChipData mapChipData);
 void PlayerHitNormalBlockY(MapChipData mapChipData);
 

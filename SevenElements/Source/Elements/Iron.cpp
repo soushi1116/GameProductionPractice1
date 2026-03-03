@@ -2,12 +2,10 @@
 #include "../Effect/AnimationEffect.h"
 #include "../Map/Block.h"
 #include "../Sound/SoundManager.h"
+#include "../Camera/Camera.h"
 
 #define EFFECT_INTERVAL (1)
 #define IRON_MOVE_SPEED (5.0f)
-#define IRON_ACTIVE_AREA_X_MIN (0.0f)
-#define IRON_ACTIVE_AREA_X_MAX (1600.0f)
-#define IRON_POS_Y_MIN (750.0f)
 #define IRON_REACH (200.0f)
 #define IRON_GRAVITY (0.5f)
 
@@ -42,16 +40,6 @@ void Iron::Step()
 {
 	if (active)
 	{
-		if (pos.x < IRON_ACTIVE_AREA_X_MIN - IRON_WIDTH || pos.x > IRON_ACTIVE_AREA_X_MAX)
-		{
-			active = false;
-		}
-
-		if (pos.y >= IRON_POS_Y_MIN - IRON_HEIGHT)
-		{
-			IronHitFloor();
-		}
-		
 		move.y += IRON_GRAVITY;
 	}
 }
@@ -69,7 +57,9 @@ void Iron::Draw()
 {
 	if (active)
 	{
-		DrawGraph(pos.x, pos.y, handle, TRUE);
+		CameraData camera = GetCamera();
+
+		DrawGraph(pos.x - camera.posX, pos.y - camera.posY, handle, TRUE);
 	}
 }
 
@@ -105,15 +95,6 @@ void Iron::IronHitBlock(int index)
 		move.y = 0.0f;
 		pos.y = block->pos.y - MAP_CHIP_HEIGHT;
 	}
-}
-
-
-
-void Iron::IronHitFloor()
-{
-	pos.y = IRON_POS_Y_MIN - IRON_HEIGHT;
-	m_Randing = true;
-	move.y = 0.0f;
 }
 
 void Iron::IronHitIron(int indexA, int indexB, float posY)

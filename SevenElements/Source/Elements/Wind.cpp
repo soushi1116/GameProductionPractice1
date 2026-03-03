@@ -1,11 +1,10 @@
 #include "Wind.h"
 #include "../Effect/AnimationEffect.h"
 #include "../Sound/SoundManager.h"
+#include "../Camera/Camera.h"
 
 #define EFFECT_INTERVAL (1)
 #define WIND_MOVE_SPEED (10.0f)
-#define WIND_ACTIVE_AREA_MIN (0.0f)
-#define WIND_ACTIVE_AREA_MAX (1600.0f)
 
 //Fire* fire[FIRE_MAX] = { 0 };
 
@@ -47,11 +46,6 @@ void Wind::Step()
 		{
 			move.x = -WIND_MOVE_SPEED;
 		}
-
-		if (pos.x < WIND_ACTIVE_AREA_MIN - WIND_WIDTH || pos.x > WIND_ACTIVE_AREA_MAX)
-		{
-			active = false;
-		}
 	}
 }
 
@@ -68,13 +62,15 @@ void Wind::Draw()
 {
 	if (active)
 	{
+		CameraData camera = GetCamera();
+
 		if (!m_IsTurn)
 		{
-			DrawGraph(pos.x, pos.y, handle, TRUE);
+			DrawGraph(pos.x - camera.posX, pos.y - camera.posY, handle, TRUE);
 		}
 		else
 		{
-			DrawTurnGraph(pos.x, pos.y, handle, TRUE);
+			DrawTurnGraph(pos.x - camera.posX, pos.y - camera.posY, handle, TRUE);
 		}
 	}
 }

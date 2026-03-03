@@ -2,12 +2,10 @@
 #include "../Effect/AnimationEffect.h"
 #include "../Map/Block.h"
 #include "../Sound/SoundManager.h"
+#include "../Camera/Camera.h"
 
 #define EFFECT_INTERVAL (1)
 #define WATER_MOVE_SPEED (7.0f)
-#define WATER_ACTIVE_AREA_X_MIN (0.0f)
-#define WATER_ACTIVE_AREA_X_MAX (1600.0f)
-#define WATER_POS_Y_MIN (800.0f)
 #define WATER_GRAVITY (0.5f)
 #define WATER_FRICTION (0.1f)
 
@@ -69,22 +67,6 @@ void Water::Step()
 			}
 		}
 
-		if (pos.x < WATER_ACTIVE_AREA_X_MIN - WATER_WIDTH || pos.x > WATER_ACTIVE_AREA_X_MAX)
-		{
-			active = false;
-		}
-
-		if (pos.y < WATER_POS_Y_MIN)
-		{
-			move.y += WATER_GRAVITY;
-			m_IsAir = true;
-		}
-		else
-		{
-			move.y = 0;
-			m_IsAir = false;
-			pos.y = WATER_POS_Y_MIN;
-		}
 	}
 }
 
@@ -101,13 +83,15 @@ void Water::Draw()
 {
 	if (active)
 	{
+		CameraData camera = GetCamera();
+
 		if (!m_IsTurn)
 		{
-			DrawGraph(pos.x, pos.y, handle, TRUE);
+			DrawGraph(pos.x - camera.posX, pos.y - camera.posY, handle, TRUE);
 		}
 		else
 		{
-			DrawTurnGraph(pos.x, pos.y, handle, TRUE);
+			DrawTurnGraph(pos.x - camera.posX, pos.y - camera.posY, handle, TRUE);
 		}
 	}
 }

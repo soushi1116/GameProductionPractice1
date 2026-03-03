@@ -12,11 +12,21 @@ void LoadBGM()
 	{
 		ChangeVolumeSoundMem(120, g_BGMHandle[i]);
 	}
+
+	g_BGMHandle[BGM_WALK] = LoadSoundMem("Data/Sound/BGM/PlayerWalk.mp3");
+	g_BGMHandle[BGM_RUN] = LoadSoundMem("Data/Sound/BGM/PlayerRun.mp3");
+
+
 }
 
 void PlayBGM(BGMType type)
 {
 	PlaySoundMem(g_BGMHandle[type], DX_PLAYTYPE_LOOP);
+}
+
+bool IsPlayingBGM(BGMType type)
+{
+	return CheckSoundMem(g_BGMHandle[type]) & 1;
 }
 
 void StopBGM(BGMType type)
@@ -34,8 +44,6 @@ void FinBGM()
 
 void LoadSE()
 {
-	g_SEHandle[SE_WALK] = LoadSoundMem("Data/Sound/SE/PlayerWalk.mp3");
-	g_SEHandle[SE_RUN] = LoadSoundMem("Data/Sound/SE/PlayerRun.mp3");
 	g_SEHandle[SE_JUMP] = LoadSoundMem("Data/Sound/SE/PlayerJump.mp3");
 	g_SEHandle[SE_RAND] = LoadSoundMem("Data/Sound/SE/PlayerRand.mp3");
 
