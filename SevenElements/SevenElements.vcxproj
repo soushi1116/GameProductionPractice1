@@ -172,6 +172,7 @@
     <ClCompile Include="Source\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="Source\Sound\SoundManager.cpp" />
     <ClCompile Include="Source\UI\UIImage.cpp" />
+    <ClCompile Include="Source\Warp\Warp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animation.h" />
@@ -210,6 +211,7 @@
     <ClInclude Include="Source\Scene\Title\TitleScene.h" />
     <ClInclude Include="Source\Sound\SoundManager.h" />
     <ClInclude Include="Source\UI\UIImage.h" />
+    <ClInclude Include="Source\Warp\Warp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

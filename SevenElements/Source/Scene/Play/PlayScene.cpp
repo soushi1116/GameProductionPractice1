@@ -7,6 +7,7 @@
 #include "../../Map/MapManager.h"
 #include "../../Collision/Collision.h"
 #include "../../Camera/Camera.h"
+#include "../../Warp/Warp.h"
 
 void InitPlayScene()
 {
@@ -19,6 +20,8 @@ void InitPlayScene()
 	InitElementsManager();
 
 	InitCamera();
+
+	InitWarp();
 }
 
 void LoadPlayScene()
@@ -26,6 +29,8 @@ void LoadPlayScene()
 	LoadMap();
 
 	LoadPlayer();
+
+	LoadWarp();
 
 	LoadAnimationEffect();
 
@@ -39,6 +44,9 @@ void StartPlayScene()
 	StartPlayer();
 
 	StartElementsManager();
+
+	CreateWarp(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17);
+	CreateWarp(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17);
 }
 
 void StepPlayScene()
@@ -67,6 +75,8 @@ void DrawPlayScene()
 {
 	DrawMap();
 
+	DrawWarp();
+
 	DrawPlayer();
 
 	DrawAnimationEffect();
@@ -81,6 +91,8 @@ void FinPlayScene()
 	FinMap();
 
 	FinPlayer();
+
+	FinWarp();
 
 	FinAnimationEffect();
 
