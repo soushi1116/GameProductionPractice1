@@ -464,6 +464,8 @@ void CheckWindWoodBlock()
 
 void CheckCollision()
 {
+	CheckMapPlayerCollision();
+
 	CheckPlayerMap();
 
 	CheckIronMap();

@@ -537,23 +537,36 @@ void PlayerHitBlock(int index)
 
 		if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > block->pos.y)
 		{
-			g_PlayerData.posX = block->pos.x - PLAYER_WIDTH;
+			if (player.posY < block->pos.y + MAP_CHIP_HEIGHT)
+			{
+				g_PlayerData.posX = block->pos.x - PLAYER_WIDTH;
+			}
 		}
 		else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > block->pos.y)
 		{
-			g_PlayerData.posX = block->pos.x + MAP_CHIP_WIDTH;
+			if (player.posY < block->pos.y + MAP_CHIP_HEIGHT)
+			{
+				g_PlayerData.posX = block->pos.x + MAP_CHIP_WIDTH;
+			}
 		}
 
 		if (player.posY <= block->pos.y - PLAYER_HEIGHT)
 		{
+			if (g_PrevPlayerData.posX == block->pos.x + MAP_CHIP_WIDTH) continue;
+			if (g_PrevPlayerData.posX + PLAYER_WIDTH == block->pos.x) continue;
+
 			g_PlayerData.move.y = 0.0f;
 			g_PlayerData.randing = true;
 			g_PlayerData.posY = block->pos.y - PLAYER_HEIGHT;
 		}
 		else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > block->pos.y + MAP_CHIP_HEIGHT)
 		{
+			if (g_PrevPlayerData.posX == block->pos.x + MAP_CHIP_WIDTH) continue;
+			if (g_PrevPlayerData.posX + PLAYER_WIDTH == block->pos.x) continue;
+
 			g_PlayerData.move.y = 0.0f;
 			g_PlayerData.posY = block->pos.y + MAP_CHIP_HEIGHT;
+			
 		}
 
 		break;
