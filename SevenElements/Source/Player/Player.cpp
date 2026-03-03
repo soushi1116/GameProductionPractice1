@@ -62,6 +62,7 @@ void InitPlayer()
 	g_PlayerData.isTurn = false;
 	g_PlayerData.action = false;
 	g_PlayerData.ridingAirBalloon = false;
+	g_PlayerData.hitWarp = false;
 
 	g_PlayerData.playAnim = PLAYER_ANIM_NONE;
 }
@@ -282,10 +283,18 @@ void StepPlayer()
 
 	if (IsTriggerKey(KEY_UP) || IsTriggerPad(PAD_B))
 	{
-		if (g_PlayerData.randing && !g_PlayerData.action)
+		if (g_PlayerData.hitWarp)
 		{
-			g_PlayerData.randing = false;
-			g_PlayerData.move.y -= PLAYER_JUMP_POWER;
+			g_PlayerData.posX += MAP_CHIP_WIDTH * 4;
+			g_PlayerData.hitWarp = false;
+		}
+		else
+		{
+			if (g_PlayerData.randing && !g_PlayerData.action)
+			{
+				g_PlayerData.randing = false;
+				g_PlayerData.move.y -= PLAYER_JUMP_POWER;
+			}
 		}
 	}
 
@@ -692,6 +701,11 @@ void PlayerHitWoodBlock(int index)
 		g_PlayerData.move.y = 0.0f;
 		g_PlayerData.posY = woodBlockPos.y + WOODBLOCK_HEIGHT;
 	}
+}
+
+void PlayerHitWarp()
+{
+	g_PlayerData.hitWarp = true;
 }
 
 void RideAirBalloon(VECTOR airBalloonPos)

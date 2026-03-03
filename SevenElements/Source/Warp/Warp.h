@@ -1,6 +1,8 @@
 #pragma once
 
 #define WARP_MAX (2)
+#define WARP_WIDTH (50)
+#define WARP_HEIGHT (100)
 
 struct WarpData
 {

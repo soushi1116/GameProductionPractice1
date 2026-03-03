@@ -41,6 +41,7 @@ struct PlayerData
 	bool isTurn;
 	bool action;
 	bool ridingAirBalloon;
+	bool hitWarp;
 
 	AnimationData animation[PLAYER_ANIM_MAX];
 	PlayerAnimationType playAnim;
@@ -72,6 +73,8 @@ void PlayerHitBlock(int index);
 void PlayerHitTree(int index);
 void PlayerHitAirBalloon(int index);
 void PlayerHitWoodBlock(int index);
+
+void PlayerHitWarp();
 
 void RideAirBalloon(VECTOR airBalloonPos);
 

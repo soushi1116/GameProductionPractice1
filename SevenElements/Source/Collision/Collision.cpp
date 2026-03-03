@@ -16,6 +16,7 @@
 #include "../Gimmick/Tree.h"
 #include "../Gimmick/AirBalloon.h"
 #include "../Gimmick/WoodBlock.h"
+#include "../Warp/Warp.h"
 
 bool CheckSquareSquare(float squareA_PosX, float squareA_PosY, float squareA_Width, float squareA_Height,
 	float squareB_PosX, float squareB_PosY, float squareB_Width, float squareB_Height)
@@ -233,6 +234,27 @@ void CheckPlayerAirBalloon()
 				airballoonPos.x, airballoonPos.y, AIRBALLOON_WIDTH, AIRBALLOON_HEIGHT))
 			{
 				PlayerHitAirBalloon(i);
+			}
+		}
+	}
+}
+
+void CheckPlayerWarp()
+{
+	PlayerData player = GetPlayer();
+
+	if (player.active)
+	{
+		WarpData* warp = GetWarp();
+
+		for (int i = 0; i < WARP_MAX; i++, warp++)
+		{
+			if (!warp->active) continue;
+
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+				warp->posX, warp->posY, WARP_WIDTH, WARP_HEIGHT))
+			{
+				PlayerHitWarp();
 			}
 		}
 	}
@@ -461,6 +483,8 @@ void CheckCollision()
 	CheckPlayerAirBalloon();
 
 	CheckPlayerWoodBlock();
+
+	CheckPlayerWarp();
 
 	CheckIronIron();
 
