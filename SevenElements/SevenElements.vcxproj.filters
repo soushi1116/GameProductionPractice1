@@ -55,12 +55,6 @@
     <Filter Include="Source\Collision">
       <UniqueIdentifier>{c9c7e814-527f-43d9-acd3-881d5cd8f66e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Sound">
-      <UniqueIdentifier>{eba74bf8-ff97-4789-a549-cebe85a02e69}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Warp">
-      <UniqueIdentifier>{d25dadf7-d7f7-4496-bab4-098c13518529}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -158,12 +152,6 @@
     </ClCompile>
     <ClCompile Include="Source\Collision\Collision.cpp">
       <Filter>Source\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Sound\SoundManager.cpp">
-      <Filter>Source\Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Warp\Warp.cpp">
-      <Filter>Source\Warp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -271,12 +259,6 @@
     </ClInclude>
     <ClInclude Include="Source\Collision\Collision.h">
       <Filter>Source\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Sound\SoundManager.h">
-      <Filter>Source\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Warp\Warp.h">
-      <Filter>Source\Warp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
