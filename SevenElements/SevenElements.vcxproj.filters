@@ -61,6 +61,9 @@
     <Filter Include="Source\Warp">
       <UniqueIdentifier>{d25dadf7-d7f7-4496-bab4-098c13518529}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Enemy">
+      <UniqueIdentifier>{5da27f9d-b637-49b3-843d-ef4ac3e16198}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -164,6 +167,21 @@
     </ClCompile>
     <ClCompile Include="Source\Warp\Warp.cpp">
       <Filter>Source\Warp</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy\EnemyFlyCircle.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy\EnemyFlyCircle2.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy\EnemyFlyStraight.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy\EnemyTurret.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy\EnemyWalk.cpp">
+      <Filter>Source\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +295,21 @@
     </ClInclude>
     <ClInclude Include="Source\Warp\Warp.h">
       <Filter>Source\Warp</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy\EnemyFlyCircle.h">
+      <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy\EnemyFlyCircle2.h">
+      <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy\EnemyFlyStraight.h">
+      <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy\EnemyTurret.h">
+      <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy\EnemyWalk.h">
+      <Filter>Source\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

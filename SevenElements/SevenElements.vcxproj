@@ -152,6 +152,11 @@
     <ClCompile Include="Source\Elements\Thunder.cpp" />
     <ClCompile Include="Source\Elements\Water.cpp" />
     <ClCompile Include="Source\Elements\Wind.cpp" />
+    <ClCompile Include="Source\Enemy\EnemyFlyCircle.cpp" />
+    <ClCompile Include="Source\Enemy\EnemyFlyCircle2.cpp" />
+    <ClCompile Include="Source\Enemy\EnemyFlyStraight.cpp" />
+    <ClCompile Include="Source\Enemy\EnemyTurret.cpp" />
+    <ClCompile Include="Source\Enemy\EnemyWalk.cpp" />
     <ClCompile Include="Source\FPS\FPS.cpp" />
     <ClCompile Include="Source\Gimmick\AirBalloon.cpp" />
     <ClCompile Include="Source\Gimmick\Gimmick.cpp" />
@@ -189,6 +194,11 @@
     <ClInclude Include="Source\Elements\Thunder.h" />
     <ClInclude Include="Source\Elements\Water.h" />
     <ClInclude Include="Source\Elements\Wind.h" />
+    <ClInclude Include="Source\Enemy\EnemyFlyCircle.h" />
+    <ClInclude Include="Source\Enemy\EnemyFlyCircle2.h" />
+    <ClInclude Include="Source\Enemy\EnemyFlyStraight.h" />
+    <ClInclude Include="Source\Enemy\EnemyTurret.h" />
+    <ClInclude Include="Source\Enemy\EnemyWalk.h" />
     <ClInclude Include="Source\FPS\FPS.h" />
     <ClInclude Include="Source\GameSetting\GameSetting.h" />
     <ClInclude Include="Source\Gimmick\AirBalloon.h" />
