@@ -20,6 +20,7 @@ Ground::Ground()
 	move.y = 0.0f;
 
 	m_IsTurn = false;
+	m_IsAir = false;
 }
 
 Ground::~Ground()
@@ -41,15 +42,18 @@ void Ground::Step()
 {
 	if (active)
 	{
-		if (!m_IsTurn)
+		if (m_IsAir)
 		{
-			move.x = GROUND_MOVE_SPEED;
+			if (!m_IsTurn)
+			{
+				move.x = GROUND_MOVE_SPEED;
+			}
+			else
+			{
+				move.x = -GROUND_MOVE_SPEED;
+			}
+			move.y += GROUND_GRAVITY;
 		}
-		else
-		{
-			move.x = -GROUND_MOVE_SPEED;
-		}
-		move.y += GROUND_GRAVITY;
 	}
 }
 
@@ -93,6 +97,8 @@ void Ground::Spawn(float posX, float posY, bool isTurn)
 
 		m_IsTurn = isTurn;
 
+		m_IsAir = true;
+
 		PlaySE(SE_GROUND);
 	}
 }
@@ -102,12 +108,34 @@ void Ground::GroundHitBlock(int index)
 	BlockData* block = GetBlocks();
 	for (int i = 0; i < BLOCK_MAX; i++, block++)
 	{
-		if (i != index)
+		if (i != index) continue;
+
+		move.x = 0.0f;
+
+		if (pos.y < block->pos.y)
 		{
-			pos.y = block->pos.y - MAP_CHIP_HEIGHT;
-			move.x = 0.0f;
-			move.y = 0.0f;
+			if (pos.x < block->pos.x + MAP_CHIP_WIDTH && pos.x + GROUND_WIDTH > block->pos.x)
+			{
+				move.y = 0.0f;
+
+				pos.y = block->pos.y - GROUND_HEIGHT;
+
+				m_IsAir = false;
+				//m_Randing = true;
+			}
 		}
+		else
+		{
+			if (move.x < 0.0f)
+			{
+				pos.x = block->pos.x + MAP_CHIP_WIDTH;
+			}
+			else if (move.x > 0.0f)
+			{
+				pos.x = block->pos.x - GROUND_WIDTH;
+			}
+		}
+
 	}
 	
 }

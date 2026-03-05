@@ -190,13 +190,23 @@ void Action(int posX, int posY, ElementType type, bool isTurn)
 		break;
 
 	case ELEMENT_TYPE_GROUND:
-		for (int i = 0; i < GROUND_MAX; i++)
+		for (int i = 0; i < GROUND_SPAWN_NUM; i++)
 		{
-			if (!ground[i]->IsActive())
+			for (int j = 0; j < WATER_MAX; j++)
 			{
-				ground[i]->Spawn(posX, posY, isTurn);
+				if (!ground[j]->IsActive())
+				{
+					if (!isTurn)
+					{
+						ground[j]->Spawn(posX + GROUND_WIDTH * (GROUND_SPAWN_NUM - i - 1) * GROUND_SPAWN_OFFSET, posY, isTurn);
+					}
+					else
+					{
+						ground[j]->Spawn(posX - GROUND_WIDTH * (GROUND_SPAWN_NUM - i - 1) * GROUND_SPAWN_OFFSET, posY, isTurn);
+					}
 
-				break;
+					break;
+				}
 			}
 		}
 		break;

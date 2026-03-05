@@ -3,8 +3,11 @@
 #include "Elements.h"
 
 #define GROUND_MAX 512
-#define GROUND_WIDTH (330)
-#define GROUND_HEIGHT (64)
+#define GROUND_WIDTH (25)
+#define GROUND_HEIGHT (25)
+#define GROUND_SPAWN_NUM (5)
+#define GROUND_SPAWN_INTERVAL (60)
+#define GROUND_SPAWN_OFFSET (1.1f)
 
 class Ground : public Element
 {
@@ -23,10 +26,12 @@ public:
 
 	void GroundHitBlock(int index);
 
-	bool IsActive() { return active;  }
+	bool IsActive() { return active; }
 
-	VECTOR GetPos() { return pos;  }
+	VECTOR GetPos() { return pos; }
+
+	VECTOR GetMove() { return move; }
 
 protected:
-
+	bool m_IsAir;
 };
