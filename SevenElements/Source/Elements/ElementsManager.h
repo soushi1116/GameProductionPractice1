@@ -2,7 +2,7 @@
 #include "Elements.h"
 #include "DxLib.h"
 
-#define ELEMENTS_MAX 32
+#define ELEMENTS_MAX 64
 
 void InitElementsManager();
 void LoadElementsManager();

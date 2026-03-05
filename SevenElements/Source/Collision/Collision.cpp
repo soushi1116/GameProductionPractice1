@@ -63,6 +63,29 @@ void CheckPlayerMap()
 	}
 }
 
+void CheckFireMap()
+{
+	for (int i = 0; i < FIRE_MAX; i++)
+	{
+		if (!IsElementActive(i, ELEMENT_TYPE_FIRE)) continue;
+
+		BlockData* block = GetBlocks();
+
+		for (int j = 0; j < BLOCK_MAX; j++, block++)
+		{
+			if (!block->active) continue;
+
+			VECTOR firePos = GetElementPos(i, ELEMENT_TYPE_FIRE);
+
+			if (CheckSquareSquare(firePos.x, firePos.y, FIRE_WIDTH, FIRE_HEIGHT,
+				block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
+			{
+				FireDelete(i);
+			}
+		}
+	}
+}
+
 void CheckIronMap()
 {
 	for (int i = 0; i < IRON_MAX; i++)
@@ -467,6 +490,8 @@ void CheckCollision()
 	CheckMapPlayerCollision();
 
 	CheckPlayerMap();
+
+	CheckFireMap();
 
 	CheckIronMap();
 

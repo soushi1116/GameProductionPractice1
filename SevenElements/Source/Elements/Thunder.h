@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include "Elements.h"
 
-#define THUNDER_MAX 32
+#define THUNDER_MAX 64
 #define THUNDER_WIDTH (64)
 #define THUNDER_HEIGHT (161)
 

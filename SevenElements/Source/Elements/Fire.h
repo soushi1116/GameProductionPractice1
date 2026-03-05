@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include "Elements.h"
 
-#define FIRE_MAX 32
+#define FIRE_MAX 64
 #define FIRE_WIDTH (64)
 #define FIRE_HEIGHT (64)
 

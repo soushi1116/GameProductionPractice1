@@ -2,9 +2,10 @@
 #include "DxLib.h"
 #include "Elements.h"
 
-#define WATER_MAX 32
-#define WATER_WIDTH (479)
-#define WATER_HEIGHT (32)
+#define WATER_MAX 64
+#define WATER_WIDTH (10)
+#define WATER_HEIGHT (10)
+#define WATER_SPAWN_NUM (20)
 
 class Water : public Element
 {

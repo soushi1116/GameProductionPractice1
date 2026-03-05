@@ -144,11 +144,12 @@ void Action(int posX, int posY, ElementType type, bool isTurn)
 		break;
 
 	case ELEMENT_TYPE_WATER:
-		for (int i = 0; i < WATER_MAX; i++)
+		//for (int i = 0; i < WATER_SPAWN_NUM; i++)
+		for (int j = 0; j < WATER_MAX; j++)
 		{
-			if (!water[i]->IsActive())
+			if (!water[j]->IsActive())
 			{
-				water[i]->Spawn(posX, posY, isTurn);
+				water[j]->Spawn(posX, posY, isTurn);
 
 				break;
 			}

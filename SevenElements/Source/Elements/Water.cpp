@@ -9,6 +9,8 @@
 #define WATER_GRAVITY (0.5f)
 #define WATER_FRICTION (0.1f)
 
+float prevPosY = 0.0f;
+
 Water::Water()
 {
 	pos.x = 0.0f;
@@ -41,6 +43,8 @@ void Water::Step()
 {
 	if (active)
 	{
+		prevPosY = pos.y;
+
 		if (!m_IsAir)
 		{
 			if (!m_IsTurn)
@@ -66,7 +70,10 @@ void Water::Step()
 				}
 			}
 		}
-
+		else
+		{
+			move.y += WATER_GRAVITY;
+		}
 	}
 }
 
@@ -76,6 +83,8 @@ void Water::Update()
 	{
 		pos.x += move.x;
 		pos.y += move.y;
+
+		m_IsAir = true;
 	}
 }
 
@@ -124,7 +133,7 @@ void Water::Spawn(float posX, float posY, bool isTurn)
 
 		m_IsTurn = isTurn;
 
-		m_IsAir = false;
+		m_IsAir = true;
 
 		PlaySE(SE_WATER);
 	}
@@ -137,9 +146,29 @@ void Water::WaterHitBlock(int index)
 	{
 		if (i != index) continue;
 
-		pos.y = block->pos.y - MAP_CHIP_HEIGHT;
+		if (pos.y < block->pos.y)
+		{
+			if (pos.x < block->pos.x + MAP_CHIP_WIDTH && pos.x + WATER_WIDTH > block->pos.x)
+			{
+				move.y = 0.0f;
 
-		m_IsAir = false;
+				pos.y = block->pos.y - WATER_HEIGHT;
+
+				m_IsAir = false;
+			}
+		}
+		else
+		{
+			if (move.x < 0.0f)
+			{
+				pos.x = block->pos.x + MAP_CHIP_WIDTH;
+			}
+			else if (move.x > 0.0f)
+			{
+				pos.x = block->pos.x - WATER_WIDTH;
+			}
+			move.x = 0.0f;
+		}
 	}
 }
 
@@ -163,5 +192,4 @@ void Water::WaterHitIce()
 	{
 		m_IsFreeze = true;
 	}
-	
 }

@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include "Elements.h"
 
-#define GROUND_MAX 32
+#define GROUND_MAX 64
 #define GROUND_WIDTH (330)
 #define GROUND_HEIGHT (64)
 
