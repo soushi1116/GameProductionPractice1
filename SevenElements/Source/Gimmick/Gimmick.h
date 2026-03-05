@@ -4,6 +4,11 @@
 enum Attribute
 {
 	ATTR_NONE = 0,
+	ATTR_FLOOR = 1,
+	ATTR_GRASS = 3,
+	ATTR_WOOD_BOX = 4,
+	ATTR_BALLOON = 5,
+	ATTR_BALLOON_FIRE = 6,
 	ATTR_FIRE = 11,
 	ATTR_WATER = 12,
 	ATTR_THUNDER = 13,
@@ -11,7 +16,6 @@ enum Attribute
 	ATTR_GROUND = 15,
 	ATTR_ICE = 16,
 	ATTR_METAL = 17,
-	ATTR_GRASS = 5,
 	ATTR_SPAWN = 20,
 	ATTR_WARP_IN_A = 21,
 	ATTR_WARP_OUT_A = 22,
@@ -27,6 +31,7 @@ enum Reaction
 	REACT_EXTINGUISH,
 	REACT_FREEZE,
 	REACT_BURN_GRASS,
+	REACT_BALLOON_UP,
 	REACT_CONDUCT
 };
 
@@ -43,19 +48,12 @@ void InitGimmick();
 void LoadGimmick();
 void StartGimmick(Attribute map[][MAP_W]);
 void StepGimmick(int xA, int yA, int xB, int yB, Attribute map[][MAP_W]);
-void DrawGimmick();
-//void FinGimmick();
-void FindSpawn(Attribute map[][MAP_W]);
-//void CheckEvent(Attribute map[][MAP_W]);
-
-void InitGimmick();
-void LoadGimmick();
-void StartGimmick();
-void StepGimmick(int xA, int yA, int xB, int yB, Attribute map[][MAP_W]);
-void DrawGimmick();
+void DrawGimmick(Attribute map[][MAP_W]);
 void FinGimmick();
 void FindSpawn(Attribute map[][MAP_W]);
 void CheckEvent(Attribute map[][MAP_W]);
+
+
 
 class Gimmick
 {

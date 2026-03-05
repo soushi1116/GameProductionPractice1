@@ -58,7 +58,7 @@ void LoadBlock()
 
 void StartBlock()
 {
-	LoadMapCSV("Data/Map/map.csv");
+	LoadMapCSV("Data/Map/‰¼map.csv");
 
 	for (int y = 0; y < MAP_HEIGHT; y++)
 	{
