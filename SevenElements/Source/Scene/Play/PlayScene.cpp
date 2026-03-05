@@ -8,6 +8,7 @@
 #include "../../Collision/Collision.h"
 #include "../../Camera/Camera.h"
 #include "../../Warp/Warp.h"
+#include "../../Sound/SoundManager.h"
 
 void InitPlayScene()
 {
@@ -47,6 +48,8 @@ void StartPlayScene()
 
 	CreateWarp(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17);
 	CreateWarp(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17);
+
+	PlayBGM(BGM_PLAY);
 }
 
 void StepPlayScene()

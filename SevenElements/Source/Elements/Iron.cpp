@@ -6,8 +6,10 @@
 
 #define EFFECT_INTERVAL (1)
 #define IRON_MOVE_SPEED (5.0f)
-#define IRON_REACH (200.0f)
+#define IRON_REACH_X (200.0f)
+#define IRON_REACH_Y (200.0f)
 #define IRON_GRAVITY (0.5f)
+#define IRON_SPAWN_POS_Y_MIN (100.0f)
 
 Iron::Iron()
 {
@@ -71,11 +73,22 @@ void Iron::Spawn(float posX, float posY, bool isTurn)
 
 		if (!isTurn)
 		{
-			pos.x = posX - IRON_WIDTH / 2 + IRON_REACH;
+			pos.x = posX - IRON_WIDTH / 2 + IRON_REACH_X;
 		}
 		else
 		{
-			pos.x = posX - IRON_WIDTH / 2 - IRON_REACH;
+			pos.x = posX - IRON_WIDTH / 2 - IRON_REACH_X;
+		}
+
+		float spawnPosY = posY - IRON_REACH_Y;
+
+		if (spawnPosY > IRON_SPAWN_POS_Y_MIN)
+		{
+			pos.y = spawnPosY;
+		}
+		else
+		{
+			pos.y = IRON_SPAWN_POS_Y_MIN;
 		}
 
 		m_IsTurn = isTurn;
@@ -93,7 +106,7 @@ void Iron::IronHitBlock(int index)
 		if (i != index) continue;
 
 		move.y = 0.0f;
-		pos.y = block->pos.y - MAP_CHIP_HEIGHT;
+		pos.y = block->pos.y - IRON_HEIGHT;
 	}
 }
 

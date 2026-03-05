@@ -652,15 +652,24 @@ void PlayerHitIron(int index)
 
 	if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > ironPos.y)
 	{
-		g_PlayerData.posX = ironPos.x - PLAYER_WIDTH;
+		if (player.posY < ironPos.y + MAP_CHIP_HEIGHT)
+		{
+			g_PlayerData.posX = ironPos.x - PLAYER_WIDTH;
+		}
 	}
 	else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > ironPos.y)
 	{
-		g_PlayerData.posX = ironPos.x + IRON_WIDTH;
+		if (player.posY < ironPos.y + MAP_CHIP_HEIGHT)
+		{
+			g_PlayerData.posX = ironPos.x + IRON_WIDTH;
+		}
 	}
 
 	if (player.posY <= ironPos.y - PLAYER_HEIGHT)
 	{
+		if (g_PrevPlayerData.posX == ironPos.x + IRON_WIDTH) return;
+		if (g_PrevPlayerData.posX + PLAYER_WIDTH == ironPos.x) return;
+
 		if (!g_PlayerData.randing)
 		{
 			PlayerRand();
@@ -671,6 +680,9 @@ void PlayerHitIron(int index)
 	}
 	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > ironPos.y + IRON_HEIGHT)
 	{
+		if (g_PrevPlayerData.posX == ironPos.x + IRON_WIDTH) return;
+		if (g_PrevPlayerData.posX + PLAYER_WIDTH == ironPos.x) return;
+
 		g_PlayerData.move.y = 0.0f;
 		g_PlayerData.posY = ironPos.y + IRON_HEIGHT;
 	}
