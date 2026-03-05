@@ -61,6 +61,8 @@ PlayerData GetPlayer();
 void StartPlayerAnimation(PlayerAnimationType anim);
 void UpdatePlayerAnimation();
 
+void SpawnPlayer(float posX, float posY);
+
 void PlayerRand();
 
 void PlayerHitNormalBlockX(MapChipData mapChipData);

@@ -144,14 +144,23 @@ void Action(int posX, int posY, ElementType type, bool isTurn)
 		break;
 
 	case ELEMENT_TYPE_WATER:
-		//for (int i = 0; i < WATER_SPAWN_NUM; i++)
-		for (int j = 0; j < WATER_MAX; j++)
+		for (int i = 0; i < WATER_SPAWN_NUM; i++)
 		{
-			if (!water[j]->IsActive())
+			for (int j = 0; j < WATER_MAX; j++)
 			{
-				water[j]->Spawn(posX, posY, isTurn);
+				if (!water[j]->IsActive())
+				{
+					if (!isTurn)
+					{
+						water[j]->Spawn(posX + WATER_WIDTH * (WATER_SPAWN_NUM - i - 1) * WATER_SPAWN_OFFSET, posY, isTurn);
+					}
+					else
+					{
+						water[j]->Spawn(posX - WATER_WIDTH * (WATER_SPAWN_NUM - i - 1) * WATER_SPAWN_OFFSET, posY, isTurn);
+					}
 
-				break;
+					break;
+				}
 			}
 		}
 		break;
@@ -342,17 +351,34 @@ void WindDelete(int index)
 
 void WaterHitWater(int indexA, int indexB)
 {
+	int waterAPosX = water[indexA]->GetPos().x;
+	int waterBPosX = water[indexB]->GetPos().x;
+
 	int waterAPosY = water[indexA]->GetPos().y;
 	int waterBPosY = water[indexB]->GetPos().y;
 
+	int waterAMoveX = water[indexA]->GetMove().x;
+	int waterBMoveX = water[indexB]->GetMove().x;
+
 	if (waterAPosY < waterBPosY)
 	{
-		water[indexA]->WaterHitWater(indexA, indexB, waterBPosY);
+		water[indexA]->WaterHitWater(indexA, indexB, waterBPosX, waterBPosY);
 	}
 	else if (waterAPosY > waterBPosY)
 	{
-		water[indexB]->WaterHitWater(indexA, indexB, waterAPosY);
-	}	
+		water[indexB]->WaterHitWater(indexA, indexB, waterAPosX, waterAPosY);
+	}
+	else
+	{
+		if (waterAMoveX != 0.0f)
+		{
+			water[indexA]->WaterHitWater(indexA, indexB, waterBPosX, waterBPosY);
+		}
+		else if (waterBMoveX != 0.0f)
+		{
+			water[indexB]->WaterHitWater(indexA, indexB, waterAPosX, waterAPosY);
+		}
+	}
 }
 
 void WaterHitFire(int index)

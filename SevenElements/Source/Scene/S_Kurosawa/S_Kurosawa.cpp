@@ -26,6 +26,8 @@ KurosawaData g_KurosawaData = { 0 };
 #define GIMMICK_AIRBALLOON_POS_Y (600)
 #define GIMMICK_WOODBLOCK_POS_X (300)
 #define GIMMICK_WOODBLOCK_POS_Y (750)
+#define PLAYER_SPAWN_POS_X (2000.0f)
+#define PLAYER_SPAWN_POS_Y (600.0f)
 
 void InitKuroScene()
 {
@@ -65,12 +67,13 @@ void LoadKuroScene()
 
 void StartKuroScene()
 {
-	StartPlayer();
+	//StartPlayer();
+	SpawnPlayer(PLAYER_SPAWN_POS_X, PLAYER_SPAWN_POS_Y);
 
 	StartElementsManager();
 
 	CreateWarp(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17);
-	CreateWarp(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17);
+	//CreateWarp(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17);
 
 	StartMap();
 

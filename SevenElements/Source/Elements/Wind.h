@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include "Elements.h"
 
-#define WIND_MAX 64
+#define WIND_MAX 512
 #define WIND_WIDTH (217)
 #define WIND_HEIGHT (128)
 

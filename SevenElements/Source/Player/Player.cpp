@@ -510,6 +510,20 @@ void UpdatePlayerAnimation()
 	}
 }
 
+void SpawnPlayer(float posX, float posY)
+{
+	if (!g_PlayerData.active)
+	{
+		g_PlayerData.active = true;
+		g_PlayerData.posX = posX;
+		g_PlayerData.posY = posY;
+		g_PlayerData.level = PLAYER_DEFAULT_LEVEL;
+		g_PlayerData.life = PLAYER_DEFAULT_LIFE;
+
+		StartPlayerAnimation(PLAYER_ANIM_STOP);
+	}
+}
+
 void PlayerRand()
 {
 	PlaySE(SE_RAND);

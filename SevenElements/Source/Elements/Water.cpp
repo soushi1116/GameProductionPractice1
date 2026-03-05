@@ -22,6 +22,7 @@ Water::Water()
 	m_IsTurn = false;
 	m_IsAir = false;
 	m_IsFreeze = false;
+	m_Randing = false;
 }
 
 Water::~Water()
@@ -45,7 +46,7 @@ void Water::Step()
 	{
 		prevPosY = pos.y;
 
-		if (!m_IsAir)
+		if (m_Randing)
 		{
 			if (!m_IsTurn)
 			{
@@ -70,7 +71,8 @@ void Water::Step()
 				}
 			}
 		}
-		else
+
+		if (m_IsAir)
 		{
 			move.y += WATER_GRAVITY;
 		}
@@ -135,6 +137,8 @@ void Water::Spawn(float posX, float posY, bool isTurn)
 
 		m_IsAir = true;
 
+		m_Randing = false;
+
 		PlaySE(SE_WATER);
 	}
 }
@@ -155,6 +159,7 @@ void Water::WaterHitBlock(int index)
 				pos.y = block->pos.y - WATER_HEIGHT;
 
 				m_IsAir = false;
+				m_Randing = true;
 			}
 		}
 		else
@@ -172,10 +177,31 @@ void Water::WaterHitBlock(int index)
 	}
 }
 
-void Water::WaterHitWater(int indexA, int indexB, int posY)
+void Water::WaterHitWater(int indexA, int indexB, int posX, int posY)
 {
-	pos.y = posY - WATER_HEIGHT;
-	m_IsAir = false;
+	if (pos.y < posY)
+	{
+		if (pos.x < posX + WATER_WIDTH && pos.x + WATER_WIDTH > posX)
+		{
+			move.y = 0.0f;
+
+			pos.y = posY - WATER_HEIGHT;
+
+			m_IsAir = false;
+		}
+	}
+	else
+	{
+		if (move.x < 0.0f)
+		{
+			pos.x = posX + WATER_WIDTH;
+		}
+		else if (move.x > 0.0f)
+		{
+			pos.x = posX - WATER_WIDTH;
+		}
+		move.x = 0.0f;
+	}
 }
 
 void Water::WaterHitFire()

@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include "Elements.h"
 
-#define IRON_MAX 64
+#define IRON_MAX 512
 #define IRON_WIDTH (64)
 #define IRON_HEIGHT (64)
 
