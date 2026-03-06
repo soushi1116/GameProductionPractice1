@@ -391,6 +391,38 @@ void WaterHitWater(int indexA, int indexB)
 	}
 }
 
+void GroundHitGround(int indexA, int indexB)
+{
+	int groundAPosX = ground[indexA]->GetPos().x;
+	int groundBPosX = ground[indexB]->GetPos().x;
+
+	int groundAPosY = ground[indexA]->GetPos().y;
+	int groundBPosY = ground[indexB]->GetPos().y;
+
+	int groundAMoveX = ground[indexA]->GetMove().x;
+	int groundBMoveX = ground[indexB]->GetMove().x;
+
+	if (groundAPosY < groundBPosY)
+	{
+		ground[indexA]->GroundHitGround(indexA, indexB, groundBPosX, groundBPosY);
+	}
+	else if (groundAPosY > groundBPosY)
+	{
+		ground[indexB]->GroundHitGround(indexA, indexB, groundAPosX, groundAPosY);
+	}
+	else
+	{
+		if (groundAMoveX != 0.0f)
+		{
+			ground[indexA]->GroundHitGround(indexA, indexB, groundBPosX, groundBPosY);
+		}
+		else if (groundBMoveX != 0.0f)
+		{
+			ground[indexB]->GroundHitGround(indexA, indexB, groundAPosX, groundAPosY);
+		}
+	}
+}
+
 void WaterHitFire(int index)
 {
 	water[index]->WaterHitFire();

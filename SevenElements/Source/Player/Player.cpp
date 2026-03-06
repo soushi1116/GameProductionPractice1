@@ -4,6 +4,7 @@
 #include "../Input/Input.h"
 #include "../Elements/ElementsManager.h"
 #include "../Elements/Iron.h"
+#include "../Elements//Ground.h"
 #include "../Gimmick/GimmickManager.h"
 #include "../Gimmick/Tree.h"
 #include "../Gimmick/AirBalloon.h"
@@ -27,6 +28,7 @@
 #define PLAYER_ACTION_FREEZE_TIME (20)
 #define PLAYER_MAP_COLLISION_OFFSET (0.05f)
 #define PLAYER_DEFAULT_LIFE (5)
+#define PLAYER_WATER_BUOYANCY (0.5f)
 
 PlayerData g_PlayerData = { 0 };
 PlayerData g_PrevPlayerData = { 0 };
@@ -63,6 +65,7 @@ void InitPlayer()
 	g_PlayerData.action = false;
 	g_PlayerData.ridingAirBalloon = false;
 	g_PlayerData.hitWarp = false;
+	g_PlayerData.inWater = false;
 
 	g_PlayerData.playAnim = PLAYER_ANIM_NONE;
 }
@@ -291,6 +294,7 @@ void StepPlayer()
 		StopBGM(BGM_WALK);
 		StopBGM(BGM_RUN);
 	}
+
 	if (IsReleaseKey(KEY_LEFT) || IsReleasePad(PAD_LEFT))
 	{
 		if (!g_PlayerData.runLeft)
@@ -308,15 +312,16 @@ void StepPlayer()
 			g_PlayerData.posX += MAP_CHIP_WIDTH * 4;
 			g_PlayerData.hitWarp = false;
 		}
-		else
+		else if (g_PlayerData.randing && !g_PlayerData.action)
 		{
-			if (g_PlayerData.randing && !g_PlayerData.action)
-			{
-				g_PlayerData.randing = false;
-				g_PlayerData.move.y -= PLAYER_JUMP_POWER;
+			g_PlayerData.randing = false;
+			g_PlayerData.move.y -= PLAYER_JUMP_POWER;
 
-				PlaySE(SE_JUMP);
-			}
+			PlaySE(SE_JUMP);
+		}
+		else if (g_PlayerData.inWater)
+		{
+			g_PlayerData.move.y -= PLAYER_JUMP_POWER;
 		}
 	}
 
@@ -382,6 +387,12 @@ void UpdatePlayer()
 		StopBGM(BGM_RUN);
 	}
 
+	if (g_PlayerData.inWater)
+	{
+		g_PlayerData.move.x *= PLAYER_WATER_BUOYANCY;
+		g_PlayerData.move.y *= PLAYER_WATER_BUOYANCY;
+	}
+
 	g_PlayerData.posX += g_PlayerData.move.x;
 	g_PlayerData.posY += g_PlayerData.move.y;
 
@@ -393,6 +404,11 @@ void UpdatePlayer()
 	if (g_PlayerData.animTimer > PLAYER_ACTION_FREEZE_TIME)
 	{
 		g_PlayerData.action = false;
+	}
+
+	if (g_PlayerData.inWater)
+	{
+		g_PlayerData.inWater = false;
 	}
 
 	UpdatePlayerAnimation();
@@ -666,14 +682,14 @@ void PlayerHitIron(int index)
 
 	if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > ironPos.y)
 	{
-		if (player.posY < ironPos.y + MAP_CHIP_HEIGHT)
+		if (player.posY < ironPos.y + IRON_HEIGHT)
 		{
 			g_PlayerData.posX = ironPos.x - PLAYER_WIDTH;
 		}
 	}
 	else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > ironPos.y)
 	{
-		if (player.posY < ironPos.y + MAP_CHIP_HEIGHT)
+		if (player.posY < ironPos.y + IRON_HEIGHT)
 		{
 			g_PlayerData.posX = ironPos.x + IRON_WIDTH;
 		}
@@ -702,12 +718,60 @@ void PlayerHitIron(int index)
 	}
 }
 
-void PlayerHitWater(int index)
+void PlayerHitGround(int index)
 {
+	PlayerData player = GetPlayer();
+	VECTOR groundPos = GetElementPos(index, ELEMENT_TYPE_GROUND);
+
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	player.posX = g_PlayerData.posX;
+	player.posY = g_PrevPlayerData.posY;
+
+	if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > groundPos.y)
+	{
+		if (player.posY < groundPos.y + GROUND_HEIGHT)
+		{
+			g_PlayerData.posX = groundPos.x - PLAYER_WIDTH;
+		}
+	}
+	else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > groundPos.y)
+	{
+		if (player.posY < groundPos.y + GROUND_HEIGHT)
+		{
+			g_PlayerData.posX = groundPos.x + GROUND_WIDTH;
+		}
+	}
+
+	if (player.posY <= groundPos.y - PLAYER_HEIGHT)
+	{
+		if (g_PrevPlayerData.posX == groundPos.x + GROUND_WIDTH) return;
+		if (g_PrevPlayerData.posX + PLAYER_WIDTH == groundPos.x) return;
+
+		if (!g_PlayerData.randing)
+		{
+			PlayerRand();
+		}
+
+		g_PlayerData.move.y = 0.0f;
+		g_PlayerData.posY = groundPos.y - PLAYER_HEIGHT;
+	}
+	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > groundPos.y + GROUND_HEIGHT)
+	{
+		if (g_PrevPlayerData.posX == groundPos.x + GROUND_WIDTH) return;
+		if (g_PrevPlayerData.posX + PLAYER_WIDTH == groundPos.x) return;
+
+		g_PlayerData.move.y = 0.0f;
+		g_PlayerData.posY = groundPos.y + GROUND_HEIGHT;
+	}
 }
 
-void PlayerHitFloor()
+void PlayerHitWater(int index)
 {
+	if (!g_PlayerData.inWater)
+	{
+		g_PlayerData.inWater = true;
+	}
 }
 
 void PlayerHitTree(int index)

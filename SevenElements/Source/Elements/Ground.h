@@ -26,6 +26,8 @@ public:
 
 	void GroundHitBlock(int index);
 
+	void GroundHitGround(int indexA, int indexB, int posX, int posY);
+
 	bool IsActive() { return active; }
 
 	VECTOR GetPos() { return pos; }

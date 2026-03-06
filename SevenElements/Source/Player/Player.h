@@ -42,6 +42,7 @@ struct PlayerData
 	bool action;
 	bool ridingAirBalloon;
 	bool hitWarp;
+	bool inWater;
 
 	AnimationData animation[PLAYER_ANIM_MAX];
 	PlayerAnimationType playAnim;
@@ -70,6 +71,8 @@ void PlayerHitNormalBlockY(MapChipData mapChipData);
 
 void PlayerHitIron(int index);
 
+void PlayerHitGround(int index);
+
 void PlayerHitWater(int index);
 
 void PlayerHitBlock(int index);
@@ -81,5 +84,3 @@ void PlayerHitWoodBlock(int index);
 void PlayerHitWarp();
 
 void RideAirBalloon(VECTOR airBalloonPos);
-
-void PlayerHitFloor();

@@ -110,8 +110,6 @@ void Ground::GroundHitBlock(int index)
 	{
 		if (i != index) continue;
 
-		move.x = 0.0f;
-
 		if (pos.y < block->pos.y)
 		{
 			if (pos.x < block->pos.x + MAP_CHIP_WIDTH && pos.x + GROUND_WIDTH > block->pos.x)
@@ -121,7 +119,6 @@ void Ground::GroundHitBlock(int index)
 				pos.y = block->pos.y - GROUND_HEIGHT;
 
 				m_IsAir = false;
-				//m_Randing = true;
 			}
 		}
 		else
@@ -136,6 +133,34 @@ void Ground::GroundHitBlock(int index)
 			}
 		}
 
+		move.x = 0.0f;
+	}	
+}
+
+void Ground::GroundHitGround(int indexA, int indexB, int posX, int posY)
+{
+	if (pos.y < posY)
+	{
+		if (pos.x < posX + GROUND_WIDTH && pos.x + GROUND_WIDTH > posX)
+		{
+			move.y = 0.0f;
+
+			pos.y = posY - GROUND_HEIGHT;
+
+			m_IsAir = false;
+		}
 	}
-	
+	else
+	{
+		if (move.x < 0.0f)
+		{
+			pos.x = posX + GROUND_WIDTH;
+		}
+		else if (move.x > 0.0f)
+		{
+			pos.x = posX - GROUND_WIDTH;
+		}
+	}
+
+	move.x = 0.0f;
 }

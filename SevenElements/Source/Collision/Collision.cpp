@@ -132,6 +132,7 @@ void CheckWaterMap()
 	}
 }
 
+
 void CheckGroundMap()
 {
 	for (int i = 0; i < GROUND_MAX; i++)
@@ -194,6 +195,27 @@ void CheckPlayerIron()
 				ironPos.x, ironPos.y, IRON_WIDTH, IRON_HEIGHT))
 			{
 				PlayerHitIron(i);
+			}
+		}
+	}
+}
+
+void CheckPlayerGround()
+{
+	PlayerData player = GetPlayer();
+
+	if (player.active)
+	{
+		for (int i = 0; i < GROUND_MAX; i++)
+		{
+			if (!IsElementActive(i, ELEMENT_TYPE_GROUND)) continue;
+
+			VECTOR groundPos = GetElementPos(i, ELEMENT_TYPE_GROUND);
+
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+				groundPos.x, groundPos.y, GROUND_WIDTH, GROUND_HEIGHT))
+			{
+				PlayerHitGround(i);
 			}
 		}
 	}
@@ -299,6 +321,28 @@ void CheckPlayerWoodBlock()
 				woodBlockPos.x, woodBlockPos.y, WOODBLOCK_WIDTH, WOODBLOCK_HEIGHT))
 			{
 				PlayerHitWoodBlock(i);
+			}
+		}
+	}
+}
+
+void CheckGroundGround()
+{
+	for (int i = 0; i < GROUND_MAX; i++)
+	{
+		if (!IsElementActive(i, ELEMENT_TYPE_GROUND)) continue;
+
+		for (int j = i + 1; j < GROUND_MAX; j++)
+		{
+			if (!IsElementActive(j, ELEMENT_TYPE_GROUND)) continue;
+
+			VECTOR groundAPos = GetElementPos(i, ELEMENT_TYPE_GROUND);
+			VECTOR groundBPos = GetElementPos(j, ELEMENT_TYPE_GROUND);
+
+			if (CheckSquareSquare(groundAPos.x, groundAPos.y, GROUND_WIDTH, GROUND_HEIGHT,
+				groundBPos.x, groundBPos.y, GROUND_WIDTH, GROUND_HEIGHT))
+			{
+				GroundHitGround(i, j);
 			}
 		}
 	}
@@ -499,11 +543,15 @@ void CheckCollision()
 
 	CheckGroundMap();
 
+	CheckGroundGround();
+
 	CheckWoodBlockMap();
 
 	CheckPlayerIron();
 
 	CheckPlayerWater();
+
+	CheckPlayerGround();
 
 	CheckPlayerTree();
 
