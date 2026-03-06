@@ -69,6 +69,7 @@ void InitPlayer()
 	g_PlayerData.hitWarp = false;
 	g_PlayerData.inWater = false;
 	g_PlayerData.die = false;
+	g_PlayerData.clear = false;
 
 	g_PlayerData.playAnim = PLAYER_ANIM_NONE;
 }

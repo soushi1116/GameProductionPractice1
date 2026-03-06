@@ -48,6 +48,7 @@ struct PlayerData
 	bool hitWarp;
 	bool inWater;
 	bool die;
+	bool clear;
 
 	AnimationData animation[PLAYER_ANIM_MAX];
 	PlayerAnimationType playAnim;
