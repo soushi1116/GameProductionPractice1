@@ -1,4 +1,5 @@
 #pragma once
+#include "DxLib.h"
 
 void InitKuroScene();
 void LoadKuroScene();
@@ -11,4 +12,9 @@ void FinKuroScene();
 struct KurosawaData
 {
 	int textHandle;
+};
+
+struct LifeData
+{
+	VECTOR pos;
 };

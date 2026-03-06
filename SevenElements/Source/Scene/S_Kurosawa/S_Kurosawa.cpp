@@ -15,6 +15,8 @@
 #include "../../Warp/Warp.h"
 
 KurosawaData g_KurosawaData = { 0 };
+LifeData g_LifeData[PLAYER_LIFE_MAX] = { 0 };
+int g_LifeHandle = 0;
 
 #define TEXTPOS_X (200)
 #define TEXTPOS_Y (0)
@@ -58,6 +60,8 @@ void LoadKuroScene()
 
 	g_KurosawaData.textHandle = LoadGraph("Data/Player/SceneForKurosawa.png");
 
+	g_LifeHandle = LoadGraph("Data/UI/Heart.png");
+
 	LoadMap();
 
 	LoadWarp();
@@ -79,10 +83,11 @@ void StartKuroScene()
 
 	CreateUIImage(UI_IMAGE_LIFETEXT, 30.0f, 50.0f);
 
-	PlayerData player = GetPlayer();
-	for (int i = 0; i < player.life; i++)
+	LifeData* life = g_LifeData;
+	for (int i = 0; i < PLAYER_LIFE_MAX; i++, life++)
 	{
-		CreateUIImage(UI_IMAGE_LIFE, (float)(200 + i * 60), 50.0f);
+		life->pos.x = (float)(200 + i * 60);
+		life->pos.y = 50.0f;
 	}
 
 	PlayBGM(BGM_PLAY);
@@ -127,6 +132,13 @@ void DrawKuroScene()
 
 	DrawElementsManager();
 
+	LifeData* life = g_LifeData;
+	PlayerData player = GetPlayer();
+	for (int i = 0; i < player.life; i++, life++)
+	{
+		DrawGraph(life->pos.x, life->pos.y, g_LifeHandle, TRUE);
+	}
+
 	DrawUIImage();
 
 	DrawCamera();
@@ -145,6 +157,8 @@ void FinKuroScene()
 	FinElementsManager();
 
 	DeleteGraph(g_KurosawaData.textHandle);
+
+	DeleteGraph(g_LifeHandle);
 
 	ResetUIImage();
 

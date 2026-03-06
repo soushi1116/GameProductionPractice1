@@ -12,6 +12,7 @@
 #include "../Map/Block.h"
 #include "../Sound/SoundManager.h"
 #include "../Camera/Camera.h"
+#include "../Scene/SceneManager.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
 #define PLAYER_RUN_SPEED (7.0f)
@@ -27,8 +28,8 @@
 #define PLAYER_ANIM_INTERVAL (40)
 #define PLAYER_ACTION_FREEZE_TIME (20)
 #define PLAYER_MAP_COLLISION_OFFSET (0.05f)
-#define PLAYER_DEFAULT_LIFE (5)
 #define PLAYER_WATER_BUOYANCY (0.5f)
+#define PLAYER_DIE_SCENE_CHANGE_INTERVAL (180)
 
 PlayerData g_PlayerData = { 0 };
 PlayerData g_PrevPlayerData = { 0 };
@@ -54,6 +55,7 @@ void InitPlayer()
 	g_PlayerData.selectState = -1;
 	g_PlayerData.runTimer = 0;
 	g_PlayerData.animTimer = 0;
+	g_PlayerData.sceneChangeTimer = 0;
 	g_PlayerData.life = 0;
 
 	g_PlayerData.active = false;
@@ -66,6 +68,7 @@ void InitPlayer()
 	g_PlayerData.ridingAirBalloon = false;
 	g_PlayerData.hitWarp = false;
 	g_PlayerData.inWater = false;
+	g_PlayerData.die = false;
 
 	g_PlayerData.playAnim = PLAYER_ANIM_NONE;
 }
@@ -86,6 +89,8 @@ void LoadPlayer()
 		= LoadGraph("Data/Player/Fall.png");
 	g_PlayerData.animation[PLAYER_ANIM_ACTION].handle
 		= LoadGraph("Data/Player/Action.png");
+	g_PlayerData.animation[PLAYER_ANIM_DEATH].handle
+		= LoadGraph("Data/Player/Death.png");
 
 	for (int i = 0; i < ELEMENTS_NUM_MAX; i++)
 	{
@@ -135,6 +140,13 @@ void StartPlayer()
 void StepPlayer()
 {
 	if (!g_PlayerData.active) return;
+
+	if (g_PlayerData.die)
+	{
+		g_PlayerData.sceneChangeTimer++;
+	}
+
+	if (g_PlayerData.die) return;
 
 	g_PrevPlayerData = g_PlayerData;
 
@@ -356,6 +368,11 @@ void StepPlayer()
 			g_PlayerData.level = PLAYER_DEFAULT_LEVEL;
 		}
 	}
+
+	if (IsTriggerKey(KEY_C))
+	{
+		PlayerHitEnemy();
+	}
 }
 
 void UpdatePlayer()
@@ -363,6 +380,11 @@ void UpdatePlayer()
 	if (!g_PlayerData.active) return;
 
 	g_PlayerData.hitWarp = false;
+
+	if (g_PlayerData.sceneChangeTimer > PLAYER_DIE_SCENE_CHANGE_INTERVAL)
+	{
+		ChangeScene(SCENE_TITLE);
+	}
 
 	if (g_PlayerData.randing)
 	{
@@ -396,6 +418,13 @@ void UpdatePlayer()
 	g_PlayerData.posX += g_PlayerData.move.x;
 	g_PlayerData.posY += g_PlayerData.move.y;
 
+	if (g_PlayerData.die)
+	{
+		g_PlayerData.move.x = 0.0f;
+		StopBGM(BGM_WALK);
+		StopBGM(BGM_RUN);
+	}
+
 	if (g_PlayerData.animTimer > PLAYER_ANIM_INTERVAL)
 	{
 		g_PlayerData.animTimer = 0;
@@ -409,6 +438,11 @@ void UpdatePlayer()
 	if (g_PlayerData.inWater)
 	{
 		g_PlayerData.inWater = false;
+	}
+
+	if (g_PlayerData.life <= 0)
+	{
+		g_PlayerData.die = true;
 	}
 
 	UpdatePlayerAnimation();
@@ -486,7 +520,11 @@ void UpdatePlayerAnimation()
 {
 	if (!g_PlayerData.active) return;
 
-	if (g_PlayerData.action)
+	if (g_PlayerData.die)
+	{
+		StartPlayerAnimation(PLAYER_ANIM_DEATH);
+	}
+	else if (g_PlayerData.action)
 	{
 		StartPlayerAnimation(PLAYER_ANIM_ACTION);
 	}
@@ -892,6 +930,11 @@ void PlayerHitWoodBlock(int index)
 void PlayerHitWarp()
 {
 	g_PlayerData.hitWarp = true;
+}
+
+void PlayerHitEnemy()
+{
+	g_PlayerData.life--;
 }
 
 void RideAirBalloon(VECTOR airBalloonPos)
