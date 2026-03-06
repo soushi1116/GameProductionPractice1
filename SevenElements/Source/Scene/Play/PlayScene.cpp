@@ -10,6 +10,22 @@
 #include "../../Warp/Warp.h"
 #include "../../Sound/SoundManager.h"
 
+#define TEXTPOS_X (200)
+#define TEXTPOS_Y (0)
+#define BLOCK_NUM_MAX (32)
+#define MAP_POS_Y (700)
+#define GIMMICK_TREE_POS_X (300)
+#define GIMMICK_TREE_POS_Y (500)
+#define GIMMICK_AIRBALLOON_POS_X (1000)
+#define GIMMICK_AIRBALLOON_POS_Y (600)
+#define GIMMICK_WOODBLOCK_POS_X (300)
+#define GIMMICK_WOODBLOCK_POS_Y (750)
+#define PLAYER_SPAWN_POS_X (2000.0f)
+#define PLAYER_SPAWN_POS_Y (600.0f)
+#define SLIDE_TEXT_POS_X (550.0f)
+#define SLIDE_TEXT_POS_Y (-100.0f)
+#define SLIDE_TEXT_MOVE_Y (10.0f)
+
 void InitPlayScene()
 {
 	InitMap();

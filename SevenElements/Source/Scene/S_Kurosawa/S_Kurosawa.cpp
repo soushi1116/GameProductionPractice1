@@ -1,5 +1,6 @@
 #include "DxLib.h"
 #include "S_Kurosawa.h"
+#include "../Play/PlayScene.h"
 #include "../../Player/Player.h"
 #include "../../Effect/AnimationEffect.h"
 #include "../../Input/Input.h"
@@ -14,14 +15,9 @@
 #include "../../Camera/Camera.h"
 #include "../../Warp/Warp.h"
 #include "../../GameSetting/GameSetting.h"
-
+#include "../../Life/Life.h"
+#include "../../Event/EventManager.h"
 KurosawaData g_KurosawaData = { 0 };
-LifeData g_LifeData[PLAYER_LIFE_MAX] = { 0 };
-int g_LifeHandle = 0;
-int g_DieTextHandle = 0;
-int g_ClearTextHandle = 0;
-VECTOR dieTextPos = VGet(0.0f, 0.0f, 0.0f);
-VECTOR clearTextPos = VGet(0.0f, 0.0f, 0.0f);
 
 #define TEXTPOS_X (200)
 #define TEXTPOS_Y (0)
@@ -35,9 +31,6 @@ VECTOR clearTextPos = VGet(0.0f, 0.0f, 0.0f);
 #define GIMMICK_WOODBLOCK_POS_Y (750)
 #define PLAYER_SPAWN_POS_X (2000.0f)
 #define PLAYER_SPAWN_POS_Y (600.0f)
-#define SLIDE_TEXT_POS_X (550.0f)
-#define SLIDE_TEXT_POS_Y (-100.0f)
-#define SLIDE_TEXT_MOVE_Y (10.0f);
 
 void InitKuroScene()
 {
@@ -55,6 +48,10 @@ void InitKuroScene()
 
 	InitWarp();
 
+	InitLife();
+
+	InitEventManager();
+
 	InitCamera();
 }
 
@@ -68,13 +65,13 @@ void LoadKuroScene()
 
 	g_KurosawaData.textHandle = LoadGraph("Data/Player/SceneForKurosawa.png");
 
-	g_LifeHandle = LoadGraph("Data/UI/Heart.png");
-	g_DieTextHandle = LoadGraph("Data/UI/DiedText.png");
-	g_ClearTextHandle = LoadGraph("Data/UI/ClearText.png");
+	LoadEventManager();
 
 	LoadMap();
 
 	LoadWarp();
+
+	LoadLife();
 
 	LoadUIImage();
 }
@@ -91,20 +88,11 @@ void StartKuroScene()
 
 	StartMap();
 
+	StartLife();
+
 	CreateUIImage(UI_IMAGE_LIFETEXT, 30.0f, 50.0f);
 
-	LifeData* life = g_LifeData;
-	for (int i = 0; i < PLAYER_LIFE_MAX; i++, life++)
-	{
-		life->pos.x = (float)(200 + i * 60);
-		life->pos.y = 50.0f;
-	}
-
-	dieTextPos.x = SLIDE_TEXT_POS_X;
-	dieTextPos.y = SLIDE_TEXT_POS_Y;
-
-	clearTextPos.x = SLIDE_TEXT_POS_X;
-	clearTextPos.y = SLIDE_TEXT_POS_Y;
+	StartEventManager();
 
 	PlayBGM(BGM_PLAY);
 }
@@ -129,17 +117,7 @@ void UpdateKuroScene()
 {
 	UpdatePlayer();
 
-	PlayerData player = GetPlayer();
-	if (player.die && dieTextPos.y < SCREEN_HEIGHT / 2)
-	{
-		dieTextPos.y += SLIDE_TEXT_MOVE_Y;
-	}
-
-	PlayerData player = GetPlayer();
-	if (player.clear && clearTextPos.y < SCREEN_HEIGHT / 2)
-	{
-		clearTextPos.y += SLIDE_TEXT_MOVE_Y;
-	}
+	UpdateEventManager();
 
 	UpdateAnimationEffect();
 
@@ -160,18 +138,11 @@ void DrawKuroScene()
 
 	DrawElementsManager();
 
-	LifeData* life = g_LifeData;
-	PlayerData player = GetPlayer();
-	for (int i = 0; i < player.life; i++, life++)
-	{
-		DrawGraph(life->pos.x, life->pos.y, g_LifeHandle, TRUE);
-	}
-
-	DrawGraph(dieTextPos.x, dieTextPos.y, g_DieTextHandle, TRUE);
-
-	DrawGraph(clearTextPos.x, clearTextPos.y, g_ClearTextHandle, TRUE);
+	DrawEventManager();
 
 	DrawUIImage();
+
+	DrawLife();
 
 	DrawCamera();
 }
@@ -190,11 +161,9 @@ void FinKuroScene()
 
 	DeleteGraph(g_KurosawaData.textHandle);
 
-	DeleteGraph(g_LifeHandle);
+	FinLife();
 
-	DeleteGraph(g_DieTextHandle);
-
-	DeleteGraph(g_ClearTextHandle);
+	FinEventManager();
 
 	ResetUIImage();
 

@@ -46,6 +46,7 @@ void LoadSE()
 {
 	g_SEHandle[SE_JUMP] = LoadSoundMem("Data/Sound/SE/PlayerJump.mp3");
 	g_SEHandle[SE_RAND] = LoadSoundMem("Data/Sound/SE/PlayerRand.mp3");
+	g_SEHandle[SE_DAMAGE] = LoadSoundMem("Data/Sound/SE/PlayerDamage.mp3");
 
 	g_SEHandle[SE_FIRE] = LoadSoundMem("Data/Sound/SE/Fire.mp3");
 	g_SEHandle[SE_WATER] = LoadSoundMem("Data/Sound/SE/Water.mp3");

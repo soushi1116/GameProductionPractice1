@@ -935,6 +935,7 @@ void PlayerHitWarp()
 
 void PlayerHitEnemy()
 {
+	PlaySE(SE_DAMAGE);
 	g_PlayerData.life--;
 }
 

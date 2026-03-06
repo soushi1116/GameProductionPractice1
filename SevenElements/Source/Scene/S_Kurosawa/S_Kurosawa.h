@@ -13,8 +13,3 @@ struct KurosawaData
 {
 	int textHandle;
 };
-
-struct LifeData
-{
-	VECTOR pos;
-};

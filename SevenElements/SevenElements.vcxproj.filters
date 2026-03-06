@@ -61,6 +61,12 @@
     <Filter Include="Source\Warp">
       <UniqueIdentifier>{87b3704f-8968-4b21-a8dc-cf9480106099}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Life">
+      <UniqueIdentifier>{b35b12fb-87a3-4869-b0aa-8fd6fb716cc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Event">
+      <UniqueIdentifier>{4dc9aa2a-beb7-4288-86ef-57defd9e2987}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -169,6 +175,18 @@
     </ClCompile>
     <ClCompile Include="Source\Warp\Warp.cpp">
       <Filter>Source\Warp</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Life\Life.cpp">
+      <Filter>Source\Life</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Event\Clear.cpp">
+      <Filter>Source\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Event\Die.cpp">
+      <Filter>Source\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Event\EventManager.cpp">
+      <Filter>Source\Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +305,18 @@
     </ClInclude>
     <ClInclude Include="Source\Warp\Warp.h">
       <Filter>Source\Warp</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Life\Life.h">
+      <Filter>Source\Life</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Event\Clear.h">
+      <Filter>Source\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Event\Die.h">
+      <Filter>Source\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Event\EventManager.h">
+      <Filter>Source\Event</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

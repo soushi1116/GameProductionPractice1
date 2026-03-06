@@ -20,6 +20,7 @@ enum SEType
 {
 	SE_JUMP,
 	SE_RAND,
+	SE_DAMAGE,
 
 	SE_FIRE,
 	SE_WATER,
