@@ -14,19 +14,20 @@ void LoadMapChipData()
 
 	for (int i = 0; i < MAP_CHIP_Y_NUM; i++)
 	{
-		for (int j = 0; j < MAP_CHIP_Y_NUM; j++)
+		for (int j = 0; j < MAP_CHIP_X_NUM; j++)
 		{
 			int map = fgetc(fp);
 			g_MapChip[i][j].mapChip = map;
 		}
 	}
+	fclose(fp);
 }
 
 void CreateMap()
 {
 	for (int i = 0; i < MAP_CHIP_Y_NUM; i++)
 	{
-		for (int j = 0; j < MAP_CHIP_Y_NUM; j++)
+		for (int j = 0; j < MAP_CHIP_X_NUM; j++)
 		{
 			MapChipType type = (MapChipType)g_MapChip[i][j].mapChip;
 
@@ -38,6 +39,7 @@ void CreateMap()
 		}
 	}
 }
+
 
 MapChipData GetMapChipData(int x, int y)
 {

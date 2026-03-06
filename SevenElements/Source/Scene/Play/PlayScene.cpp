@@ -6,6 +6,8 @@
 #include "../../Elements/ElementsManager.h"
 #include "../../Map/MapManager.h"
 #include "../../Collision/Collision.h"
+#include "../../Map/MapChip.h"
+#include "../../Map/Block.h"
 
 
 void InitPlayScene()
@@ -22,6 +24,12 @@ void InitPlayScene()
 void LoadPlayScene()
 {
 	LoadMap();
+
+	LoadMapChipData();
+
+	LoadBlock();
+
+	CreateMap();
 
 	LoadPlayer();
 
@@ -62,6 +70,8 @@ void UpdatePlayScene()
 void DrawPlayScene()
 {
 	DrawMap();
+
+	DrawBlock();
 
 	DrawPlayer();
 

@@ -170,7 +170,7 @@ void StepGimmick(int xA, int yA, int xB, int yB,Attribute map[][MAP_W])
 	}
 }
 
-void DrawGimmick()
+void DrawGimmick(Attribute map[][MAP_W])
 {
 	if (gIsFrozen)
 	{
@@ -206,7 +206,7 @@ int main()
 
 		StepGimmick(xA, yA, xB, yB, map);
 		CheckEvent(map);
-		DrawGimmick();
+		DrawGimmick(map);
 	}
 	while (true)
 	{
@@ -221,7 +221,3 @@ int main()
 	FinGimmick();
 	return 0;
 }
-
-
-
-
