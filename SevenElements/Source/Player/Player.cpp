@@ -323,7 +323,7 @@ void StepPlayer()
 	{
 		if (g_PlayerData.hitWarp)
 		{
-			g_PlayerData.posX += MAP_CHIP_WIDTH * 4;
+			g_PlayerData.posX += MAP_CHIP_WIDTH * 5;
 			g_PlayerData.hitWarp = false;
 		}
 		else if (g_PlayerData.randing && !g_PlayerData.action)

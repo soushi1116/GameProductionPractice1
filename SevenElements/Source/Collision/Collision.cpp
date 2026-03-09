@@ -392,6 +392,28 @@ void CheckIronIron()
 	}
 }
 
+void CheckIronWater()
+{
+	for (int i = 0; i < IRON_MAX; i++)
+	{
+		if (!IsElementActive(i, ELEMENT_TYPE_IRON)) continue;
+
+		for (int j = 0; j < WATER_MAX; j++)
+		{
+			if (!IsElementActive(j, ELEMENT_TYPE_WATER)) continue;
+
+			VECTOR ironPos = GetElementPos(i, ELEMENT_TYPE_IRON);
+			VECTOR waterPos = GetElementPos(j, ELEMENT_TYPE_WATER);
+
+			if (CheckSquareSquare(ironPos.x, ironPos.y, IRON_WIDTH, IRON_HEIGHT,
+				waterPos.x, waterPos.y, WATER_WIDTH, WATER_HEIGHT))
+			{
+				IronHitWater(i, j);
+			}
+		}
+	}
+}
+
 void CheckFireIron()
 {
 	for (int i = 0; i < FIRE_MAX; i++)
@@ -589,6 +611,8 @@ void CheckCollision()
 	CheckPlayerGoal();
 
 	CheckIronIron();
+
+	CheckIronWater();
 
 	CheckFireIron();
 

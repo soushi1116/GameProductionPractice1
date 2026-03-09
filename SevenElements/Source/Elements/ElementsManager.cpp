@@ -333,6 +333,12 @@ void IronHitIron(int indexA, int indexB)
 	}
 }
 
+void IronHitWater(int indexA, int indexB)
+{
+	iron[indexA]->IronHitWater(indexB);
+	water[indexB]->WaterHitIron(indexA);
+}
+
 void IronHitBlock(int indexA, int indexB)
 {
 	iron[indexA]->IronHitBlock(indexB);

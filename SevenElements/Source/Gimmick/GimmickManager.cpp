@@ -21,7 +21,7 @@ void InitGimmickManager()
 void LoadGimmickManager()
 {
 	gimmick->Load();
-	for (int i = 0; i < ELEMENTS_MAX; i++)
+	for (int i = 0; i < GIMMICK_MAX; i++)
 	{
 		tree[i].Load();
 		airBalloon[i].Load();
@@ -33,7 +33,7 @@ void LoadGimmickManager()
 void StartGimmickManager()
 {
 	gimmick->Start();
-	for (int i = 0; i < ELEMENTS_MAX; i++)
+	for (int i = 0; i < GIMMICK_MAX; i++)
 	{
 		tree[i].Start();
 		airBalloon[i].Start();
@@ -45,7 +45,7 @@ void StartGimmickManager()
 void StepGimmickManager()
 {
 	gimmick->Step();
-	for (int i = 0; i < ELEMENTS_MAX; i++)
+	for (int i = 0; i < GIMMICK_MAX; i++)
 	{
 		tree[i].Step();
 		airBalloon[i].Step();
@@ -57,7 +57,7 @@ void StepGimmickManager()
 void UpdateGimmickManager()
 {
 	gimmick->Update();
-	for (int i = 0; i < ELEMENTS_MAX; i++)
+	for (int i = 0; i < GIMMICK_MAX; i++)
 	{
 		tree[i].Update();
 		airBalloon[i].Update();
@@ -69,7 +69,7 @@ void UpdateGimmickManager()
 void DrawGimmickManager()
 {
 	gimmick->Draw();
-	for (int i = 0; i < ELEMENTS_MAX; i++)
+	for (int i = 0; i < GIMMICK_MAX; i++)
 	{
 		tree[i].Draw();
 		airBalloon[i].Draw();
@@ -82,7 +82,7 @@ void FinGimmickManager()
 {
 	delete gimmick;
 
-	for (int i = 0; i < ELEMENTS_MAX; i++)
+	for (int i = 0; i < GIMMICK_MAX; i++)
 	{
 		delete tree;
 		delete airBalloon;

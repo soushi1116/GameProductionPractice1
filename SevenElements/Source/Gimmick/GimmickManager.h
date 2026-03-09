@@ -2,7 +2,7 @@
 #include "Gimmick.h"
 #include "DxLib.h"
 
-#define ELEMENTS_MAX 32
+#define GIMMICK_MAX 32
 
 void InitGimmickManager();
 void LoadGimmickManager();

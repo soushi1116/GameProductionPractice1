@@ -26,9 +26,6 @@
 #define GIMMICK_WOODBLOCK_POS_Y (750)
 #define PLAYER_SPAWN_POS_X (100.0f)
 #define PLAYER_SPAWN_POS_Y (600.0f)
-#define SLIDE_TEXT_POS_X (550.0f)
-#define SLIDE_TEXT_POS_Y (-100.0f)
-#define SLIDE_TEXT_MOVE_Y (10.0f)
 
 void InitPlayScene()
 {

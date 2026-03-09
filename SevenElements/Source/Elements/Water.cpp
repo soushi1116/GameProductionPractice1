@@ -3,6 +3,8 @@
 #include "../Map/Block.h"
 #include "../Sound/SoundManager.h"
 #include "../Camera/Camera.h"
+#include "ElementsManager.h"
+#include "Iron.h"
 
 #define EFFECT_INTERVAL (1)
 #define WATER_MOVE_SPEED (7.0f)
@@ -199,6 +201,40 @@ void Water::WaterHitBlock(int index)
 			else if (move.x > 0.0f)
 			{
 				pos.x = block->pos.x - WATER_WIDTH;
+			}
+			move.x = 0.0f;
+		}
+	}
+}
+
+void Water::WaterHitIron(int index)
+{
+	VECTOR ironPos = GetElementPos(index, ELEMENT_TYPE_IRON);
+	for (int i = 0; i < BLOCK_MAX; i++)
+	{
+		if (i != index) continue;
+
+		if (pos.y < ironPos.y)
+		{
+			if (pos.x < ironPos.x + IRON_WIDTH && pos.x + WATER_WIDTH > ironPos.x)
+			{
+				move.y = 0.0f;
+
+				pos.y = ironPos.y - WATER_HEIGHT;
+
+				m_IsAir = false;
+				m_Randing = true;
+			}
+		}
+		else
+		{
+			if (move.x < 0.0f)
+			{
+				pos.x = ironPos.x + IRON_WIDTH;
+			}
+			else if (move.x > 0.0f)
+			{
+				pos.x = ironPos.x - WATER_WIDTH;
 			}
 			move.x = 0.0f;
 		}
