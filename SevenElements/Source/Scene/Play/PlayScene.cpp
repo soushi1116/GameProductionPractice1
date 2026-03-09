@@ -9,6 +9,7 @@
 #include "../../Camera/Camera.h"
 #include "../../Warp/Warp.h"
 #include "../../Sound/SoundManager.h"
+#include "../Enemy/EnemyScene.h"
 
 #define TEXTPOS_X (200)
 #define TEXTPOS_Y (0)
@@ -32,6 +33,8 @@ void InitPlayScene()
 
 	InitPlayer();
 
+	InitEnemyManager();
+
 	InitAnimationEffect();
 
 	InitElementsManager();
@@ -47,6 +50,8 @@ void LoadPlayScene()
 
 	LoadPlayer();
 
+	LoadEnemyManager();
+
 	LoadWarp();
 
 	LoadAnimationEffect();
@@ -60,6 +65,8 @@ void StartPlayScene()
 
 	StartPlayer();
 
+	StartEnemyManager();
+
 	StartElementsManager();
 
 	CreateWarp(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17);
@@ -72,6 +79,8 @@ void StepPlayScene()
 {
 	StepPlayer();
 
+	StepEnemyManager();
+
 	StepAnimationEffect();
 
 	StepElementsManager();
@@ -82,6 +91,8 @@ void StepPlayScene()
 void UpdatePlayScene()
 {
 	UpdatePlayer();
+
+	UpdateEnemyManager();
 
 	UpdateAnimationEffect();
 
@@ -98,6 +109,8 @@ void DrawPlayScene()
 
 	DrawPlayer();
 
+	DrawEnemyManager();
+
 	DrawAnimationEffect();
 
 	DrawElementsManager();
@@ -110,6 +123,8 @@ void FinPlayScene()
 	FinMap();
 
 	FinPlayer();
+
+	FinEnemyManager();
 
 	FinWarp();
 

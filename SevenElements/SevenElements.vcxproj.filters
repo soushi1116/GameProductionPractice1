@@ -67,6 +67,12 @@
     <Filter Include="Source\Event">
       <UniqueIdentifier>{4dc9aa2a-beb7-4288-86ef-57defd9e2987}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Enemy">
+      <UniqueIdentifier>{4bae267a-1ef4-40c7-8a11-73401996ee1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene\Enemy">
+      <UniqueIdentifier>{0a35718b-f1ba-4f0c-b230-ef4fae7a6585}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -165,11 +171,6 @@
     <ClCompile Include="Source\Collision\Collision.cpp">
       <Filter>Source\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Enemy\EnemyFlyCircle.cpp" />
-    <ClCompile Include="Source\Enemy\EnemyFlyCircle2.cpp" />
-    <ClCompile Include="Source\Enemy\EnemyFlyStraight.cpp" />
-    <ClCompile Include="Source\Enemy\EnemyTurret.cpp" />
-    <ClCompile Include="Source\Enemy\EnemyWalk.cpp" />
     <ClCompile Include="Source\Sound\SoundManager.cpp">
       <Filter>Source\Sound</Filter>
     </ClCompile>
@@ -187,6 +188,24 @@
     </ClCompile>
     <ClCompile Include="Source\Event\EventManager.cpp">
       <Filter>Source\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy\EnemyFlyCircle.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy\EnemyFlyCircle2.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy\EnemyFlyStraight.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy\EnemyTurret.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Enemy\EnemyWalk.cpp">
+      <Filter>Source\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Enemy\EnemyScene.cpp">
+      <Filter>Source\Scene\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,11 +314,6 @@
     <ClInclude Include="Source\Collision\Collision.h">
       <Filter>Source\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Enemy\EnemyFlyCircle.h" />
-    <ClInclude Include="Source\Enemy\EnemyFlyCircle2.h" />
-    <ClInclude Include="Source\Enemy\EnemyFlyStraight.h" />
-    <ClInclude Include="Source\Enemy\EnemyTurret.h" />
-    <ClInclude Include="Source\Enemy\EnemyWalk.h" />
     <ClInclude Include="Source\Sound\SoundManager.h">
       <Filter>Source\Sound</Filter>
     </ClInclude>
@@ -317,6 +331,24 @@
     </ClInclude>
     <ClInclude Include="Source\Event\EventManager.h">
       <Filter>Source\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy\EnemyFlyCircle.h">
+      <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy\EnemyFlyCircle2.h">
+      <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy\EnemyFlyStraight.h">
+      <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy\EnemyTurret.h">
+      <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy\EnemyWalk.h">
+      <Filter>Source\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Enemy\EnemyScene.h">
+      <Filter>Source\Scene\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

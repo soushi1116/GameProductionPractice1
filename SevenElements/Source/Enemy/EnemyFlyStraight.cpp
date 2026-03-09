@@ -24,10 +24,8 @@ void InitEnemyFlyStraight()
 
     straightDir = 1;
 
-    straightHandle = LoadGraph("C:/工野/チーム制作　自作/プログラム/Enemy test/Data/Enemy/Death.png");
+    straightHandle = LoadGraph("Data/Enemy/Death.png");
 }
-
-
 
 // 更新
 void UpdateEnemyFlyStraight()
