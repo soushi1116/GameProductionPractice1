@@ -5,6 +5,7 @@
 #include "../Elements/ElementsManager.h"
 #include "../Elements/Iron.h"
 #include "../Elements//Ground.h"
+#include "../Elements/Water.h"
 #include "../Gimmick/GimmickManager.h"
 #include "../Gimmick/Tree.h"
 #include "../Gimmick/AirBalloon.h"
@@ -807,9 +808,59 @@ void PlayerHitGround(int index)
 
 void PlayerHitWater(int index)
 {
-	if (!g_PlayerData.inWater)
+	if (!IsWaterFreeze(index))
 	{
-		g_PlayerData.inWater = true;
+		if (!g_PlayerData.inWater)
+		{
+			g_PlayerData.inWater = true;
+		}
+	}
+	else
+	{
+		PlayerData player = GetPlayer();
+		VECTOR waterPos = GetElementPos(index, ELEMENT_TYPE_WATER);
+
+		player.isTurn = g_PrevPlayerData.isTurn;
+
+		player.posX = g_PlayerData.posX;
+		player.posY = g_PrevPlayerData.posY;
+
+		if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > waterPos.y)
+		{
+			if (player.posY < waterPos.y + GROUND_HEIGHT)
+			{
+				g_PlayerData.posX = waterPos.x - PLAYER_WIDTH;
+			}
+		}
+		else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > waterPos.y)
+		{
+			if (player.posY < waterPos.y + WATER_HEIGHT)
+			{
+				g_PlayerData.posX = waterPos.x + WATER_WIDTH;
+			}
+		}
+
+		if (player.posY <= waterPos.y - PLAYER_HEIGHT)
+		{
+			if (g_PrevPlayerData.posX == waterPos.x + WATER_WIDTH) return;
+			if (g_PrevPlayerData.posX + PLAYER_WIDTH == waterPos.x) return;
+
+			if (!g_PlayerData.randing)
+			{
+				PlayerRand();
+			}
+
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.posY = waterPos.y - PLAYER_HEIGHT;
+		}
+		else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > waterPos.y + WATER_HEIGHT)
+		{
+			if (g_PrevPlayerData.posX == waterPos.x + WATER_WIDTH) return;
+			if (g_PrevPlayerData.posX + PLAYER_WIDTH == waterPos.x) return;
+
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.posY = waterPos.y + WATER_HEIGHT;
+		}
 	}
 }
 
