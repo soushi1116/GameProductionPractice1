@@ -17,6 +17,8 @@
 #include "../../GameSetting/GameSetting.h"
 #include "../../Life/Life.h"
 #include "../../Event/EventManager.h"
+#include "../../Goal/Goal.h"
+
 KurosawaData g_KurosawaData = { 0 };
 
 #define TEXTPOS_X (200)
@@ -48,6 +50,8 @@ void InitKuroScene()
 
 	InitWarp();
 
+	InitGoal();
+
 	InitLife();
 
 	InitEventManager();
@@ -71,6 +75,8 @@ void LoadKuroScene()
 
 	LoadWarp();
 
+	LoadGoal();
+
 	LoadLife();
 
 	LoadUIImage();
@@ -84,7 +90,9 @@ void StartKuroScene()
 	StartElementsManager();
 
 	CreateWarp(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17);
-	//CreateWarp(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17);
+	CreateWarp(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17);
+
+	CreateGoal(MAP_CHIP_WIDTH * 76, MAP_CHIP_HEIGHT * 15);
 
 	StartMap();
 
@@ -132,6 +140,8 @@ void DrawKuroScene()
 
 	DrawWarp();
 
+	DrawGoal();
+
 	DrawPlayer();
 
 	DrawAnimationEffect();
@@ -152,6 +162,8 @@ void FinKuroScene()
 	FinMap();
 
 	FinWarp();
+
+	FinGoal();
 
 	FinPlayer();
 

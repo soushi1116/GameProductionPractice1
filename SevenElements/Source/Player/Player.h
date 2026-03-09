@@ -89,6 +89,8 @@ void PlayerHitWoodBlock(int index);
 
 void PlayerHitWarp();
 
+void PlayerHitGoal();
+
 void PlayerHitEnemy();
 
 void RideAirBalloon(VECTOR airBalloonPos);

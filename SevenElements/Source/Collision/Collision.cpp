@@ -17,6 +17,7 @@
 #include "../Gimmick/AirBalloon.h"
 #include "../Gimmick/WoodBlock.h"
 #include "../Warp/Warp.h"
+#include "../Goal/Goal.h"
 
 bool CheckSquareSquare(float squareA_PosX, float squareA_PosY, float squareA_Width, float squareA_Height,
 	float squareB_PosX, float squareB_PosY, float squareB_Width, float squareB_Height)
@@ -305,6 +306,27 @@ void CheckPlayerWarp()
 	}
 }
 
+void CheckPlayerGoal()
+{
+	PlayerData player = GetPlayer();
+
+	if (player.active)
+	{
+		GoalData* goal = GetGoal();
+
+		for (int i = 0; i < GOAL_MAX; i++, goal++)
+		{
+			if (!goal->active) continue;
+
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+				goal->posX, goal->posY, GOAL_WIDTH, GOAL_HEIGHT))
+			{
+				PlayerHitGoal();
+			}
+		}
+	}
+}
+
 void CheckPlayerWoodBlock()
 {
 	PlayerData player = GetPlayer();
@@ -563,6 +585,8 @@ void CheckCollision()
 	CheckPlayerWoodBlock();
 
 	CheckPlayerWarp();
+
+	CheckPlayerGoal();
 
 	CheckIronIron();
 

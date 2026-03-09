@@ -9,6 +9,10 @@
 #include "../../Camera/Camera.h"
 #include "../../Warp/Warp.h"
 #include "../../Sound/SoundManager.h"
+#include "../../UI/UIImage.h"
+#include "../../Goal/Goal.h"
+#include "../../Life/Life.h"
+#include "../../Event/EventManager.h"
 
 #define TEXTPOS_X (200)
 #define TEXTPOS_Y (0)
@@ -20,7 +24,7 @@
 #define GIMMICK_AIRBALLOON_POS_Y (600)
 #define GIMMICK_WOODBLOCK_POS_X (300)
 #define GIMMICK_WOODBLOCK_POS_Y (750)
-#define PLAYER_SPAWN_POS_X (2000.0f)
+#define PLAYER_SPAWN_POS_X (100.0f)
 #define PLAYER_SPAWN_POS_Y (600.0f)
 #define SLIDE_TEXT_POS_X (550.0f)
 #define SLIDE_TEXT_POS_Y (-100.0f)
@@ -28,42 +32,66 @@
 
 void InitPlayScene()
 {
-	InitMap();
-
 	InitPlayer();
 
 	InitAnimationEffect();
 
 	InitElementsManager();
 
-	InitCamera();
+	InitMap();
+
+	InitUIImage();
 
 	InitWarp();
+
+	InitGoal();
+
+	InitLife();
+
+	InitEventManager();
+
+	InitCamera();
 }
 
 void LoadPlayScene()
 {
-	LoadMap();
-
 	LoadPlayer();
-
-	LoadWarp();
 
 	LoadAnimationEffect();
 
 	LoadElementsManager();
+
+	LoadEventManager();
+
+	LoadMap();
+
+	LoadWarp();
+
+	LoadGoal();
+
+	LoadLife();
+
+	LoadUIImage();
 }
 
 void StartPlayScene()
 {
-	StartMap();
-
-	StartPlayer();
+	SpawnPlayer(PLAYER_SPAWN_POS_X, PLAYER_SPAWN_POS_Y);
 
 	StartElementsManager();
 
 	CreateWarp(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17);
 	CreateWarp(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17);
+
+	CreateGoal(MAP_CHIP_WIDTH * 76, MAP_CHIP_HEIGHT * 15);
+
+	StartMap();
+
+	StartLife();
+
+	CreateUIImage(UI_IMAGE_LIFETEXT, 30.0f, 50.0f);
+
+	StartEventManager();
 
 	PlayBGM(BGM_PLAY);
 }
@@ -83,6 +111,8 @@ void UpdatePlayScene()
 {
 	UpdatePlayer();
 
+	UpdateEventManager();
+
 	UpdateAnimationEffect();
 
 	UpdateElementsManager();
@@ -96,11 +126,19 @@ void DrawPlayScene()
 
 	DrawWarp();
 
+	DrawGoal();
+
 	DrawPlayer();
 
 	DrawAnimationEffect();
 
 	DrawElementsManager();
+
+	DrawEventManager();
+
+	DrawUIImage();
+
+	DrawLife();
 
 	DrawCamera();
 }
@@ -109,11 +147,21 @@ void FinPlayScene()
 {
 	FinMap();
 
-	FinPlayer();
-
 	FinWarp();
+
+	FinGoal();
+
+	FinPlayer();
 
 	FinAnimationEffect();
 
 	FinElementsManager();
+
+	FinLife();
+
+	FinEventManager();
+
+	ResetUIImage();
+
+	StopBGM(BGM_PLAY);
 }

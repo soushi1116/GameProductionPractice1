@@ -167,6 +167,7 @@
     <ClCompile Include="Source\Gimmick\Tree.cpp" />
     <ClCompile Include="Source\Gimmick\WaterGimmick.cpp" />
     <ClCompile Include="Source\Gimmick\WoodBlock.cpp" />
+    <ClCompile Include="Source\Goal\Goal.cpp" />
     <ClCompile Include="Source\Input\Input.cpp" />
     <ClCompile Include="Source\Life\Life.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="Source\Gimmick\Tree.h" />
     <ClInclude Include="Source\Gimmick\WaterGimmick.h" />
     <ClInclude Include="Source\Gimmick\WoodBlock.h" />
+    <ClInclude Include="Source\Goal\Goal.h" />
     <ClInclude Include="Source\Input\Input.h" />
     <ClInclude Include="Source\Life\Life.h" />
     <ClInclude Include="Source\Map\Block.h" />

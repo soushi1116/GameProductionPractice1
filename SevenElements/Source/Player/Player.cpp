@@ -143,7 +143,7 @@ void StepPlayer()
 {
 	if (!g_PlayerData.active) return;
 
-	if (g_PlayerData.die)
+	if (g_PlayerData.die || g_PlayerData.clear)
 	{
 		g_PlayerData.sceneChangeTimer++;
 	}
@@ -499,6 +499,9 @@ void FinPlayer()
 	{
 		DeleteGraph(g_ElementsTextHandle[i]);
 	}
+
+	StopBGM(BGM_WALK);
+	StopBGM(BGM_RUN);
 }
 
 
@@ -982,6 +985,11 @@ void PlayerHitWoodBlock(int index)
 void PlayerHitWarp()
 {
 	g_PlayerData.hitWarp = true;
+}
+
+void PlayerHitGoal()
+{
+	g_PlayerData.clear = true;
 }
 
 void PlayerHitEnemy()
