@@ -16,7 +16,7 @@ public:
 
 private:
 
-	static const int TITLE_PATTERN_MAX = 6;
+	static const int TITLE_PATTERN_MAX = 7;
 
 	int m_select;
 	int m_randomIndex;
