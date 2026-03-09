@@ -23,6 +23,8 @@ Water::Water()
 	m_IsAir = false;
 	m_IsFreeze = false;
 	m_Randing = false;
+
+	waterAnim = WATER_ANIM_NONE;
 }
 
 Water::~Water()
@@ -32,12 +34,15 @@ Water::~Water()
 
 void Water::Load()
 {
-	handle = LoadGraph("Data/Elements/Element_Water.png");
+	animation[WATER_ANIM_NORMAL].handle
+		= LoadGraph("Data/Elements/Element_Water.png");
+	animation[WATER_ANIM_FREEZE].handle
+		= LoadGraph("Data/Elements/Element_Water_Freeze.png");
 }
 
 void Water::Start()
 {
-	
+	StartWaterAnimation(WATER_ANIM_NORMAL);
 }
 
 void Water::Step()
@@ -88,6 +93,8 @@ void Water::Update()
 
 		m_IsAir = true;
 	}
+
+	UpdateWaterAnimation();
 }
 
 void Water::Draw()
@@ -96,14 +103,35 @@ void Water::Draw()
 	{
 		CameraData camera = GetCamera();
 
-		if (!m_IsTurn)
-		{
-			DrawGraph(pos.x - camera.posX, pos.y - camera.posY, handle, TRUE);
-		}
-		else
-		{
-			DrawTurnGraph(pos.x - camera.posX, pos.y - camera.posY, handle, TRUE);
-		}
+		WaterAnimationType animType = waterAnim;
+		AnimationData* animData = &animation[animType];
+
+		DrawAnimation(animData, pos.x - camera.posX, pos.y - camera.posY);
+	}
+}
+
+void Water::StartWaterAnimation(WaterAnimationType anim)
+{
+	if (anim == waterAnim) return;
+
+	waterAnim = anim;
+
+	AnimationData* animData = &animation[anim];
+
+	StartAnimation(animData, pos.x, pos.y);
+}
+
+void Water::UpdateWaterAnimation()
+{
+	if (!active) return;
+
+	if (m_IsFreeze)
+	{
+		StartWaterAnimation(WATER_ANIM_FREEZE);
+	}
+	else
+	{
+		StartWaterAnimation(WATER_ANIM_NORMAL);
 	}
 }
 

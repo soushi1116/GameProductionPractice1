@@ -497,8 +497,11 @@ void CheckWaterIce()
 			VECTOR waterPos = GetElementPos(i, ELEMENT_TYPE_WATER);
 			VECTOR icePos = GetElementPos(j, ELEMENT_TYPE_ICE);
 
+			float icePosX = icePos.x - ICE_WIDTH / 2;
+			float icePosY = icePos.y - ICE_HEIGHT / 2;
+
 			if (CheckSquareSquare(waterPos.x, waterPos.y, WATER_WIDTH, WATER_HEIGHT,
-				icePos.x, icePos.y, ICE_WIDTH, ICE_HEIGHT))
+				icePosX, icePosY, ICE_WIDTH, ICE_HEIGHT))
 			{
 				WaterHitIce(i);
 			}
