@@ -2,7 +2,7 @@
 #include "Elements.h"
 #include "DxLib.h"
 
-#define ELEMENTS_MAX 32
+#define ELEMENTS_MAX 512
 
 void InitElementsManager();
 void LoadElementsManager();
@@ -29,6 +29,8 @@ void IronHitBlock(int indexA, int indexB);
 void WaterHitBlock(int indexA, int indexB);
 
 void GroundHitBlock(int indexA, int indexB);
+
+void GroundHitGround(int indexA, int indexB);
 
 void FireDelete(int index);
 

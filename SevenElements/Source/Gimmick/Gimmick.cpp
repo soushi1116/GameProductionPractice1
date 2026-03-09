@@ -23,6 +23,24 @@ void FindSpawn(Attribute map[][MAP_W])
 	}
 }
 
+void CheckEvent(Attribute map[][MAP_W])
+{
+	for (int y = 0; y < MAP_H; y++)
+	{
+		for (int x = 0; x < MAP_W; x++)
+		{
+			if (map[y][x] == ATTR_BALLOON_FIRE)
+			{
+				if (y > 0 && map[y - 1][x] == ATTR_NONE)
+				{
+					map[y - 1][x] = ATTR_BALLOON_FIRE;
+					map[y][x] = ATTR_NONE;
+				}
+			}
+		}
+	}
+}
+
 void InitGimmick()
 {
 	for (int i = 0; i < ATTR_MAX; i++)
@@ -48,6 +66,9 @@ void LoadGimmick()
 
 	gReactionTable[ATTR_FIRE][ATTR_GRASS] = REACT_BURN_GRASS;
 	gReactionTable[ATTR_GRASS][ATTR_FIRE] = REACT_BURN_GRASS;
+
+	gReactionTable[ATTR_FIRE][ATTR_BALLOON] = REACT_BALLOON_UP;
+	gReactionTable[ATTR_BALLOON][ATTR_FIRE] = REACT_BALLOON_UP;
 }
 
 void StartGimmick(Attribute map[][MAP_W])
@@ -64,6 +85,8 @@ void StepGimmick(int xA, int yA, int xB, int yB,Attribute map[][MAP_W])
 	Attribute attrB = map[yB][xB];
 	Reaction r = gReactionTable[attrA][attrB];
 	Attribute attr = map[gPlayerY][gPlayerX];
+	if (gIsFrozen)
+		return;
 	switch (r)
 	{
 	case REACT_EXTINGUISH:
@@ -74,6 +97,7 @@ void StepGimmick(int xA, int yA, int xB, int yB,Attribute map[][MAP_W])
 	case REACT_FREEZE:
 		if (attrA == ATTR_WATER) map[yA][xA] = ATTR_ICE;
 		if (attrB == ATTR_WATER) map[yB][xB] = ATTR_ICE;
+		gIsFrozen = true;
 		break;
 
 	case REACT_CONDUCT:
@@ -89,6 +113,23 @@ void StepGimmick(int xA, int yA, int xB, int yB,Attribute map[][MAP_W])
 			map[yB][xB] = ATTR_NONE;
 		}
 		break;
+	case REACT_BALLOON_UP:
+	{
+		int bx = -1;
+		int by = -1;
+
+		if (attrA == ATTR_BALLOON) { bx = xA; by = yA; }
+		if (attrB == ATTR_BALLOON) { bx = xB; by = yB; }
+
+		if (bx != -1)
+		{
+			if (bx != -1)
+			{
+				map[by][bx] = ATTR_BALLOON_FIRE;
+			}
+		}
+	}
+	break;
 	}
 	switch (attr)
 	{
@@ -137,11 +178,14 @@ void DrawGimmick()
 	}
 }
 
+void FinGimmick()
+{
+}
+
 int main()
 {
 	InitGimmick();
 	LoadGimmick();
-	//StartGimmick();
 
 	Attribute map[MAP_H][MAP_W];
 
@@ -161,11 +205,12 @@ int main()
 		int yB = 0;
 
 		StepGimmick(xA, yA, xB, yB, map);
+		CheckEvent(map);
 		DrawGimmick();
 	}
 	while (true)
 	{
-		//CheckEvent(map);
+		CheckEvent(map);
 
 		if (gStageClear)
 		{
@@ -173,6 +218,7 @@ int main()
 			break;
 		}
 	}
+	FinGimmick();
 	return 0;
 }
 

@@ -152,6 +152,14 @@
     <ClCompile Include="Source\Elements\Thunder.cpp" />
     <ClCompile Include="Source\Elements\Water.cpp" />
     <ClCompile Include="Source\Elements\Wind.cpp" />
+    <ClCompile Include="Source\Enemy\EnemyFlyCircle.cpp" />
+    <ClCompile Include="Source\Enemy\EnemyFlyCircle2.cpp" />
+    <ClCompile Include="Source\Enemy\EnemyFlyStraight.cpp" />
+    <ClCompile Include="Source\Enemy\EnemyTurret.cpp" />
+    <ClCompile Include="Source\Enemy\EnemyWalk.cpp" />
+    <ClCompile Include="Source\Event\Clear.cpp" />
+    <ClCompile Include="Source\Event\Die.cpp" />
+    <ClCompile Include="Source\Event\EventManager.cpp" />
     <ClCompile Include="Source\FPS\FPS.cpp" />
     <ClCompile Include="Source\Gimmick\AirBalloon.cpp" />
     <ClCompile Include="Source\Gimmick\Gimmick.cpp" />
@@ -160,6 +168,7 @@
     <ClCompile Include="Source\Gimmick\WaterGimmick.cpp" />
     <ClCompile Include="Source\Gimmick\WoodBlock.cpp" />
     <ClCompile Include="Source\Input\Input.cpp" />
+    <ClCompile Include="Source\Life\Life.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Map\Block.cpp" />
     <ClCompile Include="Source\Map\MapChip.cpp" />
@@ -172,6 +181,7 @@
     <ClCompile Include="Source\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="Source\Sound\SoundManager.cpp" />
     <ClCompile Include="Source\UI\UIImage.cpp" />
+    <ClCompile Include="Source\Warp\Warp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animation.h" />
@@ -188,6 +198,14 @@
     <ClInclude Include="Source\Elements\Thunder.h" />
     <ClInclude Include="Source\Elements\Water.h" />
     <ClInclude Include="Source\Elements\Wind.h" />
+    <ClInclude Include="Source\Enemy\EnemyFlyCircle.h" />
+    <ClInclude Include="Source\Enemy\EnemyFlyCircle2.h" />
+    <ClInclude Include="Source\Enemy\EnemyFlyStraight.h" />
+    <ClInclude Include="Source\Enemy\EnemyTurret.h" />
+    <ClInclude Include="Source\Enemy\EnemyWalk.h" />
+    <ClInclude Include="Source\Event\Clear.h" />
+    <ClInclude Include="Source\Event\Die.h" />
+    <ClInclude Include="Source\Event\EventManager.h" />
     <ClInclude Include="Source\FPS\FPS.h" />
     <ClInclude Include="Source\GameSetting\GameSetting.h" />
     <ClInclude Include="Source\Gimmick\AirBalloon.h" />
@@ -198,6 +216,7 @@
     <ClInclude Include="Source\Gimmick\WaterGimmick.h" />
     <ClInclude Include="Source\Gimmick\WoodBlock.h" />
     <ClInclude Include="Source\Input\Input.h" />
+    <ClInclude Include="Source\Life\Life.h" />
     <ClInclude Include="Source\Map\Block.h" />
     <ClInclude Include="Source\Map\MapChip.h" />
     <ClInclude Include="Source\Map\MapManager.h" />
@@ -210,6 +229,7 @@
     <ClInclude Include="Source\Scene\Title\TitleScene.h" />
     <ClInclude Include="Source\Sound\SoundManager.h" />
     <ClInclude Include="Source\UI\UIImage.h" />
+    <ClInclude Include="Source\Warp\Warp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

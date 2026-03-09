@@ -16,6 +16,7 @@
 #include "../Gimmick/Tree.h"
 #include "../Gimmick/AirBalloon.h"
 #include "../Gimmick/WoodBlock.h"
+#include "../Warp/Warp.h"
 
 bool CheckSquareSquare(float squareA_PosX, float squareA_PosY, float squareA_Width, float squareA_Height,
 	float squareB_PosX, float squareB_PosY, float squareB_Width, float squareB_Height)
@@ -57,6 +58,29 @@ void CheckPlayerMap()
 				block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
 			{
 				PlayerHitBlock(i);
+			}
+		}
+	}
+}
+
+void CheckFireMap()
+{
+	for (int i = 0; i < FIRE_MAX; i++)
+	{
+		if (!IsElementActive(i, ELEMENT_TYPE_FIRE)) continue;
+
+		BlockData* block = GetBlocks();
+
+		for (int j = 0; j < BLOCK_MAX; j++, block++)
+		{
+			if (!block->active) continue;
+
+			VECTOR firePos = GetElementPos(i, ELEMENT_TYPE_FIRE);
+
+			if (CheckSquareSquare(firePos.x, firePos.y, FIRE_WIDTH, FIRE_HEIGHT,
+				block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
+			{
+				FireDelete(i);
 			}
 		}
 	}
@@ -107,6 +131,7 @@ void CheckWaterMap()
 		}
 	}
 }
+
 
 void CheckGroundMap()
 {
@@ -175,6 +200,27 @@ void CheckPlayerIron()
 	}
 }
 
+void CheckPlayerGround()
+{
+	PlayerData player = GetPlayer();
+
+	if (player.active)
+	{
+		for (int i = 0; i < GROUND_MAX; i++)
+		{
+			if (!IsElementActive(i, ELEMENT_TYPE_GROUND)) continue;
+
+			VECTOR groundPos = GetElementPos(i, ELEMENT_TYPE_GROUND);
+
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+				groundPos.x, groundPos.y, GROUND_WIDTH, GROUND_HEIGHT))
+			{
+				PlayerHitGround(i);
+			}
+		}
+	}
+}
+
 void CheckPlayerWater()
 {
 	PlayerData player = GetPlayer();
@@ -238,6 +284,27 @@ void CheckPlayerAirBalloon()
 	}
 }
 
+void CheckPlayerWarp()
+{
+	PlayerData player = GetPlayer();
+
+	if (player.active)
+	{
+		WarpData* warp = GetWarp();
+
+		for (int i = 0; i < WARP_MAX; i++, warp++)
+		{
+			if (!warp->active) continue;
+
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+				warp->posX, warp->posY, WARP_WIDTH, WARP_HEIGHT))
+			{
+				PlayerHitWarp();
+			}
+		}
+	}
+}
+
 void CheckPlayerWoodBlock()
 {
 	PlayerData player = GetPlayer();
@@ -254,6 +321,28 @@ void CheckPlayerWoodBlock()
 				woodBlockPos.x, woodBlockPos.y, WOODBLOCK_WIDTH, WOODBLOCK_HEIGHT))
 			{
 				PlayerHitWoodBlock(i);
+			}
+		}
+	}
+}
+
+void CheckGroundGround()
+{
+	for (int i = 0; i < GROUND_MAX; i++)
+	{
+		if (!IsElementActive(i, ELEMENT_TYPE_GROUND)) continue;
+
+		for (int j = i + 1; j < GROUND_MAX; j++)
+		{
+			if (!IsElementActive(j, ELEMENT_TYPE_GROUND)) continue;
+
+			VECTOR groundAPos = GetElementPos(i, ELEMENT_TYPE_GROUND);
+			VECTOR groundBPos = GetElementPos(j, ELEMENT_TYPE_GROUND);
+
+			if (CheckSquareSquare(groundAPos.x, groundAPos.y, GROUND_WIDTH, GROUND_HEIGHT,
+				groundBPos.x, groundBPos.y, GROUND_WIDTH, GROUND_HEIGHT))
+			{
+				GroundHitGround(i, j);
 			}
 		}
 	}
@@ -442,7 +531,11 @@ void CheckWindWoodBlock()
 
 void CheckCollision()
 {
+	CheckMapPlayerCollision();
+
 	CheckPlayerMap();
+
+	CheckFireMap();
 
 	CheckIronMap();
 
@@ -450,17 +543,23 @@ void CheckCollision()
 
 	CheckGroundMap();
 
+	CheckGroundGround();
+
 	CheckWoodBlockMap();
 
 	CheckPlayerIron();
 
 	CheckPlayerWater();
 
+	CheckPlayerGround();
+
 	CheckPlayerTree();
 
 	CheckPlayerAirBalloon();
 
 	CheckPlayerWoodBlock();
+
+	CheckPlayerWarp();
 
 	CheckIronIron();
 

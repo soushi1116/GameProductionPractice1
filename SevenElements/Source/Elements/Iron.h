@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include "Elements.h"
 
-#define IRON_MAX 32
+#define IRON_MAX 512
 #define IRON_WIDTH (64)
 #define IRON_HEIGHT (64)
 
@@ -21,7 +21,6 @@ public:
 
 	void Spawn(float posX, float posY, bool isTurn);
 
-	void IronHitFloor();
 	void IronHitIron(int indexA, int indexB, float posY);
 
 	void IronHitBlock(int index);

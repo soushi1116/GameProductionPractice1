@@ -1,7 +1,7 @@
 #pragma once
 #include "DxLib.h"
 
-#define ELEMENT_MAX 1024
+#define ELEMENT_MAX 512
 
 enum ElementType
 {

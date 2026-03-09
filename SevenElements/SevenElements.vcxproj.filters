@@ -56,7 +56,16 @@
       <UniqueIdentifier>{c9c7e814-527f-43d9-acd3-881d5cd8f66e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Sound">
-      <UniqueIdentifier>{eba74bf8-ff97-4789-a549-cebe85a02e69}</UniqueIdentifier>
+      <UniqueIdentifier>{828bd44b-c878-4e06-888f-d54287617709}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Warp">
+      <UniqueIdentifier>{87b3704f-8968-4b21-a8dc-cf9480106099}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Life">
+      <UniqueIdentifier>{b35b12fb-87a3-4869-b0aa-8fd6fb716cc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Event">
+      <UniqueIdentifier>{4dc9aa2a-beb7-4288-86ef-57defd9e2987}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -156,8 +165,28 @@
     <ClCompile Include="Source\Collision\Collision.cpp">
       <Filter>Source\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Enemy\EnemyFlyCircle.cpp" />
+    <ClCompile Include="Source\Enemy\EnemyFlyCircle2.cpp" />
+    <ClCompile Include="Source\Enemy\EnemyFlyStraight.cpp" />
+    <ClCompile Include="Source\Enemy\EnemyTurret.cpp" />
+    <ClCompile Include="Source\Enemy\EnemyWalk.cpp" />
     <ClCompile Include="Source\Sound\SoundManager.cpp">
       <Filter>Source\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Warp\Warp.cpp">
+      <Filter>Source\Warp</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Life\Life.cpp">
+      <Filter>Source\Life</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Event\Clear.cpp">
+      <Filter>Source\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Event\Die.cpp">
+      <Filter>Source\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Event\EventManager.cpp">
+      <Filter>Source\Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,8 +295,28 @@
     <ClInclude Include="Source\Collision\Collision.h">
       <Filter>Source\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Enemy\EnemyFlyCircle.h" />
+    <ClInclude Include="Source\Enemy\EnemyFlyCircle2.h" />
+    <ClInclude Include="Source\Enemy\EnemyFlyStraight.h" />
+    <ClInclude Include="Source\Enemy\EnemyTurret.h" />
+    <ClInclude Include="Source\Enemy\EnemyWalk.h" />
     <ClInclude Include="Source\Sound\SoundManager.h">
       <Filter>Source\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Warp\Warp.h">
+      <Filter>Source\Warp</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Life\Life.h">
+      <Filter>Source\Life</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Event\Clear.h">
+      <Filter>Source\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Event\Die.h">
+      <Filter>Source\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Event\EventManager.h">
+      <Filter>Source\Event</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

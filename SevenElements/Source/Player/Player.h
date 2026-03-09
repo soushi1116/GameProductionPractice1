@@ -6,6 +6,8 @@
 
 #define PLAYER_WIDTH (98)
 #define PLAYER_HEIGHT (110)
+#define PLAYER_DEFAULT_LIFE (5)
+#define PLAYER_LIFE_MAX (5)
 
 enum PlayerAnimationType
 {
@@ -16,6 +18,7 @@ enum PlayerAnimationType
 	PLAYER_ANIM_JUMP,
 	PLAYER_ANIM_FALL,
 	PLAYER_ANIM_ACTION,
+	PLAYER_ANIM_DEATH,
 	PLAYER_ANIM_MAX,
 	PLAYER_ANIM_NONE = -1
 };
@@ -31,6 +34,7 @@ struct PlayerData
 	int selectState;
 	int runTimer;
 	int animTimer;
+	int sceneChangeTimer;
 	int life;
 
 	bool active;
@@ -41,6 +45,10 @@ struct PlayerData
 	bool isTurn;
 	bool action;
 	bool ridingAirBalloon;
+	bool hitWarp;
+	bool inWater;
+	bool die;
+	bool clear;
 
 	AnimationData animation[PLAYER_ANIM_MAX];
 	PlayerAnimationType playAnim;
@@ -60,10 +68,16 @@ PlayerData GetPlayer();
 void StartPlayerAnimation(PlayerAnimationType anim);
 void UpdatePlayerAnimation();
 
+void SpawnPlayer(float posX, float posY);
+
+void PlayerRand();
+
 void PlayerHitNormalBlockX(MapChipData mapChipData);
 void PlayerHitNormalBlockY(MapChipData mapChipData);
 
 void PlayerHitIron(int index);
+
+void PlayerHitGround(int index);
 
 void PlayerHitWater(int index);
 
@@ -73,6 +87,8 @@ void PlayerHitTree(int index);
 void PlayerHitAirBalloon(int index);
 void PlayerHitWoodBlock(int index);
 
-void RideAirBalloon(VECTOR airBalloonPos);
+void PlayerHitWarp();
 
-void PlayerHitFloor();
+void PlayerHitEnemy();
+
+void RideAirBalloon(VECTOR airBalloonPos);

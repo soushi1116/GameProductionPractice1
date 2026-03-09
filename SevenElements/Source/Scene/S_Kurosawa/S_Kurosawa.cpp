@@ -1,5 +1,6 @@
 #include "DxLib.h"
 #include "S_Kurosawa.h"
+#include "../Play/PlayScene.h"
 #include "../../Player/Player.h"
 #include "../../Effect/AnimationEffect.h"
 #include "../../Input/Input.h"
@@ -11,7 +12,11 @@
 #include "../../Map/Block.h"
 #include "../../UI/UIImage.h"
 #include "../../Sound/SoundManager.h"
-
+#include "../../Camera/Camera.h"
+#include "../../Warp/Warp.h"
+#include "../../GameSetting/GameSetting.h"
+#include "../../Life/Life.h"
+#include "../../Event/EventManager.h"
 KurosawaData g_KurosawaData = { 0 };
 
 #define TEXTPOS_X (200)
@@ -24,6 +29,8 @@ KurosawaData g_KurosawaData = { 0 };
 #define GIMMICK_AIRBALLOON_POS_Y (600)
 #define GIMMICK_WOODBLOCK_POS_X (300)
 #define GIMMICK_WOODBLOCK_POS_Y (750)
+#define PLAYER_SPAWN_POS_X (2000.0f)
+#define PLAYER_SPAWN_POS_Y (600.0f)
 
 void InitKuroScene()
 {
@@ -38,6 +45,14 @@ void InitKuroScene()
 	InitMap();
 
 	InitUIImage();
+
+	InitWarp();
+
+	InitLife();
+
+	InitEventManager();
+
+	InitCamera();
 }
 
 void LoadKuroScene()
@@ -50,62 +65,36 @@ void LoadKuroScene()
 
 	g_KurosawaData.textHandle = LoadGraph("Data/Player/SceneForKurosawa.png");
 
+	LoadEventManager();
+
 	LoadMap();
+
+	LoadWarp();
+
+	LoadLife();
 
 	LoadUIImage();
 }
 
 void StartKuroScene()
 {
-	StartPlayer();
+	//StartPlayer();
+	SpawnPlayer(PLAYER_SPAWN_POS_X, PLAYER_SPAWN_POS_Y);
 
 	StartElementsManager();
 
+	CreateWarp(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17);
+	//CreateWarp(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17);
+
 	StartMap();
 
-	for (int i = 0; i < BLOCK_NUM_MAX; i++)
-	{
-		VECTOR pos = VGet(0.0f, 0.0f, 0.0f);
-
-		if (i > 18 && i < 25)
-		{
-			pos = VGet(MAP_CHIP_WIDTH * i, MAP_POS_Y + MAP_CHIP_HEIGHT * 3, 0.0f);
-		}
-		else
-		{
-			pos = VGet(MAP_CHIP_WIDTH * i, MAP_POS_Y, 0.0f);
-		}
-
-		CreateBlock(NORMAL_BLOCK, pos);
-	}
-
-	for (int i = 0; i < 3; i++)
-	{
-		VECTOR pos1 = VGet(MAP_CHIP_WIDTH * 18, MAP_POS_Y + MAP_CHIP_HEIGHT * (i + 1), 0.0f);
-		VECTOR pos2 = VGet(MAP_CHIP_WIDTH * 25, MAP_POS_Y + MAP_CHIP_HEIGHT * (i + 1), 0.0f);
-
-		CreateBlock(NORMAL_BLOCK, pos1);
-		CreateBlock(NORMAL_BLOCK, pos2);
-	}
-
-	CreateBlock(NORMAL_BLOCK, VGet(MAP_CHIP_WIDTH, MAP_POS_Y - MAP_CHIP_HEIGHT, 0.0f));
+	StartLife();
 
 	CreateUIImage(UI_IMAGE_LIFETEXT, 30.0f, 50.0f);
 
-	PlayerData player = GetPlayer();
-	for (int i = 0; i < player.life; i++)
-	{
-		CreateUIImage(UI_IMAGE_LIFE, (float)(200 + i * 60), 50.0f);
-	}
+	StartEventManager();
 
 	PlayBGM(BGM_PLAY);
-
-	//SpawnGimmick(GIMMICK_TREE_POS_X, GIMMICK_TREE_POS_Y, GIMMICK_TYPE_TREE);
-
-	//SpawnGimmick(GIMMICK_AIRBALLOON_POS_X, GIMMICK_AIRBALLOON_POS_Y, GIMMICK_TYPE_AIRBALLOON);
-
-	//SpawnGimmick(GIMMICK_WOODBLOCK_POS_X, GIMMICK_WOODBLOCK_POS_Y, GIMMICK_TYPE_WOODBLOCK);
-	//SpawnGimmick(GIMMICK_AIRBALLOON_POS_X, GIMMICK_AIRBALLOON_POS_Y, GIMMICK_TYPE_AIRBALLOON);
 }
 
 void StepKuroScene()
@@ -120,11 +109,15 @@ void StepKuroScene()
 	{
 		ChangeScene(SCENE_TITLE);
 	}
+
+	StepCamera();
 }
 
 void UpdateKuroScene()
 {
 	UpdatePlayer();
+
+	UpdateEventManager();
 
 	UpdateAnimationEffect();
 
@@ -137,20 +130,28 @@ void DrawKuroScene()
 {
 	DrawMap();
 
+	DrawWarp();
+
 	DrawPlayer();
 
 	DrawAnimationEffect();
 
 	DrawElementsManager();
 
+	DrawEventManager();
+
 	DrawUIImage();
 
-	//DrawGraph(TEXTPOS_X, TEXTPOS_Y, g_KurosawaData.textHandle, TRUE);
+	DrawLife();
+
+	DrawCamera();
 }
 
 void FinKuroScene()
 {
 	FinMap();
+
+	FinWarp();
 
 	FinPlayer();
 
@@ -159,6 +160,10 @@ void FinKuroScene()
 	FinElementsManager();
 
 	DeleteGraph(g_KurosawaData.textHandle);
+
+	FinLife();
+
+	FinEventManager();
 
 	ResetUIImage();
 
