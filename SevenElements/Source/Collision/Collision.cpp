@@ -171,7 +171,7 @@ void CheckWoodBlockMap()
 
 			VECTOR woodBlockPos = GetGimmickPos(i, GIMMICK_TYPE_WOODBLOCK);
 
-			if (CheckSquareSquare(woodBlockPos.x, woodBlockPos.y, GROUND_WIDTH, GROUND_HEIGHT,
+			if (CheckSquareSquare(woodBlockPos.x, woodBlockPos.y, WOODBLOCK_WIDTH, WOODBLOCK_HEIGHT,
 				block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
 			{
 				WoodBlockHitBlock(i, j);
@@ -179,6 +179,30 @@ void CheckWoodBlockMap()
 		}
 	}
 }
+
+void CheckAirBalloonMap()
+{
+	for (int i = 0; i < AIRBALLOON_MAX; i++)
+	{
+		if (!IsGimmickActive(i, GIMMICK_TYPE_AIRBALLOON)) continue;
+
+		BlockData* block = GetBlocks();
+
+		for (int j = 0; j < BLOCK_MAX; j++, block++)
+		{
+			if (!block->active) continue;
+
+			VECTOR airBalloonPos = GetGimmickPos(i, GIMMICK_TYPE_AIRBALLOON);
+
+			if (CheckSquareSquare(airBalloonPos.x, airBalloonPos.y, AIRBALLOON_WIDTH, AIRBALLOON_HEIGHT,
+				block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
+			{
+				AirBalloonHitBlock(i);
+			}
+		}
+	}
+}
+
 
 void CheckPlayerIron()
 {
@@ -593,6 +617,8 @@ void CheckCollision()
 	CheckGroundGround();
 
 	CheckWoodBlockMap();
+
+	CheckAirBalloonMap();
 
 	CheckPlayerIron();
 

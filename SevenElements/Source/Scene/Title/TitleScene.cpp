@@ -2,13 +2,14 @@
 #include "TitleScene.h"
 #include "../SceneManager.h"
 #include "../../Input/Input.h"
+#include "../../Sound/SoundManager.h"
 
 TitleScene::TitleScene()
 {
 	m_randomIndex = 0;
 	m_select = 0;
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < TITLE_PATTERN_MAX; i++)
 	{
 		m_backHandle[i] = 0;
 		m_logoHandle[i] = 0;
@@ -26,26 +27,26 @@ void TitleScene::LoadTitleScene()
 
 void TitleScene::StartTitleScene()
 {
-	m_backHandle[0] = LoadGraph("");
-	m_logoHandle[0] = LoadGraph("");
+	m_backHandle[0] = LoadGraph("Data/flame.PNG");
+	m_logoHandle[0] = LoadGraph("Data/flamelogo.PNG");
 
-	m_backHandle[1] = LoadGraph("");
-	m_logoHandle[1] = LoadGraph("");
+	m_backHandle[1] = LoadGraph("Data/Title/ice.PNG");
+	m_logoHandle[1] = LoadGraph("Data/Title/icelogo.PNG");
 
-	m_backHandle[2] = LoadGraph("");
-	m_logoHandle[2] = LoadGraph("");
+	m_backHandle[2] = LoadGraph("Data/Title/metal.PNG");
+	m_logoHandle[2] = LoadGraph("Data/Title/metallogo.PNG");
 	
-	m_backHandle[3] = LoadGraph("");
-	m_logoHandle[3] = LoadGraph("");
+	m_backHandle[3] = LoadGraph("Data/Title/soil.PNG");
+	m_logoHandle[3] = LoadGraph("Data/Title/soillogo.PNG");
 
-	m_backHandle[4] = LoadGraph("");
-	m_logoHandle[4] = LoadGraph("");
+	m_backHandle[4] = LoadGraph("Data/Title/thunder.PNG");
+	m_logoHandle[4] = LoadGraph("Data/Title/thunderlogo.PNG");
 
-	m_backHandle[5] = LoadGraph("");
-	m_logoHandle[5] = LoadGraph("");
+	m_backHandle[5] = LoadGraph("Data/Title/water.PNG");
+	m_logoHandle[5] = LoadGraph("Data/Title/waterlogo.PNG");
 
-	m_backHandle[6] = LoadGraph("");
-	m_logoHandle[6] = LoadGraph("");
+	m_backHandle[6] = LoadGraph("Data/Title/wind.PNG");
+	m_logoHandle[6] = LoadGraph("Data/Title/windlogo.PNG");
 
 	m_randomIndex = rand() % TITLE_PATTERN_MAX;
 
@@ -77,6 +78,7 @@ void TitleScene::UpdateTitleScene()
 
 	if (CheckHitKey(KEY_INPUT_RETURN))
 	{
+		PlaySE(SE_SELECT);
 		switch (m_select)
 		{
 		case 0:

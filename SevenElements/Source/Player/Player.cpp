@@ -244,6 +244,11 @@ void StepPlayer()
 	}
 	else if (IsInputKey(KEY_LEFT) || IsInputPad(PAD_LEFT))
 	{
+		if (g_PlayerData.ridingAirBalloon)
+		{
+			g_PlayerData.ridingAirBalloon = false;
+		}
+
 		g_PlayerData.animTimer++;
 
 		g_PlayerData.isTurn = true;
@@ -271,32 +276,31 @@ void StepPlayer()
 		}
 	}
 
-	/*if (IsTriggerKey(KEY_RIGHT) || IsTriggerPad(PAD_RIGHT) || IsTriggerKey(KEY_LEFT) || IsTriggerPad(PAD_LEFT))
-	{
-		if (g_PlayerData.randing)
-		{
-			if (g_PlayerData.runLeft || g_PlayerData.runRight)
-			{
-				if (!IsPlayingBGM(BGM_RUN))
-				{
-					PlayBGM(BGM_RUN);
-				}
-			}
-			else
-			{
-				if (!IsPlayingBGM(BGM_WALK))
-				{
-					PlayBGM(BGM_WALK);
-				}
-			}
-		}
-	}*/
-
 	if (g_PlayerData.runTimer >= DOUBLE_PUSH_TIME)
 	{
 		g_PlayerData.runRight = false;
 		g_PlayerData.runLeft = false;
 		g_PlayerData.runTimer = 0;
+	}
+
+	if (IsTriggerKey(KEY_RIGHT) || IsTriggerPad(PAD_RIGHT))
+	{
+		if (g_PlayerData.ridingAirBalloon)
+		{
+			g_PlayerData.ridingAirBalloon = false;
+
+			g_PlayerData.posX += AIRBALLOON_WIDTH;
+		}
+	}
+
+	if (IsTriggerKey(KEY_LEFT) || IsTriggerPad(PAD_LEFT))
+	{
+		if (g_PlayerData.ridingAirBalloon)
+		{
+			g_PlayerData.ridingAirBalloon = false;
+
+			g_PlayerData.posX -= AIRBALLOON_WIDTH;
+		}
 	}
 
 	if (IsReleaseKey(KEY_RIGHT) || IsReleasePad(PAD_RIGHT))
@@ -458,13 +462,16 @@ void DrawPlayer()
 
 	PlayerAnimationType animType = g_PlayerData.playAnim;
 	AnimationData* animData = &g_PlayerData.animation[animType];
-	if (!g_PlayerData.isTurn)
+	if (!g_PlayerData.ridingAirBalloon)
 	{
-		DrawAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
-	}
-	else
-	{
-		DrawTurnAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
+		if (!g_PlayerData.isTurn)
+		{
+			DrawAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
+		}
+		else
+		{
+			DrawTurnAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
+		}
 	}
 
 	if (g_PlayerData.selectElements)
@@ -913,9 +920,9 @@ void PlayerHitAirBalloon(int index)
 	player.posX = g_PlayerData.posX;
 	player.posY = g_PrevPlayerData.posY;
 
-	if (g_PlayerData.randing)
+	if (!AirBalloonBurning(index))
 	{
-		if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > airBalloonPos.y)
+		/*if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > airBalloonPos.y)
 		{
 			g_PlayerData.posX = airBalloonPos.x - PLAYER_WIDTH;
 		}
@@ -938,7 +945,7 @@ void PlayerHitAirBalloon(int index)
 		{
 			g_PlayerData.move.y = 0.0f;
 			g_PlayerData.posY = airBalloonPos.y + AIRBALLOON_HEIGHT;
-		}
+		}*/
 	}
 	else
 	{
@@ -1003,9 +1010,8 @@ void RideAirBalloon(VECTOR airBalloonPos)
 	g_PlayerData.posX = airBalloonPos.x;
 	g_PlayerData.posY = airBalloonPos.y;
 	g_PlayerData.move.x = 0.0f;
-	g_PlayerData.posY = PLAYER_POS_Y_MIN - PLAYER_HEIGHT;
-	g_PlayerData.randing = true;
 	g_PlayerData.move.y = 0.0f;
+	g_PlayerData.ridingAirBalloon = true;
 }
 
 void CalcBoxCollision(PlayerData player, float& x, float& y, float& w, float& h)

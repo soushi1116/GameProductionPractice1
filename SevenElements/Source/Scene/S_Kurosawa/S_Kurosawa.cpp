@@ -9,6 +9,7 @@
 #include "../../Map/MapManager.h"
 #include "../../Collision/Collision.h"
 #include "../../Gimmick/Gimmick.h"
+#include "../../Gimmick/GimmickManager.h"
 #include "../../Map/Block.h"
 #include "../../UI/UIImage.h"
 #include "../../Sound/SoundManager.h"
@@ -31,7 +32,7 @@ KurosawaData g_KurosawaData = { 0 };
 #define GIMMICK_AIRBALLOON_POS_Y (600)
 #define GIMMICK_WOODBLOCK_POS_X (300)
 #define GIMMICK_WOODBLOCK_POS_Y (750)
-#define PLAYER_SPAWN_POS_X (2000.0f)
+#define PLAYER_SPAWN_POS_X (200.0f)
 #define PLAYER_SPAWN_POS_Y (600.0f)
 
 void InitKuroScene()
@@ -41,6 +42,8 @@ void InitKuroScene()
 	InitAnimationEffect();
 
 	InitElementsManager();
+
+	InitGimmickManager();
 
 	g_KurosawaData.textHandle = 0;
 
@@ -67,6 +70,8 @@ void LoadKuroScene()
 
 	LoadElementsManager();
 
+	LoadGimmickManager();
+
 	g_KurosawaData.textHandle = LoadGraph("Data/Player/SceneForKurosawa.png");
 
 	LoadEventManager();
@@ -88,6 +93,12 @@ void StartKuroScene()
 	SpawnPlayer(PLAYER_SPAWN_POS_X, PLAYER_SPAWN_POS_Y);
 
 	StartElementsManager();
+
+	StartGimmickManager();
+
+	SpawnGimmick(100, 100, GIMMICK_TYPE_AIRBALLOON);
+
+	SpawnGimmick(600, 900, GIMMICK_TYPE_WOODBLOCK);
 
 	CreateWarp(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17);
 	CreateWarp(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17);
@@ -113,6 +124,8 @@ void StepKuroScene()
 
 	StepElementsManager();
 
+	StepGimmickManager();
+
 	if (IsTriggerKey(KEY_K))
 	{
 		ChangeScene(SCENE_TITLE);
@@ -126,6 +139,8 @@ void UpdateKuroScene()
 	UpdatePlayer();
 
 	UpdateEventManager();
+
+	UpdateGimmickManager();
 
 	UpdateAnimationEffect();
 
@@ -147,6 +162,8 @@ void DrawKuroScene()
 	DrawAnimationEffect();
 
 	DrawElementsManager();
+
+	DrawGimmickManager();
 
 	DrawEventManager();
 
@@ -170,6 +187,8 @@ void FinKuroScene()
 	FinAnimationEffect();
 
 	FinElementsManager();
+
+	FinGimmickManager();
 
 	DeleteGraph(g_KurosawaData.textHandle);
 
