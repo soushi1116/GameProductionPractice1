@@ -2,7 +2,7 @@
 #include "Elements.h"
 #include "DxLib.h"
 
-#define ELEMENTS_MAX 32
+#define ELEMENTS_MAX 512
 
 void InitElementsManager();
 void LoadElementsManager();
@@ -30,6 +30,8 @@ void WaterHitBlock(int indexA, int indexB);
 
 void GroundHitBlock(int indexA, int indexB);
 
+void GroundHitGround(int indexA, int indexB);
+
 void FireDelete(int index);
 
 void WindDelete(int index);
@@ -41,3 +43,5 @@ void WaterHitFire(int index);
 void WaterHitIce(int index);
 
 void IronHitIron(int indexA, int indexB);
+
+void IronHitWater(int indexA, int indexB);

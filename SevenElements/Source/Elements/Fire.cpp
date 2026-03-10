@@ -1,10 +1,10 @@
 #include "Fire.h"
 #include "../Effect/AnimationEffect.h"
+#include "../Sound/SoundManager.h"
+#include "../Camera/Camera.h"
 
 #define EFFECT_INTERVAL (1)
 #define FIREBALL_MOVE_SPEED (7.0f)
-#define FIREBALL_ACTIVE_AREA_MIN (0.0f)
-#define FIREBALL_ACTIVE_AREA_MAX (1600.0f)
 
 //Fire* fire[FIRE_MAX] = { 0 };
 
@@ -46,11 +46,6 @@ void Fire::Step()
 		{
 			move.x = -FIREBALL_MOVE_SPEED;
 		}
-
-		if (pos.x < FIREBALL_ACTIVE_AREA_MIN - FIRE_WIDTH || pos.x > FIREBALL_ACTIVE_AREA_MAX)
-		{
-			active = false;
-		}
 	}
 }
 
@@ -67,7 +62,9 @@ void Fire::Draw()
 {
 	if (active)
 	{
-		DrawGraph(pos.x, pos.y, handle, TRUE);
+		CameraData camera = GetCamera();
+
+		DrawGraph(pos.x - camera.posX, pos.y - camera.posY, handle, TRUE);
 	}
 }
 
@@ -78,9 +75,11 @@ void Fire::Spawn(float posX, float posY, bool isTurn)
 		active = true;
 
 		pos.x = posX - FIRE_WIDTH / 2;
-		pos.y = posY;
+		pos.y = posY - FIRE_HEIGHT;
 
 		m_IsTurn = isTurn;
+
+		PlaySE(SE_FIRE);
 	}
 
 }

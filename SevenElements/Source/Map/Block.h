@@ -10,4 +10,5 @@ void FinBlock();
 
 BlockData* CreateBlock(MapChipType type, VECTOR pos);
 BlockData* GetBlocks();
+BlockData* GetBlocks(int index);
 

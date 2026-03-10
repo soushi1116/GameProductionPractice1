@@ -1,5 +1,7 @@
 #include "Ice.h"
 #include "../Effect/AnimationEffect.h"
+#include "../Sound/SoundManager.h"
+#include "../Camera/Camera.h"
 
 #define EFFECT_INTERVAL (1)
 #define ICE_ACTIVE_AREA_MIN (0.0f)
@@ -70,8 +72,10 @@ void Ice::Draw()
 {
 	if (active)
 	{
+		CameraData camera = GetCamera();
+
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, 192);
-		DrawRotaGraph(pos.x, pos.y, size, 0, handle, TRUE);
+		DrawRotaGraph(pos.x - camera.posX, pos.y - camera.posY, size, 0, handle, TRUE);
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, 255);
 	}
 }
@@ -86,6 +90,8 @@ void Ice::Spawn(float posX, float posY, bool isTurn)
 		pos.y = posY;
 
 		size = 0.0;
+
+		PlaySE(SE_ICE);
 	}
 	
 }

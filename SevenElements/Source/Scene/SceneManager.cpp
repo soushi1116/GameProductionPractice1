@@ -12,7 +12,7 @@ int g_SceneState = SCENE_STATE_INIT;
 
 bool g_IsLoopEnd = false;
 
-TitleScene* title = new TitleScene;
+TitleScene* title = nullptr;
 
 void SceneManagerUpdate()
 {
@@ -70,7 +70,7 @@ void InitScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		InitTitleScene();
+		title = new TitleScene;
 		break;
 	case SCENE_OPTION:
 		InitOptionScene();
@@ -220,7 +220,7 @@ void FinScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		delete title;
+		//delete title;
 		break;
 	case SCENE_OPTION:
 		FinOptionScene();

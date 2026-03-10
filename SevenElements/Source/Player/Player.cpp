@@ -4,10 +4,16 @@
 #include "../Input/Input.h"
 #include "../Elements/ElementsManager.h"
 #include "../Elements/Iron.h"
+#include "../Elements//Ground.h"
+#include "../Elements/Water.h"
 #include "../Gimmick/GimmickManager.h"
 #include "../Gimmick/Tree.h"
 #include "../Gimmick/AirBalloon.h"
 #include "../Gimmick/WoodBlock.h"
+#include "../Map/Block.h"
+#include "../Sound/SoundManager.h"
+#include "../Camera/Camera.h"
+#include "../Scene/SceneManager.h"
 
 #define PLAYER_MOVE_SPEED (5.0f)
 #define PLAYER_RUN_SPEED (7.0f)
@@ -23,6 +29,8 @@
 #define PLAYER_ANIM_INTERVAL (40)
 #define PLAYER_ACTION_FREEZE_TIME (20)
 #define PLAYER_MAP_COLLISION_OFFSET (0.05f)
+#define PLAYER_WATER_BUOYANCY (0.5f)
+#define PLAYER_DIE_SCENE_CHANGE_INTERVAL (180)
 
 PlayerData g_PlayerData = { 0 };
 PlayerData g_PrevPlayerData = { 0 };
@@ -48,6 +56,8 @@ void InitPlayer()
 	g_PlayerData.selectState = -1;
 	g_PlayerData.runTimer = 0;
 	g_PlayerData.animTimer = 0;
+	g_PlayerData.sceneChangeTimer = 0;
+	g_PlayerData.life = 0;
 
 	g_PlayerData.active = false;
 	g_PlayerData.randing = false;
@@ -57,6 +67,10 @@ void InitPlayer()
 	g_PlayerData.isTurn = false;
 	g_PlayerData.action = false;
 	g_PlayerData.ridingAirBalloon = false;
+	g_PlayerData.hitWarp = false;
+	g_PlayerData.inWater = false;
+	g_PlayerData.die = false;
+	g_PlayerData.clear = false;
 
 	g_PlayerData.playAnim = PLAYER_ANIM_NONE;
 }
@@ -73,8 +87,12 @@ void LoadPlayer()
 		= LoadGraph("Data/Player/Running-3.png");
 	g_PlayerData.animation[PLAYER_ANIM_JUMP].handle
 		= LoadGraph("Data/Player/Jump.png");
+	g_PlayerData.animation[PLAYER_ANIM_FALL].handle
+		= LoadGraph("Data/Player/Fall.png");
 	g_PlayerData.animation[PLAYER_ANIM_ACTION].handle
 		= LoadGraph("Data/Player/Action.png");
+	g_PlayerData.animation[PLAYER_ANIM_DEATH].handle
+		= LoadGraph("Data/Player/Death.png");
 
 	for (int i = 0; i < ELEMENTS_NUM_MAX; i++)
 	{
@@ -116,6 +134,7 @@ void StartPlayer()
 	g_PlayerData.posX = PLAYER_DEFAULT_POS_X;
 	g_PlayerData.posY = PLAYER_DEFAULT_POS_Y;
 	g_PlayerData.level = PLAYER_DEFAULT_LEVEL;
+	g_PlayerData.life = PLAYER_DEFAULT_LIFE;
 
 	StartPlayerAnimation(PLAYER_ANIM_STOP);
 }
@@ -123,6 +142,13 @@ void StartPlayer()
 void StepPlayer()
 {
 	if (!g_PlayerData.active) return;
+
+	if (g_PlayerData.die || g_PlayerData.clear)
+	{
+		g_PlayerData.sceneChangeTimer++;
+	}
+
+	if (g_PlayerData.die) return;
 
 	g_PrevPlayerData = g_PlayerData;
 
@@ -133,10 +159,6 @@ void StepPlayer()
 	
 	g_PlayerData.move.y += PLAYER_GRAVITY;	
 
-	if (g_PlayerData.posY + PLAYER_HEIGHT > PLAYER_POS_Y_MIN)
-	{
-		PlayerHitFloor();
-	}
 
 	if (IsTriggerKey(KEY_X) || IsTriggerPad(PAD_Y))
 	{
@@ -203,7 +225,7 @@ void StepPlayer()
 			g_PlayerData.move.x = 0;
 		}
 	}
-	else if (IsInputKey(KEY_RIGHT)|| IsInputPad(PAD_RIGHT))
+	else if (IsInputKey(KEY_RIGHT) || IsInputPad(PAD_RIGHT))
 	{
 		g_PlayerData.animTimer++;
 
@@ -222,6 +244,11 @@ void StepPlayer()
 	}
 	else if (IsInputKey(KEY_LEFT) || IsInputPad(PAD_LEFT))
 	{
+		if (g_PlayerData.ridingAirBalloon)
+		{
+			g_PlayerData.ridingAirBalloon = false;
+		}
+
 		g_PlayerData.animTimer++;
 
 		g_PlayerData.isTurn = true;
@@ -256,26 +283,62 @@ void StepPlayer()
 		g_PlayerData.runTimer = 0;
 	}
 
+	if (IsTriggerKey(KEY_RIGHT) || IsTriggerPad(PAD_RIGHT))
+	{
+		if (g_PlayerData.ridingAirBalloon)
+		{
+			g_PlayerData.ridingAirBalloon = false;
+
+			g_PlayerData.posX += AIRBALLOON_WIDTH;
+		}
+	}
+
+	if (IsTriggerKey(KEY_LEFT) || IsTriggerPad(PAD_LEFT))
+	{
+		if (g_PlayerData.ridingAirBalloon)
+		{
+			g_PlayerData.ridingAirBalloon = false;
+
+			g_PlayerData.posX -= AIRBALLOON_WIDTH;
+		}
+	}
+
 	if (IsReleaseKey(KEY_RIGHT) || IsReleasePad(PAD_RIGHT))
 	{
 		if (!g_PlayerData.runRight)
 		{
 			g_PlayerData.runRight = true;
 		}
+		StopBGM(BGM_WALK);
+		StopBGM(BGM_RUN);
 	}
+
 	if (IsReleaseKey(KEY_LEFT) || IsReleasePad(PAD_LEFT))
 	{
 		if (!g_PlayerData.runLeft)
 		{
 			g_PlayerData.runLeft = true;
 		}
+		StopBGM(BGM_WALK);
+		StopBGM(BGM_RUN);
 	}
 
 	if (IsTriggerKey(KEY_UP) || IsTriggerPad(PAD_B))
 	{
-		if (g_PlayerData.randing && !g_PlayerData.action)
+		if (g_PlayerData.hitWarp)
+		{
+			g_PlayerData.posX += MAP_CHIP_WIDTH * 5;
+			g_PlayerData.hitWarp = false;
+		}
+		else if (g_PlayerData.randing && !g_PlayerData.action)
 		{
 			g_PlayerData.randing = false;
+			g_PlayerData.move.y -= PLAYER_JUMP_POWER;
+
+			PlaySE(SE_JUMP);
+		}
+		else if (g_PlayerData.inWater)
+		{
 			g_PlayerData.move.y -= PLAYER_JUMP_POWER;
 		}
 	}
@@ -311,14 +374,62 @@ void StepPlayer()
 			g_PlayerData.level = PLAYER_DEFAULT_LEVEL;
 		}
 	}
+
+	if (IsTriggerKey(KEY_C))
+	{
+		PlayerHitEnemy();
+	}
 }
 
 void UpdatePlayer()
 {
 	if (!g_PlayerData.active) return;
 
+	g_PlayerData.hitWarp = false;
+
+	if (g_PlayerData.sceneChangeTimer > PLAYER_DIE_SCENE_CHANGE_INTERVAL)
+	{
+		ChangeScene(SCENE_TITLE);
+	}
+
+	if (g_PlayerData.randing)
+	{
+		if (fabsf(g_PlayerData.move.x) == PLAYER_MOVE_SPEED)
+		{
+			if (!IsPlayingBGM(BGM_WALK))
+			{
+				PlayBGM(BGM_WALK);
+			}
+		}
+		else if (fabsf(g_PlayerData.move.x) == PLAYER_RUN_SPEED)
+		{
+			if (!IsPlayingBGM(BGM_RUN))
+			{
+				PlayBGM(BGM_RUN);
+			}
+		}
+	}
+	else
+	{
+		StopBGM(BGM_WALK);
+		StopBGM(BGM_RUN);
+	}
+
+	if (g_PlayerData.inWater)
+	{
+		g_PlayerData.move.x *= PLAYER_WATER_BUOYANCY;
+		g_PlayerData.move.y *= PLAYER_WATER_BUOYANCY;
+	}
+
 	g_PlayerData.posX += g_PlayerData.move.x;
 	g_PlayerData.posY += g_PlayerData.move.y;
+
+	if (g_PlayerData.die)
+	{
+		g_PlayerData.move.x = 0.0f;
+		StopBGM(BGM_WALK);
+		StopBGM(BGM_RUN);
+	}
 
 	if (g_PlayerData.animTimer > PLAYER_ANIM_INTERVAL)
 	{
@@ -330,6 +441,16 @@ void UpdatePlayer()
 		g_PlayerData.action = false;
 	}
 
+	if (g_PlayerData.inWater)
+	{
+		g_PlayerData.inWater = false;
+	}
+
+	if (g_PlayerData.life <= 0)
+	{
+		g_PlayerData.die = true;
+	}
+
 	UpdatePlayerAnimation();
 }
 
@@ -337,21 +458,26 @@ void DrawPlayer()
 {
 	if (!g_PlayerData.active) return;
 
+	CameraData camera = GetCamera();
+
 	PlayerAnimationType animType = g_PlayerData.playAnim;
 	AnimationData* animData = &g_PlayerData.animation[animType];
-	if (!g_PlayerData.isTurn)
+	if (!g_PlayerData.ridingAirBalloon)
 	{
-		DrawAnimation(animData, g_PlayerData.posX, g_PlayerData.posY);
-	}
-	else
-	{
-		DrawTurnAnimation(animData, g_PlayerData.posX, g_PlayerData.posY);
+		if (!g_PlayerData.isTurn)
+		{
+			DrawAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
+		}
+		else
+		{
+			DrawTurnAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
+		}
 	}
 
 	if (g_PlayerData.selectElements)
 	{
-		int playerCenterX = (int)g_PlayerData.posX + PLAYER_WIDTH / 2;
-		int playerCenterY = (int)g_PlayerData.posY + PLAYER_HEIGHT / 2;
+		int playerCenterX = (int)g_PlayerData.posX + PLAYER_WIDTH / 2 - camera.posX;
+		int playerCenterY = (int)g_PlayerData.posY + PLAYER_HEIGHT / 2 - camera.posY;
 
 		int textRotation = sinf(DX_PI_F);
 
@@ -380,6 +506,9 @@ void FinPlayer()
 	{
 		DeleteGraph(g_ElementsTextHandle[i]);
 	}
+
+	StopBGM(BGM_WALK);
+	StopBGM(BGM_RUN);
 }
 
 
@@ -403,13 +532,24 @@ void UpdatePlayerAnimation()
 {
 	if (!g_PlayerData.active) return;
 
-	if (g_PlayerData.action)
+	if (g_PlayerData.die)
+	{
+		StartPlayerAnimation(PLAYER_ANIM_DEATH);
+	}
+	else if (g_PlayerData.action)
 	{
 		StartPlayerAnimation(PLAYER_ANIM_ACTION);
 	}
 	else if (!g_PlayerData.randing)
 	{
-		StartPlayerAnimation(PLAYER_ANIM_JUMP);
+		if (g_PlayerData.move.y < 0.0f)
+		{
+			StartPlayerAnimation(PLAYER_ANIM_JUMP);
+		}
+		else
+		{
+			StartPlayerAnimation(PLAYER_ANIM_FALL);
+		}
 	}
 	else if (IsInputKey(KEY_RIGHT) || IsInputKey(KEY_LEFT) || IsInputPad(PAD_RIGHT) || IsInputPad(PAD_LEFT))
 	{
@@ -436,9 +576,39 @@ void UpdatePlayerAnimation()
 	}
 }
 
+void SpawnPlayer(float posX, float posY)
+{
+	if (!g_PlayerData.active)
+	{
+		g_PlayerData.active = true;
+		g_PlayerData.posX = posX;
+		g_PlayerData.posY = posY;
+		g_PlayerData.level = PLAYER_DEFAULT_LEVEL;
+		g_PlayerData.life = PLAYER_DEFAULT_LIFE;
+
+		StartPlayerAnimation(PLAYER_ANIM_STOP);
+	}
+}
+
+void PlayerRand()
+{
+	PlaySE(SE_RAND);
+
+	if (fabsf(g_PlayerData.move.x) == PLAYER_MOVE_SPEED)
+	{
+		PlayBGM(BGM_WALK);
+	}
+	else if (fabsf(g_PlayerData.move.x) == PLAYER_RUN_SPEED)
+	{
+		PlayBGM(BGM_RUN);
+	}
+
+	g_PlayerData.randing = true;
+}
+
 void PlayerHitNormalBlockX(MapChipData mapChipData)
 {
-	PlayerData player = g_PlayerData;
+	/*PlayerData player = g_PlayerData;
 	BlockData* block = mapChipData.data;
 	const float POS_OFFSET = PLAYER_MAP_COLLISION_OFFSET;
 	const float SIZE_OFFSET = PLAYER_MAP_COLLISION_OFFSET * 2;
@@ -462,12 +632,12 @@ void PlayerHitNormalBlockX(MapChipData mapChipData)
 		{
 			g_PlayerData.posX += (block->pos.x + MAP_CHIP_WIDTH) - x;
 		}
-	}
+	}*/
 }
 
 void PlayerHitNormalBlockY(MapChipData mapChipData)
 {
-	PlayerData player = g_PlayerData;
+	/*PlayerData player = g_PlayerData;
 	BlockData* block = mapChipData.data;
 	const float POS_OFFSET = PLAYER_MAP_COLLISION_OFFSET;
 	const float SIZE_OFFSET = PLAYER_MAP_COLLISION_OFFSET * 2;
@@ -492,12 +662,62 @@ void PlayerHitNormalBlockY(MapChipData mapChipData)
 		{
 			g_PlayerData.posY += (block->pos.y + MAP_CHIP_HEIGHT) - y;
 		}
-	}
+	}*/
 }
 
 void PlayerHitBlock(int index)
 {
-	
+	PlayerData player = GetPlayer();
+	BlockData* block = GetBlocks(index);
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	player.posX = g_PlayerData.posX;
+	player.posY = g_PrevPlayerData.posY;
+
+	for (int i = 0; i < BLOCK_MAX; i++)
+	{
+		if (i != index) continue;
+
+		if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > block->pos.y)
+		{
+			if (player.posY < block->pos.y + MAP_CHIP_HEIGHT)
+			{
+				g_PlayerData.posX = block->pos.x - PLAYER_WIDTH;
+			}
+		}
+		else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > block->pos.y)
+		{
+			if (player.posY < block->pos.y + MAP_CHIP_HEIGHT)
+			{
+				g_PlayerData.posX = block->pos.x + MAP_CHIP_WIDTH;
+			}
+		}
+
+		if (player.posY <= block->pos.y - PLAYER_HEIGHT)
+		{
+			if (g_PrevPlayerData.posX == block->pos.x + MAP_CHIP_WIDTH) continue;
+			if (g_PrevPlayerData.posX + PLAYER_WIDTH == block->pos.x) continue;
+
+			if (!g_PlayerData.randing)
+			{
+				PlayerRand();
+			}
+
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.posY = block->pos.y - PLAYER_HEIGHT;
+		}
+		else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > block->pos.y + MAP_CHIP_HEIGHT)
+		{
+			if (g_PrevPlayerData.posX == block->pos.x + MAP_CHIP_WIDTH) continue;
+			if (g_PrevPlayerData.posX + PLAYER_WIDTH == block->pos.x) continue;
+
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.posY = block->pos.y + MAP_CHIP_HEIGHT;
+			
+		}
+
+		break;
+	}
 }
 
 void PlayerHitIron(int index)
@@ -512,32 +732,146 @@ void PlayerHitIron(int index)
 
 	if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > ironPos.y)
 	{
-		g_PlayerData.posX = ironPos.x - PLAYER_WIDTH;
+		if (player.posY < ironPos.y + IRON_HEIGHT)
+		{
+			g_PlayerData.posX = ironPos.x - PLAYER_WIDTH;
+		}
 	}
 	else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > ironPos.y)
 	{
-		g_PlayerData.posX = ironPos.x + IRON_WIDTH;
+		if (player.posY < ironPos.y + IRON_HEIGHT)
+		{
+			g_PlayerData.posX = ironPos.x + IRON_WIDTH;
+		}
 	}
 
 	if (player.posY <= ironPos.y - PLAYER_HEIGHT)
 	{
+		if (g_PrevPlayerData.posX == ironPos.x + IRON_WIDTH) return;
+		if (g_PrevPlayerData.posX + PLAYER_WIDTH == ironPos.x) return;
+
+		if (!g_PlayerData.randing)
+		{
+			PlayerRand();
+		}
+
 		g_PlayerData.move.y = 0.0f;
-		g_PlayerData.randing = true;
 		g_PlayerData.posY = ironPos.y - PLAYER_HEIGHT;
 	}
 	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > ironPos.y + IRON_HEIGHT)
 	{
+		if (g_PrevPlayerData.posX == ironPos.x + IRON_WIDTH) return;
+		if (g_PrevPlayerData.posX + PLAYER_WIDTH == ironPos.x) return;
+
 		g_PlayerData.move.y = 0.0f;
 		g_PlayerData.posY = ironPos.y + IRON_HEIGHT;
 	}
 }
 
-void PlayerHitWater(int index)
+void PlayerHitGround(int index)
 {
+	PlayerData player = GetPlayer();
+	VECTOR groundPos = GetElementPos(index, ELEMENT_TYPE_GROUND);
+
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	player.posX = g_PlayerData.posX;
+	player.posY = g_PrevPlayerData.posY;
+
+	if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > groundPos.y)
+	{
+		if (player.posY < groundPos.y + GROUND_HEIGHT)
+		{
+			g_PlayerData.posX = groundPos.x - PLAYER_WIDTH;
+		}
+	}
+	else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > groundPos.y)
+	{
+		if (player.posY < groundPos.y + GROUND_HEIGHT)
+		{
+			g_PlayerData.posX = groundPos.x + GROUND_WIDTH;
+		}
+	}
+
+	if (player.posY <= groundPos.y - PLAYER_HEIGHT)
+	{
+		if (g_PrevPlayerData.posX == groundPos.x + GROUND_WIDTH) return;
+		if (g_PrevPlayerData.posX + PLAYER_WIDTH == groundPos.x) return;
+
+		if (!g_PlayerData.randing)
+		{
+			PlayerRand();
+		}
+
+		g_PlayerData.move.y = 0.0f;
+		g_PlayerData.posY = groundPos.y - PLAYER_HEIGHT;
+	}
+	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > groundPos.y + GROUND_HEIGHT)
+	{
+		if (g_PrevPlayerData.posX == groundPos.x + GROUND_WIDTH) return;
+		if (g_PrevPlayerData.posX + PLAYER_WIDTH == groundPos.x) return;
+
+		g_PlayerData.move.y = 0.0f;
+		g_PlayerData.posY = groundPos.y + GROUND_HEIGHT;
+	}
 }
 
-void PlayerHitFloor()
+void PlayerHitWater(int index)
 {
+	if (!IsWaterFreeze(index))
+	{
+		if (!g_PlayerData.inWater)
+		{
+			g_PlayerData.inWater = true;
+		}
+	}
+	else
+	{
+		PlayerData player = GetPlayer();
+		VECTOR waterPos = GetElementPos(index, ELEMENT_TYPE_WATER);
+
+		player.isTurn = g_PrevPlayerData.isTurn;
+
+		player.posX = g_PlayerData.posX;
+		player.posY = g_PrevPlayerData.posY;
+
+		if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > waterPos.y)
+		{
+			if (player.posY < waterPos.y + GROUND_HEIGHT)
+			{
+				g_PlayerData.posX = waterPos.x - PLAYER_WIDTH;
+			}
+		}
+		else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > waterPos.y)
+		{
+			if (player.posY < waterPos.y + WATER_HEIGHT)
+			{
+				g_PlayerData.posX = waterPos.x + WATER_WIDTH;
+			}
+		}
+
+		if (player.posY <= waterPos.y - PLAYER_HEIGHT)
+		{
+			if (g_PrevPlayerData.posX == waterPos.x + WATER_WIDTH) return;
+			if (g_PrevPlayerData.posX + PLAYER_WIDTH == waterPos.x) return;
+
+			if (!g_PlayerData.randing)
+			{
+				PlayerRand();
+			}
+
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.posY = waterPos.y - PLAYER_HEIGHT;
+		}
+		else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > waterPos.y + WATER_HEIGHT)
+		{
+			if (g_PrevPlayerData.posX == waterPos.x + WATER_WIDTH) return;
+			if (g_PrevPlayerData.posX + PLAYER_WIDTH == waterPos.x) return;
+
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.posY = waterPos.y + WATER_HEIGHT;
+		}
+	}
 }
 
 void PlayerHitTree(int index)
@@ -561,8 +895,12 @@ void PlayerHitTree(int index)
 
 	if (player.posY <= treePos.y - PLAYER_HEIGHT)
 	{
+		if (!g_PlayerData.randing)
+		{
+			PlayerRand();
+		}
+
 		g_PlayerData.move.y = 0.0f;
-		g_PlayerData.randing = true;
 		g_PlayerData.posY = treePos.y - PLAYER_HEIGHT;
 	}
 	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > treePos.y + TREE_HEIGHT)
@@ -582,9 +920,9 @@ void PlayerHitAirBalloon(int index)
 	player.posX = g_PlayerData.posX;
 	player.posY = g_PrevPlayerData.posY;
 
-	if (g_PlayerData.randing)
+	if (!AirBalloonBurning(index))
 	{
-		if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > airBalloonPos.y)
+		/*if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > airBalloonPos.y)
 		{
 			g_PlayerData.posX = airBalloonPos.x - PLAYER_WIDTH;
 		}
@@ -595,15 +933,19 @@ void PlayerHitAirBalloon(int index)
 
 		if (player.posY <= airBalloonPos.y - PLAYER_HEIGHT)
 		{
+			if (!g_PlayerData.randing)
+			{
+				PlayerRand();
+			}
+
 			g_PlayerData.move.y = 0.0f;
-			g_PlayerData.randing = true;
 			g_PlayerData.posY = airBalloonPos.y - PLAYER_HEIGHT;
 		}
 		else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > airBalloonPos.y + AIRBALLOON_HEIGHT)
 		{
 			g_PlayerData.move.y = 0.0f;
 			g_PlayerData.posY = airBalloonPos.y + AIRBALLOON_HEIGHT;
-		}
+		}*/
 	}
 	else
 	{
@@ -632,8 +974,12 @@ void PlayerHitWoodBlock(int index)
 
 	if (player.posY <= woodBlockPos.y - PLAYER_HEIGHT)
 	{
+		if (!g_PlayerData.randing)
+		{
+			PlayerRand();
+		}
+
 		g_PlayerData.move.y = 0.0f;
-		g_PlayerData.randing = true;
 		g_PlayerData.posY = woodBlockPos.y - PLAYER_HEIGHT;
 	}
 	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > woodBlockPos.y + WOODBLOCK_HEIGHT)
@@ -643,14 +989,29 @@ void PlayerHitWoodBlock(int index)
 	}
 }
 
+void PlayerHitWarp()
+{
+	g_PlayerData.hitWarp = true;
+}
+
+void PlayerHitGoal()
+{
+	g_PlayerData.clear = true;
+}
+
+void PlayerHitEnemy()
+{
+	PlaySE(SE_DAMAGE);
+	g_PlayerData.life--;
+}
+
 void RideAirBalloon(VECTOR airBalloonPos)
 {
 	g_PlayerData.posX = airBalloonPos.x;
 	g_PlayerData.posY = airBalloonPos.y;
 	g_PlayerData.move.x = 0.0f;
-	g_PlayerData.posY = PLAYER_POS_Y_MIN - PLAYER_HEIGHT;
-	g_PlayerData.randing = true;
 	g_PlayerData.move.y = 0.0f;
+	g_PlayerData.ridingAirBalloon = true;
 }
 
 void CalcBoxCollision(PlayerData player, float& x, float& y, float& w, float& h)

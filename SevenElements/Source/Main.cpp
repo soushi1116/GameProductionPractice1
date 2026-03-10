@@ -3,6 +3,8 @@
 #include "GameSetting/GameSetting.h"
 #include "Input/Input.h"
 #include "FPS/FPS.h"
+#include "Sound/SoundManager.h"
+#include "UI/UIImage.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -25,6 +27,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	InitInput();
+
+	InitUIImage();
+
+	LoadUIImage();
+
+	LoadBGM();
+	LoadSE();
 
 	InitFPS();
 
@@ -53,6 +62,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		ScreenFlip();
 	}
+
+	FinUIImage();
 
 	DxLib_End();
 

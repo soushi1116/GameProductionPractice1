@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include "Elements.h"
 
-#define ICE_MAX 32
+#define ICE_MAX 512
 #define ICE_WIDTH (256)
 #define ICE_HEIGHT (256)
 

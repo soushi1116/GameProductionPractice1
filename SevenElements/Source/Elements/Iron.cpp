@@ -1,14 +1,17 @@
 #include "Iron.h"
 #include "../Effect/AnimationEffect.h"
 #include "../Map/Block.h"
+#include "../Sound/SoundManager.h"
+#include "../Camera/Camera.h"
+#include "ElementsManager.h"
+#include "Water.h"
 
 #define EFFECT_INTERVAL (1)
 #define IRON_MOVE_SPEED (5.0f)
-#define IRON_ACTIVE_AREA_X_MIN (0.0f)
-#define IRON_ACTIVE_AREA_X_MAX (1600.0f)
-#define IRON_POS_Y_MIN (750.0f)
-#define IRON_REACH (200.0f)
+#define IRON_REACH_X (200.0f)
+#define IRON_REACH_Y (200.0f)
 #define IRON_GRAVITY (0.5f)
+#define IRON_SPAWN_POS_Y_MIN (100.0f)
 
 Iron::Iron()
 {
@@ -41,16 +44,6 @@ void Iron::Step()
 {
 	if (active)
 	{
-		if (pos.x < IRON_ACTIVE_AREA_X_MIN - IRON_WIDTH || pos.x > IRON_ACTIVE_AREA_X_MAX)
-		{
-			active = false;
-		}
-
-		if (pos.y >= IRON_POS_Y_MIN - IRON_HEIGHT)
-		{
-			IronHitFloor();
-		}
-		
 		move.y += IRON_GRAVITY;
 	}
 }
@@ -68,7 +61,9 @@ void Iron::Draw()
 {
 	if (active)
 	{
-		DrawGraph(pos.x, pos.y, handle, TRUE);
+		CameraData camera = GetCamera();
+
+		DrawGraph(pos.x - camera.posX, pos.y - camera.posY, handle, TRUE);
 	}
 }
 
@@ -80,15 +75,27 @@ void Iron::Spawn(float posX, float posY, bool isTurn)
 
 		if (!isTurn)
 		{
-			pos.x = posX - IRON_WIDTH / 2 + IRON_REACH;
+			pos.x = posX - IRON_WIDTH / 2 + IRON_REACH_X;
 		}
 		else
 		{
-			pos.x = posX - IRON_WIDTH / 2 - IRON_REACH;
+			pos.x = posX - IRON_WIDTH / 2 - IRON_REACH_X;
 		}
-		pos.y = 0.0f;
+
+		float spawnPosY = posY - IRON_REACH_Y;
+
+		if (spawnPosY > IRON_SPAWN_POS_Y_MIN)
+		{
+			pos.y = spawnPosY;
+		}
+		else
+		{
+			pos.y = IRON_SPAWN_POS_Y_MIN;
+		}
 
 		m_IsTurn = isTurn;
+
+		PlaySE(SE_IRON);
 	}
 	
 }
@@ -101,17 +108,23 @@ void Iron::IronHitBlock(int index)
 		if (i != index) continue;
 
 		move.y = 0.0f;
-		pos.y = block->pos.y - MAP_CHIP_HEIGHT;
+		pos.y = block->pos.y - IRON_HEIGHT;
 	}
 }
 
-
-
-void Iron::IronHitFloor()
+void Iron::IronHitWater(int index)
 {
-	pos.y = IRON_POS_Y_MIN - IRON_HEIGHT;
-	m_Randing = true;
-	move.y = 0.0f;
+	VECTOR waterPos = GetElementPos(index, ELEMENT_TYPE_WATER);
+	for (int i = 0; i < WATER_MAX; i++)
+	{
+		if (i != index) continue;
+
+		if (IsWaterFreeze(index))
+		{
+			move.y = 0.0f;
+			pos.y = waterPos.y - IRON_HEIGHT;
+		}
+	}
 }
 
 void Iron::IronHitIron(int indexA, int indexB, float posY)
