@@ -14,11 +14,11 @@
 #include "../../UI/UIImage.h"
 #include "../../Sound/SoundManager.h"
 #include "../../Camera/Camera.h"
-#include "../../Warp/Warp.h"
+#include "../../Gimmick/Warp.h"
 #include "../../GameSetting/GameSetting.h"
 #include "../../Life/Life.h"
 #include "../../Event/EventManager.h"
-#include "../../Goal/Goal.h"
+#include "../../Gimmick/Goal.h"
 
 KurosawaData g_KurosawaData = { 0 };
 
@@ -51,10 +51,6 @@ void InitKuroScene()
 
 	InitUIImage();
 
-	InitWarp();
-
-	InitGoal();
-
 	InitLife();
 
 	InitEventManager();
@@ -78,10 +74,6 @@ void LoadKuroScene()
 
 	LoadMap();
 
-	LoadWarp();
-
-	LoadGoal();
-
 	LoadLife();
 
 	LoadUIImage();
@@ -100,10 +92,11 @@ void StartKuroScene()
 
 	SpawnGimmick(600, 900, GIMMICK_TYPE_WOODBLOCK);
 
-	CreateWarp(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17);
-	CreateWarp(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17);
+	SpawnGimmick(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17, GIMMICK_TYPE_WARP);
 
-	CreateGoal(MAP_CHIP_WIDTH * 76, MAP_CHIP_HEIGHT * 15);
+	SpawnGimmick(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17, GIMMICK_TYPE_WARP);
+
+	SpawnGimmick(MAP_CHIP_WIDTH * 76, MAP_CHIP_HEIGHT * 15, GIMMICK_TYPE_GOAL);
 
 	StartMap();
 
@@ -153,10 +146,6 @@ void DrawKuroScene()
 {
 	DrawMap();
 
-	DrawWarp();
-
-	DrawGoal();
-
 	DrawPlayer();
 
 	DrawAnimationEffect();
@@ -177,10 +166,6 @@ void DrawKuroScene()
 void FinKuroScene()
 {
 	FinMap();
-
-	FinWarp();
-
-	FinGoal();
 
 	FinPlayer();
 

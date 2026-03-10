@@ -8,10 +8,13 @@
 #include "../../Collision/Collision.h"
 #include "../../Map/MapChip.h"
 #include "../../Map/Block.h"
-
+#include "../../Gimmick/GimmickManager.h"
+#include "../../Camera/Camera.h"
 
 void InitPlayScene()
 {
+	InitCamera();
+
 	InitMap();
 
 	InitPlayer();
@@ -19,6 +22,8 @@ void InitPlayScene()
 	InitAnimationEffect();
 
 	InitElementsManager();
+
+	InitGimmickManager();
 }
 
 void LoadPlayScene()
@@ -36,6 +41,8 @@ void LoadPlayScene()
 	LoadAnimationEffect();
 
 	LoadElementsManager();
+
+	LoadGimmickManager();
 }
 
 void StartPlayScene()
@@ -45,15 +52,21 @@ void StartPlayScene()
 	StartPlayer();
 
 	StartElementsManager();
+
+	StartGimmickManager();
 }
 
 void StepPlayScene()
 {
+	StepCamera();
+
 	StepPlayer();
 
 	StepAnimationEffect();
 
 	StepElementsManager();
+
+	StepGimmickManager();
 }
 
 void UpdatePlayScene()
@@ -64,6 +77,8 @@ void UpdatePlayScene()
 
 	UpdateElementsManager();
 
+	UpdateGimmickManager();
+
 	CheckCollision();
 }
 
@@ -71,13 +86,13 @@ void DrawPlayScene()
 {
 	DrawMap();
 
-	DrawBlock();
-
 	DrawPlayer();
 
 	DrawAnimationEffect();
 
 	DrawElementsManager();
+
+	DrawGimmickManager();
 }
 
 void FinPlayScene()
@@ -89,4 +104,6 @@ void FinPlayScene()
 	FinAnimationEffect();
 
 	FinElementsManager();
+
+	FinGimmickManager();
 }

@@ -164,10 +164,11 @@
     <ClCompile Include="Source\Gimmick\AirBalloon.cpp" />
     <ClCompile Include="Source\Gimmick\Gimmick.cpp" />
     <ClCompile Include="Source\Gimmick\GimmickManager.cpp" />
+    <ClCompile Include="Source\Gimmick\Goal.cpp" />
     <ClCompile Include="Source\Gimmick\Tree.cpp" />
+    <ClCompile Include="Source\Gimmick\Warp.cpp" />
     <ClCompile Include="Source\Gimmick\WaterGimmick.cpp" />
     <ClCompile Include="Source\Gimmick\WoodBlock.cpp" />
-    <ClCompile Include="Source\Goal\Goal.cpp" />
     <ClCompile Include="Source\Input\Input.cpp" />
     <ClCompile Include="Source\Life\Life.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -182,7 +183,6 @@
     <ClCompile Include="Source\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="Source\Sound\SoundManager.cpp" />
     <ClCompile Include="Source\UI\UIImage.cpp" />
-    <ClCompile Include="Source\Warp\Warp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation\Animation.h" />
@@ -213,10 +213,11 @@
     <ClInclude Include="Source\Gimmick\GameDefine.h" />
     <ClInclude Include="Source\Gimmick\Gimmick.h" />
     <ClInclude Include="Source\Gimmick\GimmickManager.h" />
+    <ClInclude Include="Source\Gimmick\Goal.h" />
     <ClInclude Include="Source\Gimmick\Tree.h" />
+    <ClInclude Include="Source\Gimmick\Warp.h" />
     <ClInclude Include="Source\Gimmick\WaterGimmick.h" />
     <ClInclude Include="Source\Gimmick\WoodBlock.h" />
-    <ClInclude Include="Source\Goal\Goal.h" />
     <ClInclude Include="Source\Input\Input.h" />
     <ClInclude Include="Source\Life\Life.h" />
     <ClInclude Include="Source\Map\Block.h" />
@@ -231,7 +232,6 @@
     <ClInclude Include="Source\Scene\Title\TitleScene.h" />
     <ClInclude Include="Source\Sound\SoundManager.h" />
     <ClInclude Include="Source\UI\UIImage.h" />
-    <ClInclude Include="Source\Warp\Warp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

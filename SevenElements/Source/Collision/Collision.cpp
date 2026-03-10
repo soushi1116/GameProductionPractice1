@@ -16,8 +16,8 @@
 #include "../Gimmick/Tree.h"
 #include "../Gimmick/AirBalloon.h"
 #include "../Gimmick/WoodBlock.h"
-#include "../Warp/Warp.h"
-#include "../Goal/Goal.h"
+#include "../Gimmick/Warp.h"
+#include "../Gimmick/Goal.h"
 
 bool CheckSquareSquare(float squareA_PosX, float squareA_PosY, float squareA_Width, float squareA_Height,
 	float squareB_PosX, float squareB_PosY, float squareB_Width, float squareB_Height)
@@ -315,14 +315,14 @@ void CheckPlayerWarp()
 
 	if (player.active)
 	{
-		WarpData* warp = GetWarp();
-
-		for (int i = 0; i < WARP_MAX; i++, warp++)
+		for (int i = 0; i < WARP_MAX; i++)
 		{
-			if (!warp->active) continue;
+			if (!IsGimmickActive(i, GIMMICK_TYPE_WARP)) continue;
+
+			VECTOR warpPos = GetGimmickPos(i, GIMMICK_TYPE_WARP);
 
 			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
-				warp->posX, warp->posY, WARP_WIDTH, WARP_HEIGHT))
+				warpPos.x, warpPos.y, WARP_WIDTH, WARP_HEIGHT))
 			{
 				PlayerHitWarp();
 			}
@@ -336,14 +336,14 @@ void CheckPlayerGoal()
 
 	if (player.active)
 	{
-		GoalData* goal = GetGoal();
-
-		for (int i = 0; i < GOAL_MAX; i++, goal++)
+		for (int i = 0; i < GOAL_MAX; i++)
 		{
-			if (!goal->active) continue;
+			if (!IsGimmickActive(i, GIMMICK_TYPE_GOAL)) continue;
+
+			VECTOR goalPos = GetGimmickPos(i, GIMMICK_TYPE_GOAL);
 
 			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
-				goal->posX, goal->posY, GOAL_WIDTH, GOAL_HEIGHT))
+				goalPos.x, goalPos.y, GOAL_WIDTH, GOAL_HEIGHT))
 			{
 				PlayerHitGoal();
 			}

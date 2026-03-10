@@ -81,3 +81,8 @@ BlockData* GetBlocks()
 {
 	return g_Blocks;
 }
+
+BlockData* GetBlocks(int index)
+{
+	return &g_Blocks[index];
+}

@@ -5,6 +5,8 @@
 #include "AirBalloon.h"
 #include "WoodBlock.h"
 #include "WaterGimmick.h"
+#include "Warp.h"
+#include "Goal.h"
 
 Gimmick* gimmick = nullptr;
 
@@ -12,6 +14,8 @@ Tree* tree[TREE_MAX] = { nullptr };
 AirBalloon* airBalloon[AIRBALLOON_MAX] = { nullptr };
 WoodBlock* woodBlock[WOODBLOCK_MAX] = { nullptr };
 WaterGimmick* waterGimmick[WATER_GIMMICK_MAX] = { nullptr };
+Warp* warp[WARP_MAX] = { nullptr };
+Goal* goal[GOAL_MAX] = { nullptr };
 
 void InitGimmickManager()
 {
@@ -22,6 +26,8 @@ void InitGimmickManager()
 		airBalloon[i] = new AirBalloon;
 		woodBlock[i] = new WoodBlock;
 		waterGimmick[i] = new WaterGimmick;
+		warp[i] = new Warp;
+		goal[i] = new Goal;
 	}
 }
 
@@ -34,6 +40,8 @@ void LoadGimmickManager()
 		airBalloon[i]->Load();
 		woodBlock[i]->Load();
 		waterGimmick[i]->Load();
+		warp[i]->Load();
+		goal[i]->Load();
 	}
 }
 
@@ -46,6 +54,8 @@ void StartGimmickManager()
 		airBalloon[i]->Start();
 		woodBlock[i]->Start();
 		waterGimmick[i]->Start();
+		warp[i]->Start();
+		goal[i]->Start();
 	}
 }
 
@@ -58,6 +68,8 @@ void StepGimmickManager()
 		airBalloon[i]->Step();
 		woodBlock[i]->Step();
 		waterGimmick[i]->Step();
+		warp[i]->Step();
+		goal[i]->Step();
 	}
 }
 
@@ -70,6 +82,8 @@ void UpdateGimmickManager()
 		airBalloon[i]->Update();
 		woodBlock[i]->Update();
 		waterGimmick[i]->Update();
+		warp[i]->Update();
+		goal[i]->Update();
 	}
 }
 
@@ -82,6 +96,8 @@ void DrawGimmickManager()
 		airBalloon[i]->Draw();
 		woodBlock[i]->Draw();
 		waterGimmick[i]->Draw();
+		warp[i]->Draw();
+		goal[i]->Draw();
 	}
 }
 
@@ -95,6 +111,8 @@ void FinGimmickManager()
 		delete airBalloon[i];
 		delete woodBlock[i];
 		delete waterGimmick[i];
+		delete warp[i];
+		delete goal[i];
 	}
 }
 
@@ -141,6 +159,29 @@ void SpawnGimmick(int posX, int posY, GimmickType type)
 		}
 		break;
 
+	case GIMMICK_TYPE_WARP:
+		for (int i = 0; i < WARP_MAX; i++)
+		{
+			if (!warp[i]->IsActive())
+			{
+				warp[i]->Spawn(posX, posY);
+
+				break;
+			}
+		}
+		break;
+
+	case GIMMICK_TYPE_GOAL:
+		for (int i = 0; i < GOAL_MAX; i++)
+		{
+			if (!goal[i]->IsActive())
+			{
+				goal[i]->Spawn(posX, posY);
+
+				break;
+			}
+		}
+		break;
 	case GIMMICK_TYPE_MAX:
 		break;
 	default:
@@ -193,6 +234,12 @@ VECTOR GetGimmickPos(int index, GimmickType type)
 	case GIMMICK_TYPE_WOODBLOCK:
 		pos = woodBlock[index]->GetPos();
 		break;
+	case GIMMICK_TYPE_WARP:
+		pos = warp[index]->GetPos();
+		break;
+	case GIMMICK_TYPE_GOAL:
+		pos = goal[index]->GetPos();
+		break;
 	default:
 		break;
 	}
@@ -215,6 +262,12 @@ bool IsGimmickActive(int index, GimmickType type)
 		break;
 	case GIMMICK_TYPE_WOODBLOCK:
 		active = woodBlock[index]->IsActive();
+		break;
+	case GIMMICK_TYPE_WARP:
+		active = warp[index]->IsActive();
+		break;
+	case GIMMICK_TYPE_GOAL:
+		active = goal[index]->IsActive();
 		break;
 	default:
 		break;

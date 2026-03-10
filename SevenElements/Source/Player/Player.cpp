@@ -11,6 +11,7 @@
 #include "../Gimmick/AirBalloon.h"
 #include "../Gimmick/WoodBlock.h"
 #include "../Map/Block.h"
+#include "../Map/MapParameter.h"
 #include "../Sound/SoundManager.h"
 #include "../Camera/Camera.h"
 #include "../Scene/SceneManager.h"
