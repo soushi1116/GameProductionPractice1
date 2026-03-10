@@ -6,91 +6,45 @@
 #include "../../Elements/ElementsManager.h"
 #include "../../Map/MapManager.h"
 #include "../../Collision/Collision.h"
-#include "../../Camera/Camera.h"
-#include "../../Warp/Warp.h"
-#include "../../Sound/SoundManager.h"
-#include "../../UI/UIImage.h"
-#include "../../Goal/Goal.h"
-#include "../../Life/Life.h"
-#include "../../Event/EventManager.h"
+#include "../../Map/MapChip.h"
+#include "../../Map/Block.h"
 
-#define TEXTPOS_X (200)
-#define TEXTPOS_Y (0)
-#define BLOCK_NUM_MAX (32)
-#define MAP_POS_Y (700)
-#define GIMMICK_TREE_POS_X (300)
-#define GIMMICK_TREE_POS_Y (500)
-#define GIMMICK_AIRBALLOON_POS_X (1000)
-#define GIMMICK_AIRBALLOON_POS_Y (600)
-#define GIMMICK_WOODBLOCK_POS_X (300)
-#define GIMMICK_WOODBLOCK_POS_Y (750)
-#define PLAYER_SPAWN_POS_X (100.0f)
-#define PLAYER_SPAWN_POS_Y (600.0f)
 
 void InitPlayScene()
 {
+	InitMap();
+
 	InitPlayer();
 
 	InitAnimationEffect();
 
 	InitElementsManager();
-
-	InitMap();
-
-	InitUIImage();
-
-	InitWarp();
-
-	InitGoal();
-
-	InitLife();
-
-	InitEventManager();
-
-	InitCamera();
 }
 
 void LoadPlayScene()
 {
+	LoadMap();
+
+	LoadMapChipData();
+
+	LoadBlock();
+
+	CreateMap();
+
 	LoadPlayer();
 
 	LoadAnimationEffect();
 
 	LoadElementsManager();
-
-	LoadEventManager();
-
-	LoadMap();
-
-	LoadWarp();
-
-	LoadGoal();
-
-	LoadLife();
-
-	LoadUIImage();
 }
 
 void StartPlayScene()
 {
-	SpawnPlayer(PLAYER_SPAWN_POS_X, PLAYER_SPAWN_POS_Y);
-
-	StartElementsManager();
-
-	CreateWarp(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17);
-	CreateWarp(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17);
-
-	CreateGoal(MAP_CHIP_WIDTH * 76, MAP_CHIP_HEIGHT * 15);
-
 	StartMap();
 
-	StartLife();
+	StartPlayer();
 
-	CreateUIImage(UI_IMAGE_LIFETEXT, 30.0f, 50.0f);
-
-	StartEventManager();
-
-	PlayBGM(BGM_PLAY);
+	StartElementsManager();
 }
 
 void StepPlayScene()
@@ -100,15 +54,11 @@ void StepPlayScene()
 	StepAnimationEffect();
 
 	StepElementsManager();
-
-	StepCamera();
 }
 
 void UpdatePlayScene()
 {
 	UpdatePlayer();
-
-	UpdateEventManager();
 
 	UpdateAnimationEffect();
 
@@ -121,44 +71,22 @@ void DrawPlayScene()
 {
 	DrawMap();
 
-	DrawWarp();
-
-	DrawGoal();
+	DrawBlock();
 
 	DrawPlayer();
 
 	DrawAnimationEffect();
 
 	DrawElementsManager();
-
-	DrawEventManager();
-
-	DrawUIImage();
-
-	DrawLife();
-
-	DrawCamera();
 }
 
 void FinPlayScene()
 {
 	FinMap();
 
-	FinWarp();
-
-	FinGoal();
-
 	FinPlayer();
 
 	FinAnimationEffect();
 
 	FinElementsManager();
-
-	FinLife();
-
-	FinEventManager();
-
-	ResetUIImage();
-
-	StopBGM(BGM_PLAY);
 }
