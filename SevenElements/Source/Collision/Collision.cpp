@@ -583,7 +583,7 @@ void CheckWindWoodBlock()
 	{
 		if (!IsElementActive(i, ELEMENT_TYPE_WIND)) continue;
 
-		for (int j = 0; j < ICE_MAX; j++)
+		for (int j = 0; j < WOODBLOCK_MAX; j++)
 		{
 			if (!IsGimmickActive(j, GIMMICK_TYPE_WOODBLOCK)) continue;
 
