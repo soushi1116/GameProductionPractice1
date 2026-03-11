@@ -24,7 +24,7 @@ void InitEnemyWalk()
 
     walkDir = 1;
 
-    walkHandle = LoadGraph("Data/Enemy/Death.png");
+    walkHandle = LoadGraph("C:/工野/チーム制作　自作/プログラム/Enemy test/Data/Enemy/Death.png");
 }
 
 

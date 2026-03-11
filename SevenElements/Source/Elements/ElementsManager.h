@@ -43,5 +43,3 @@ void WaterHitFire(int index);
 void WaterHitIce(int index);
 
 void IronHitIron(int indexA, int indexB);
-
-void IronHitWater(int indexA, int indexB);

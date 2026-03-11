@@ -258,10 +258,8 @@ VECTOR GetElementPos(int index, ElementType type)
 		pos = water[index]->GetPos();
 		break;
 	case ELEMENT_TYPE_THUNDER:
-		pos = thunder[index]->GetPos();
 		break;
 	case ELEMENT_TYPE_WIND:
-		pos = wind[index]->GetPos();
 		break;
 	case ELEMENT_TYPE_GROUND:
 		pos = ground[index]->GetPos();
@@ -295,10 +293,8 @@ bool IsElementActive(int index, ElementType type)
 		active = water[index]->IsActive();
 		break;
 	case ELEMENT_TYPE_THUNDER:
-		active = thunder[index]->IsActive();
 		break;
 	case ELEMENT_TYPE_WIND:
-		active = wind[index]->IsActive();
 		break;
 	case ELEMENT_TYPE_GROUND:
 		active = ground[index]->IsActive();
@@ -335,12 +331,6 @@ void IronHitIron(int indexA, int indexB)
 	{
 		iron[indexB]->IronHitIron(indexA, indexB, ironAPosY);
 	}
-}
-
-void IronHitWater(int indexA, int indexB)
-{
-	iron[indexA]->IronHitWater(indexB);
-	water[indexB]->WaterHitIron(indexA);
 }
 
 void IronHitBlock(int indexA, int indexB)

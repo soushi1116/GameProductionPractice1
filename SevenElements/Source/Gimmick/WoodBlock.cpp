@@ -2,7 +2,6 @@
 #include "../Effect/AnimationEffect.h"
 #include "../Map/Block.h"
 #include "../Elements/ElementsManager.h"
-#include "../Camera/Camera.h"
 #include <math.h>
 
 #define WIND_HIT_MOVE_SPEED (7.0f)
@@ -67,8 +66,7 @@ void WoodBlock::Draw()
 {
 	if (active)
 	{
-		CameraData camera = GetCamera();
-		DrawGraph(pos.x - camera.posX, pos.y - camera.posY, handle, TRUE);
+		DrawGraph(pos.x, pos.y, handle, TRUE);
 	}
 }
 
@@ -117,4 +115,13 @@ void WoodBlock::WoodBlockHitWind(int index)
 	}
 }
 
+VECTOR WoodBlock::GetPos()
+{
+	return VGet(pos.x, pos.y, 0.0f);
+}
+
+const bool WoodBlock::IsActive()
+{
+	return active;
+}
 

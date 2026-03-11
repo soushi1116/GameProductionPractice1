@@ -35,16 +35,13 @@ public:
 	void UpdateAirBalloonAnimation();
 
 	void AirBalloonHitFire();
-	void AirBalloonHitBlock();
 
 	const bool IsActive();
-	const bool Burning();
 
 	VECTOR GetPos();
 
 protected:
 	bool m_Burning;
-	bool m_Randing;
 
 	AnimationData animation[AIRBALLOON_ANIM_MAX];
 	AirBalloonAnimationType airBalloonAnim;

@@ -47,7 +47,7 @@ void InitEnemyTurret()
 
     turretY = 400;
 
-    turretHandle = LoadGraph("Data/Enemy/Death.png");
+    turretHandle = LoadGraph("C:/工野/チーム制作　自作/プログラム/Enemy test/Data/Enemy/Death.png");
 
 
     shootTimer = 0;

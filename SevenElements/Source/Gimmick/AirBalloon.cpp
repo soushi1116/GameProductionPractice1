@@ -2,7 +2,6 @@
 #include "../Effect/AnimationEffect.h"
 #include "../Map/Block.h"
 #include "../Player/Player.h"
-#include "../Camera/Camera.h"
 
 #define AIRBALLOON_MOVE_SPEED (2.0f)
 
@@ -14,7 +13,6 @@ AirBalloon::AirBalloon()
 	move.y = 0.0f;
 
 	m_Burning = false;
-	m_Randing = false;
 
 	airBalloonAnim = AIRBALLOON_ANIM_NONE;
 }
@@ -40,17 +38,9 @@ void AirBalloon::Step()
 {
 	if (active)
 	{
-		if (m_Randing)
-		{
-			move.y = 0.0f;
-		}
-		else if (m_Burning)
+		if (m_Burning)
 		{
 			move.y = -AIRBALLOON_MOVE_SPEED;
-		}
-		else
-		{
-			move.y = AIRBALLOON_MOVE_SPEED;
 		}
 	}
 }
@@ -72,9 +62,7 @@ void AirBalloon::Draw()
 		AirBalloonAnimationType animType = airBalloonAnim;
 		AnimationData* animData = &animation[animType];
 
-		CameraData camera = GetCamera();
-
-		DrawAnimation(animData, pos.x - camera.posX, pos.y - camera.posY);
+		DrawAnimation(animData, pos.x, pos.y);
 	}
 }
 
@@ -124,12 +112,6 @@ void AirBalloon::Spawn(float posX, float posY)
 void AirBalloon::AirBalloonHitFire()
 {
 	m_Burning = true;
-	m_Randing = false;
-}
-
-void AirBalloon::AirBalloonHitBlock()
-{
-	m_Randing = true;
 }
 
 VECTOR AirBalloon::GetPos()
@@ -140,10 +122,5 @@ VECTOR AirBalloon::GetPos()
 const bool AirBalloon::IsActive()
 {
 	return active;
-}
-
-const bool AirBalloon::Burning()
-{
-	return m_Burning;
 }
 

@@ -2,7 +2,7 @@
 #include "Gimmick.h"
 #include "DxLib.h"
 
-#define GIMMICK_MAX 32
+#define ELEMENTS_MAX 32
 
 void InitGimmickManager();
 void LoadGimmickManager();
@@ -18,8 +18,6 @@ void TreeHitFire(int index);
 
 void AirBalloonHitFire(int index);
 
-void AirBalloonHitBlock(int index);
-
 void WoodBlockHitBlock(int indexA, int indexB);
 
 void WoodBlockHitWind(int indexA, int indexB);
@@ -29,6 +27,4 @@ void FireGimmickHitWater(int index);
 VECTOR GetGimmickPos(int index, GimmickType type);
 
 bool IsGimmickActive(int index, GimmickType type);
-
-bool AirBalloonBurning(int index);
 

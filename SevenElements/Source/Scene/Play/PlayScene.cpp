@@ -6,12 +6,9 @@
 #include "../../Elements/ElementsManager.h"
 #include "../../Map/MapManager.h"
 #include "../../Collision/Collision.h"
-#include "../../Map/MapChip.h"
-#include "../../Map/Block.h"
-#include "../../Gimmick/GimmickManager.h"
 #include "../../Camera/Camera.h"
+#include "../../Warp/Warp.h"
 #include "../../Sound/SoundManager.h"
-#include "../Enemy/EnemyScene.h"
 
 #define TEXTPOS_X (200)
 #define TEXTPOS_Y (0)
@@ -31,38 +28,30 @@
 
 void InitPlayScene()
 {
-	InitCamera();
-
 	InitMap();
 
 	InitPlayer();
-
-	InitEnemyManager();
 
 	InitAnimationEffect();
 
 	InitElementsManager();
 
-	InitGimmickManager();
+	InitCamera();
+
+	InitWarp();
 }
 
 void LoadPlayScene()
 {
 	LoadMap();
 
-	LoadMapChipData();
-
-	LoadEnemyManager();
-
-	CreateMap();
-
 	LoadPlayer();
+
+	LoadWarp();
 
 	LoadAnimationEffect();
 
 	LoadElementsManager();
-
-	LoadGimmickManager();
 }
 
 void StartPlayScene()
@@ -71,39 +60,32 @@ void StartPlayScene()
 
 	StartPlayer();
 
-	StartEnemyManager();
-
 	StartElementsManager();
 
-	StartGimmickManager();
+	CreateWarp(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17);
+	CreateWarp(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17);
+
+	PlayBGM(BGM_PLAY);
 }
 
 void StepPlayScene()
 {
-	StepCamera();
-
 	StepPlayer();
-
-	StepEnemyManager();
 
 	StepAnimationEffect();
 
 	StepElementsManager();
 
-	StepGimmickManager();
+	StepCamera();
 }
 
 void UpdatePlayScene()
 {
 	UpdatePlayer();
 
-	UpdateEnemyManager();
-
 	UpdateAnimationEffect();
 
 	UpdateElementsManager();
-
-	UpdateGimmickManager();
 
 	CheckCollision();
 }
@@ -112,15 +94,15 @@ void DrawPlayScene()
 {
 	DrawMap();
 
-	DrawPlayer();
+	DrawWarp();
 
-	DrawEnemyManager();
+	DrawPlayer();
 
 	DrawAnimationEffect();
 
 	DrawElementsManager();
 
-	DrawGimmickManager();
+	DrawCamera();
 }
 
 void FinPlayScene()
@@ -129,11 +111,9 @@ void FinPlayScene()
 
 	FinPlayer();
 
-	FinEnemyManager();
+	FinWarp();
 
 	FinAnimationEffect();
 
 	FinElementsManager();
-
-	FinGimmickManager();
 }

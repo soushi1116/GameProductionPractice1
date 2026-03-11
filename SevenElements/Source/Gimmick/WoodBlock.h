@@ -26,9 +26,9 @@ public:
 
 	void WoodBlockHitWind(int index);
 
-	const bool IsActive() { return active; }
+	const bool IsActive();
 
-	VECTOR GetPos() { return pos; }
+	VECTOR GetPos();
 
 protected:
 

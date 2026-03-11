@@ -30,8 +30,6 @@ enum SEType
 	SE_ICE,
 	SE_IRON,
 
-	SE_SELECT,
-
 	SE_TYPE_MAX,
 };
 

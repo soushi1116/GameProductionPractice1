@@ -41,8 +41,6 @@ public:
 
 	void WaterHitIce();
 
-	void WaterHitIron(int index);
-
 	bool IsActive() { return active; }
 
 	bool IsFreeze() { return m_IsFreeze; }

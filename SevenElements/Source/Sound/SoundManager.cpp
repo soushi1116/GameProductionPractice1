@@ -56,8 +56,6 @@ void LoadSE()
 	g_SEHandle[SE_ICE] = LoadSoundMem("Data/Sound/SE/Ice.mp3");
 	g_SEHandle[SE_IRON] = LoadSoundMem("Data/Sound/SE/Iron.mp3");
 
-	g_SEHandle[SE_SELECT] = LoadSoundMem("Data/Sound/SE/Select.mp3");
-
 	for (int i = 0; i < SE_TYPE_MAX; i++)
 	{
 		ChangeVolumeSoundMem(100, g_SEHandle[i]);
