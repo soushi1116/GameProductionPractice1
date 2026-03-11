@@ -16,6 +16,7 @@
 #include "../Gimmick/Tree.h"
 #include "../Gimmick/AirBalloon.h"
 #include "../Gimmick/WoodBlock.h"
+#include "../Gimmick/FireGimmick.h"
 #include "../Gimmick/Warp.h"
 #include "../Gimmick/Goal.h"
 
@@ -600,6 +601,28 @@ void CheckWindWoodBlock()
 	}
 }
 
+void CheckWaterFireGimmick()
+{
+	for (int i = 0; i < WATER_MAX; i++)
+	{
+		if (!IsElementActive(i, ELEMENT_TYPE_WATER)) continue;
+
+		for (int j = 0; j < FIREGIMMICK_MAX; j++)
+		{
+			if (!IsGimmickActive(j, GIMMICK_TYPE_FIRE)) continue;
+
+			VECTOR waterPos = GetElementPos(i, ELEMENT_TYPE_WATER);
+			VECTOR firePos = GetGimmickPos(j, GIMMICK_TYPE_FIRE);
+
+			if (CheckSquareSquare(waterPos.x, waterPos.y, WATER_WIDTH, WATER_HEIGHT,
+				firePos.x, firePos.y, FIREGIMMICK_WIDTH, FIREGIMMICK_HEIGHT))
+			{
+				FireGimmickHitWater(j);
+			}
+		}
+	}
+}
+
 void CheckCollision()
 {
 	CheckMapPlayerCollision();
@@ -654,4 +677,5 @@ void CheckCollision()
 
 	CheckWindWoodBlock();
 
+	CheckWaterFireGimmick();
 }

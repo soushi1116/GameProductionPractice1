@@ -207,6 +207,9 @@
     <ClCompile Include="Source\Scene\Enemy\EnemyScene.cpp">
       <Filter>Source\Scene\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Gimmick\FireGimmick.cpp">
+      <Filter>Source\Gimmick</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -352,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="Source\Scene\Enemy\EnemyScene.h">
       <Filter>Source\Scene\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Gimmick\FireGimmick.h">
+      <Filter>Source\Gimmick</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

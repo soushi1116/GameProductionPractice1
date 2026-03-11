@@ -24,6 +24,8 @@ void WoodBlockHitBlock(int indexA, int indexB);
 
 void WoodBlockHitWind(int indexA, int indexB);
 
+void FireGimmickHitWater(int index);
+
 VECTOR GetGimmickPos(int index, GimmickType type);
 
 bool IsGimmickActive(int index, GimmickType type);

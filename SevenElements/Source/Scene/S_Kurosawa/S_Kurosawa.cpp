@@ -19,6 +19,7 @@
 #include "../../Life/Life.h"
 #include "../../Event/EventManager.h"
 #include "../../Gimmick/Goal.h"
+#include "../../Enemy/EnemyWalk.h"
 
 KurosawaData g_KurosawaData = { 0 };
 
@@ -44,6 +45,8 @@ void InitKuroScene()
 	InitElementsManager();
 
 	InitGimmickManager();
+
+	InitEnemyWalk();
 
 	g_KurosawaData.textHandle = 0;
 
@@ -90,13 +93,18 @@ void StartKuroScene()
 
 	SpawnGimmick(100, 100, GIMMICK_TYPE_AIRBALLOON);
 
-	SpawnGimmick(600, 900, GIMMICK_TYPE_WOODBLOCK);
+	//SpawnGimmick(600, 900, GIMMICK_TYPE_WOODBLOCK);
 
 	SpawnGimmick(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17, GIMMICK_TYPE_WARP);
 
 	SpawnGimmick(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17, GIMMICK_TYPE_WARP);
 
 	SpawnGimmick(MAP_CHIP_WIDTH * 76, MAP_CHIP_HEIGHT * 15, GIMMICK_TYPE_GOAL);
+
+	for (int i = 0; i < 10; i++)
+	{
+		SpawnGimmick(300 + i * 50, 925, GIMMICK_TYPE_FIRE);
+	}
 
 	StartMap();
 
@@ -135,6 +143,8 @@ void UpdateKuroScene()
 
 	UpdateGimmickManager();
 
+	UpdateEnemyWalk();
+
 	UpdateAnimationEffect();
 
 	UpdateElementsManager();
@@ -153,6 +163,8 @@ void DrawKuroScene()
 	DrawElementsManager();
 
 	DrawGimmickManager();
+
+	DrawEnemyWalk();
 
 	DrawEventManager();
 
