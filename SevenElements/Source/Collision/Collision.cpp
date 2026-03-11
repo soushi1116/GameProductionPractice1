@@ -373,6 +373,27 @@ void CheckPlayerWoodBlock()
 	}
 }
 
+void CheckPlayerFireGimmick()
+{
+	PlayerData player = GetPlayer();
+
+	if (player.active)
+	{
+		for (int i = 0; i < FIREGIMMICK_MAX; i++)
+		{
+			if (!IsGimmickActive(i, GIMMICK_TYPE_FIRE)) continue;
+
+			VECTOR firePos = GetGimmickPos(i, GIMMICK_TYPE_FIRE);
+
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+				firePos.x, firePos.y, FIREGIMMICK_WIDTH, FIREGIMMICK_HEIGHT))
+			{
+				PlayerHitFireGimmick();
+			}
+		}
+	}
+}
+
 void CheckGroundGround()
 {
 	for (int i = 0; i < GROUND_MAX; i++)
@@ -654,6 +675,8 @@ void CheckCollision()
 	CheckPlayerAirBalloon();
 
 	CheckPlayerWoodBlock();
+
+	CheckPlayerFireGimmick();
 
 	CheckPlayerWarp();
 

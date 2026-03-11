@@ -32,6 +32,7 @@
 #define PLAYER_MAP_COLLISION_OFFSET (0.05f)
 #define PLAYER_WATER_BUOYANCY (0.5f)
 #define PLAYER_DIE_SCENE_CHANGE_INTERVAL (180)
+#define PLAYER_INVISIBLE_INTERVAL (180)
 
 PlayerData g_PlayerData = { 0 };
 PlayerData g_PrevPlayerData = { 0 };
@@ -57,7 +58,7 @@ void InitPlayer()
 	g_PlayerData.selectState = -1;
 	g_PlayerData.runTimer = 0;
 	g_PlayerData.animTimer = 0;
-	g_PlayerData.damageAnimTimer = 0;
+	g_PlayerData.invisibleTimer = 0;
 	g_PlayerData.sceneChangeTimer = 0;
 	g_PlayerData.life = 0;
 
@@ -73,7 +74,7 @@ void InitPlayer()
 	g_PlayerData.inWater = false;
 	g_PlayerData.die = false;
 	g_PlayerData.clear = false;
-	g_PlayerData.damaged = false;
+	g_PlayerData.invisible = false;
 
 	g_PlayerData.playAnim = PLAYER_ANIM_NONE;
 }
@@ -94,8 +95,6 @@ void LoadPlayer()
 		= LoadGraph("Data/Player/Fall.png");
 	g_PlayerData.animation[PLAYER_ANIM_ACTION].handle
 		= LoadGraph("Data/Player/Action.png");
-	g_PlayerData.animation[PLAYER_ANIM_DAMAGED].handle
-		= LoadGraph("Data/Player/Damaged.png");
 	g_PlayerData.animation[PLAYER_ANIM_DEATH].handle
 		= LoadGraph("Data/Player/Death.png");
 
@@ -219,17 +218,6 @@ void StepPlayer()
 
 		default:
 			break;
-		}
-	}
-
-	if (g_PlayerData.damaged)
-	{
-		g_PlayerData.damageAnimTimer++;
-		
-		if (g_PlayerData.damageAnimTimer > PLAYER_ANIM_INTERVAL / 4)
-		{
-			g_PlayerData.damaged = false;
-			g_PlayerData.damageAnimTimer = 0;
 		}
 	}
 
@@ -395,6 +383,11 @@ void StepPlayer()
 	{
 		PlayerHitEnemy();
 	}
+
+	if (g_PlayerData.invisible)
+	{
+		g_PlayerData.invisibleTimer++;
+	}
 }
 
 void UpdatePlayer()
@@ -467,6 +460,12 @@ void UpdatePlayer()
 		g_PlayerData.die = true;
 	}
 
+	if (g_PlayerData.invisible && g_PlayerData.invisibleTimer > PLAYER_INVISIBLE_INTERVAL)
+	{
+		g_PlayerData.invisible = false;
+		g_PlayerData.invisibleTimer = 0;
+	}
+
 	UpdatePlayerAnimation();
 }
 
@@ -480,13 +479,30 @@ void DrawPlayer()
 	AnimationData* animData = &g_PlayerData.animation[animType];
 	if (!g_PlayerData.ridingAirBalloon)
 	{
-		if (!g_PlayerData.isTurn)
+		if (g_PlayerData.invisible)
 		{
-			DrawAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
+			if (g_PlayerData.invisibleTimer % 3 == 0)
+			{
+				if (!g_PlayerData.isTurn)
+				{
+					DrawAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
+				}
+				else
+				{
+					DrawTurnAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
+				}
+			}
 		}
 		else
 		{
-			DrawTurnAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
+			if (!g_PlayerData.isTurn)
+			{
+				DrawAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
+			}
+			else
+			{
+				DrawTurnAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
+			}
 		}
 	}
 
@@ -555,10 +571,6 @@ void UpdatePlayerAnimation()
 	else if (g_PlayerData.action)
 	{
 		StartPlayerAnimation(PLAYER_ANIM_ACTION);
-	}
-	else if (g_PlayerData.damaged)
-	{
-		StartPlayerAnimation(PLAYER_ANIM_DAMAGED);
 	}
 	else if (!g_PlayerData.randing)
 	{
@@ -1021,9 +1033,25 @@ void PlayerHitGoal()
 
 void PlayerHitEnemy()
 {
+	PlayerDamage();
+}
+
+void PlayerHitFireGimmick()
+{
+	PlayerDamage();
+}
+
+void PlayerDamage()
+{
+	if (g_PlayerData.invisible || g_PlayerData.die) return;
+
 	PlaySE(SE_DAMAGE);
 	g_PlayerData.life--;
-	g_PlayerData.damaged = true;
+
+	if (g_PlayerData.life > 0)
+	{
+		g_PlayerData.invisible = true;
+	}
 }
 
 void RideAirBalloon(VECTOR airBalloonPos)

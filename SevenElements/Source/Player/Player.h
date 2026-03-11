@@ -18,7 +18,6 @@ enum PlayerAnimationType
 	PLAYER_ANIM_JUMP,
 	PLAYER_ANIM_FALL,
 	PLAYER_ANIM_ACTION,
-	PLAYER_ANIM_DAMAGED,
 	PLAYER_ANIM_DEATH,
 	PLAYER_ANIM_MAX,
 	PLAYER_ANIM_NONE = -1
@@ -35,7 +34,7 @@ struct PlayerData
 	int selectState;
 	int runTimer;
 	int animTimer;
-	int damageAnimTimer;
+	int invisibleTimer;
 	int sceneChangeTimer;
 	int life;
 
@@ -51,7 +50,7 @@ struct PlayerData
 	bool inWater;
 	bool die;
 	bool clear;
-	bool damaged;
+	bool invisible;
 
 	AnimationData animation[PLAYER_ANIM_MAX];
 	PlayerAnimationType playAnim;
@@ -95,5 +94,9 @@ void PlayerHitWarp();
 void PlayerHitGoal();
 
 void PlayerHitEnemy();
+
+void PlayerHitFireGimmick();
+
+void PlayerDamage();
 
 void RideAirBalloon(VECTOR airBalloonPos);
