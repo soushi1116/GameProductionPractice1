@@ -10,8 +10,6 @@
 #include "../../Map/Block.h"
 #include "../../Gimmick/GimmickManager.h"
 #include "../../Camera/Camera.h"
-<<<<<<< HEAD
-#include "../../Warp/Warp.h"
 #include "../../Sound/SoundManager.h"
 #include "../Enemy/EnemyScene.h"
 
@@ -30,8 +28,6 @@
 #define SLIDE_TEXT_POS_X (550.0f)
 #define SLIDE_TEXT_POS_Y (-100.0f)
 #define SLIDE_TEXT_MOVE_Y (10.0f)
-=======
->>>>>>> 8555fa8b2e3c531c8b1408490f7cec7976a22046
 
 void InitPlayScene()
 {
@@ -56,17 +52,11 @@ void LoadPlayScene()
 
 	LoadMapChipData();
 
-<<<<<<< HEAD
 	LoadEnemyManager();
-
-	LoadWarp();
-=======
-	LoadBlock();
 
 	CreateMap();
 
 	LoadPlayer();
->>>>>>> 8555fa8b2e3c531c8b1408490f7cec7976a22046
 
 	LoadAnimationEffect();
 
@@ -139,13 +129,8 @@ void FinPlayScene()
 
 	FinPlayer();
 
-<<<<<<< HEAD
 	FinEnemyManager();
 
-	FinWarp();
-
-=======
->>>>>>> 8555fa8b2e3c531c8b1408490f7cec7976a22046
 	FinAnimationEffect();
 
 	FinElementsManager();
