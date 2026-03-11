@@ -57,6 +57,7 @@ void InitPlayer()
 	g_PlayerData.selectState = -1;
 	g_PlayerData.runTimer = 0;
 	g_PlayerData.animTimer = 0;
+	g_PlayerData.damageAnimTimer = 0;
 	g_PlayerData.sceneChangeTimer = 0;
 	g_PlayerData.life = 0;
 
@@ -72,6 +73,7 @@ void InitPlayer()
 	g_PlayerData.inWater = false;
 	g_PlayerData.die = false;
 	g_PlayerData.clear = false;
+	g_PlayerData.damaged = false;
 
 	g_PlayerData.playAnim = PLAYER_ANIM_NONE;
 }
@@ -92,6 +94,8 @@ void LoadPlayer()
 		= LoadGraph("Data/Player/Fall.png");
 	g_PlayerData.animation[PLAYER_ANIM_ACTION].handle
 		= LoadGraph("Data/Player/Action.png");
+	g_PlayerData.animation[PLAYER_ANIM_DAMAGED].handle
+		= LoadGraph("Data/Player/Damaged.png");
 	g_PlayerData.animation[PLAYER_ANIM_DEATH].handle
 		= LoadGraph("Data/Player/Death.png");
 
@@ -215,6 +219,17 @@ void StepPlayer()
 
 		default:
 			break;
+		}
+	}
+
+	if (g_PlayerData.damaged)
+	{
+		g_PlayerData.damageAnimTimer++;
+		
+		if (g_PlayerData.damageAnimTimer > PLAYER_ANIM_INTERVAL / 4)
+		{
+			g_PlayerData.damaged = false;
+			g_PlayerData.damageAnimTimer = 0;
 		}
 	}
 
@@ -477,23 +492,23 @@ void DrawPlayer()
 
 	if (g_PlayerData.selectElements)
 	{
-		int playerCenterX = (int)g_PlayerData.posX + PLAYER_WIDTH / 2 - camera.posX;
-		int playerCenterY = (int)g_PlayerData.posY + PLAYER_HEIGHT / 2 - camera.posY;
+		int playerCenterX = (int)(g_PlayerData.posX + PLAYER_WIDTH / 2 - camera.posX);
+		int playerCenterY = (int)(g_PlayerData.posY + PLAYER_HEIGHT / 2 - camera.posY);
 
-		int textRotation = sinf(DX_PI_F);
+		int textRotation = (int)sinf(DX_PI_F);
 
 		for (int i = 0; i < g_PlayerData.level; i++)
 		{
 			if (i == g_PlayerData.selectState)
 			{
-				DrawRotaGraph(playerCenterX - ELEMENTS_TEXT_DIF * -sinf(DX_TWO_PI_F * i / g_PlayerData.level)
-					, playerCenterY - ELEMENTS_TEXT_DIF * cosf(DX_TWO_PI_F * i / g_PlayerData.level),
+				DrawRotaGraph((int)(playerCenterX - ELEMENTS_TEXT_DIF * -sinf(DX_TWO_PI_F * i / g_PlayerData.level))
+					, (int)(playerCenterY - ELEMENTS_TEXT_DIF * cosf(DX_TWO_PI_F * i / g_PlayerData.level)),
 					2, 0, g_ElementsTextHandle[i], TRUE);
 			}
 			else
 			{
-				DrawRotaGraph(playerCenterX - ELEMENTS_TEXT_DIF * -sinf(DX_TWO_PI_F * i / g_PlayerData.level)
-					, playerCenterY - ELEMENTS_TEXT_DIF * cosf(DX_TWO_PI_F * i / g_PlayerData.level),
+				DrawRotaGraph((int)(playerCenterX - ELEMENTS_TEXT_DIF * -sinf(DX_TWO_PI_F * i / g_PlayerData.level))
+					, (int)(playerCenterY - ELEMENTS_TEXT_DIF * cosf(DX_TWO_PI_F * i / g_PlayerData.level)),
 					1, 0, g_ElementsTextHandle[i], TRUE);
 			}
 		}
@@ -540,6 +555,10 @@ void UpdatePlayerAnimation()
 	else if (g_PlayerData.action)
 	{
 		StartPlayerAnimation(PLAYER_ANIM_ACTION);
+	}
+	else if (g_PlayerData.damaged)
+	{
+		StartPlayerAnimation(PLAYER_ANIM_DAMAGED);
 	}
 	else if (!g_PlayerData.randing)
 	{
@@ -1004,6 +1023,7 @@ void PlayerHitEnemy()
 {
 	PlaySE(SE_DAMAGE);
 	g_PlayerData.life--;
+	g_PlayerData.damaged = true;
 }
 
 void RideAirBalloon(VECTOR airBalloonPos)

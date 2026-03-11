@@ -1,5 +1,6 @@
 #include "DxLib.h"
 #include "EnemyFlyCircle2.h"
+#include "../Camera/Camera.h"
 #include <math.h>
 
 // 時間（波用）
@@ -11,6 +12,10 @@ int waveX;
 // Y座標
 int waveY;
 
+// 初期位置
+int startX;
+int startY;
+
 // 基準Y座標
 int baseY;
 
@@ -21,18 +26,21 @@ int moveSpeed;
 int waveHandle;
 
 
-
 void InitEnemyFlyCircle2()
 {
     waveTime = 0;
 
-    waveX = 600;
-    baseY = 300;
+    // 初期位置（ここを変更すれば配置を変えられる）
+    startX = 600;
+    startY = 300;
+
+    waveX = startX;
+    baseY = startY;
     waveY = baseY;
 
     moveSpeed = -4;
 
-    waveHandle = LoadGraph("C:/工野/チーム制作　自作/プログラム/Enemy test/Data/Enemy/Death.png");
+    waveHandle = LoadGraph("Data/Enemy/Death.png");
 }
 
 void UpdateEnemyFlyCircle2()
@@ -45,18 +53,21 @@ void UpdateEnemyFlyCircle2()
     waveY = baseY + (int)(sin(waveTime) * 40);
 
     // 左端で折り返し
-    if (waveX <= 0)
+    if (waveX <= startX - 300)
     {
-        moveSpeed = 4;    // 右へ
+        moveSpeed = 4;
     }
 
     // 右端で折り返し
-    if (waveX >= 600)
+    if (waveX >= startX + 300)
     {
-        moveSpeed = -4;   // 左へ
+        moveSpeed = -4;
     }
 }
+
 void DrawEnemyFlyCircle2()
 {
-    DrawGraph(waveX, waveY, waveHandle, TRUE);
+    CameraData camera = GetCamera();
+
+    DrawGraph(waveX - camera.posX, waveY - camera.posY, waveHandle, TRUE);
 }
