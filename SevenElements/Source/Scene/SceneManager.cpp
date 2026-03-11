@@ -220,7 +220,7 @@ void FinScene()
 	case SCENE_NONE:
 		break;
 	case SCENE_TITLE:
-		delete title;
+		//delete title;
 		break;
 	case SCENE_OPTION:
 		FinOptionScene();

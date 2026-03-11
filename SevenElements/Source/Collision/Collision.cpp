@@ -16,7 +16,8 @@
 #include "../Gimmick/Tree.h"
 #include "../Gimmick/AirBalloon.h"
 #include "../Gimmick/WoodBlock.h"
-#include "../Warp/Warp.h"
+#include "../Gimmick/Warp.h"
+#include "../Gimmick/Goal.h"
 
 bool CheckSquareSquare(float squareA_PosX, float squareA_PosY, float squareA_Width, float squareA_Height,
 	float squareB_PosX, float squareB_PosY, float squareB_Width, float squareB_Height)
@@ -170,7 +171,7 @@ void CheckWoodBlockMap()
 
 			VECTOR woodBlockPos = GetGimmickPos(i, GIMMICK_TYPE_WOODBLOCK);
 
-			if (CheckSquareSquare(woodBlockPos.x, woodBlockPos.y, GROUND_WIDTH, GROUND_HEIGHT,
+			if (CheckSquareSquare(woodBlockPos.x, woodBlockPos.y, WOODBLOCK_WIDTH, WOODBLOCK_HEIGHT,
 				block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
 			{
 				WoodBlockHitBlock(i, j);
@@ -178,6 +179,30 @@ void CheckWoodBlockMap()
 		}
 	}
 }
+
+void CheckAirBalloonMap()
+{
+	for (int i = 0; i < AIRBALLOON_MAX; i++)
+	{
+		if (!IsGimmickActive(i, GIMMICK_TYPE_AIRBALLOON)) continue;
+
+		BlockData* block = GetBlocks();
+
+		for (int j = 0; j < BLOCK_MAX; j++, block++)
+		{
+			if (!block->active) continue;
+
+			VECTOR airBalloonPos = GetGimmickPos(i, GIMMICK_TYPE_AIRBALLOON);
+
+			if (CheckSquareSquare(airBalloonPos.x, airBalloonPos.y, AIRBALLOON_WIDTH, AIRBALLOON_HEIGHT,
+				block->pos.x, block->pos.y, MAP_CHIP_WIDTH, MAP_CHIP_HEIGHT))
+			{
+				AirBalloonHitBlock(i);
+			}
+		}
+	}
+}
+
 
 void CheckPlayerIron()
 {
@@ -290,16 +315,37 @@ void CheckPlayerWarp()
 
 	if (player.active)
 	{
-		WarpData* warp = GetWarp();
-
-		for (int i = 0; i < WARP_MAX; i++, warp++)
+		for (int i = 0; i < WARP_MAX; i++)
 		{
-			if (!warp->active) continue;
+			if (!IsGimmickActive(i, GIMMICK_TYPE_WARP)) continue;
+
+			VECTOR warpPos = GetGimmickPos(i, GIMMICK_TYPE_WARP);
 
 			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
-				warp->posX, warp->posY, WARP_WIDTH, WARP_HEIGHT))
+				warpPos.x, warpPos.y, WARP_WIDTH, WARP_HEIGHT))
 			{
 				PlayerHitWarp();
+			}
+		}
+	}
+}
+
+void CheckPlayerGoal()
+{
+	PlayerData player = GetPlayer();
+
+	if (player.active)
+	{
+		for (int i = 0; i < GOAL_MAX; i++)
+		{
+			if (!IsGimmickActive(i, GIMMICK_TYPE_GOAL)) continue;
+
+			VECTOR goalPos = GetGimmickPos(i, GIMMICK_TYPE_GOAL);
+
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+				goalPos.x, goalPos.y, GOAL_WIDTH, GOAL_HEIGHT))
+			{
+				PlayerHitGoal();
 			}
 		}
 	}
@@ -365,6 +411,28 @@ void CheckIronIron()
 				ironBPos.x, ironBPos.y, IRON_WIDTH, IRON_HEIGHT))
 			{
 				IronHitIron(i,j);
+			}
+		}
+	}
+}
+
+void CheckIronWater()
+{
+	for (int i = 0; i < IRON_MAX; i++)
+	{
+		if (!IsElementActive(i, ELEMENT_TYPE_IRON)) continue;
+
+		for (int j = 0; j < WATER_MAX; j++)
+		{
+			if (!IsElementActive(j, ELEMENT_TYPE_WATER)) continue;
+
+			VECTOR ironPos = GetElementPos(i, ELEMENT_TYPE_IRON);
+			VECTOR waterPos = GetElementPos(j, ELEMENT_TYPE_WATER);
+
+			if (CheckSquareSquare(ironPos.x, ironPos.y, IRON_WIDTH, IRON_HEIGHT,
+				waterPos.x, waterPos.y, WATER_WIDTH, WATER_HEIGHT))
+			{
+				IronHitWater(i, j);
 			}
 		}
 	}
@@ -497,8 +565,11 @@ void CheckWaterIce()
 			VECTOR waterPos = GetElementPos(i, ELEMENT_TYPE_WATER);
 			VECTOR icePos = GetElementPos(j, ELEMENT_TYPE_ICE);
 
+			float icePosX = icePos.x - ICE_WIDTH / 2;
+			float icePosY = icePos.y - ICE_HEIGHT / 2;
+
 			if (CheckSquareSquare(waterPos.x, waterPos.y, WATER_WIDTH, WATER_HEIGHT,
-				icePos.x, icePos.y, ICE_WIDTH, ICE_HEIGHT))
+				icePosX, icePosY, ICE_WIDTH, ICE_HEIGHT))
 			{
 				WaterHitIce(i);
 			}
@@ -512,7 +583,7 @@ void CheckWindWoodBlock()
 	{
 		if (!IsElementActive(i, ELEMENT_TYPE_WIND)) continue;
 
-		for (int j = 0; j < ICE_MAX; j++)
+		for (int j = 0; j < WOODBLOCK_MAX; j++)
 		{
 			if (!IsGimmickActive(j, GIMMICK_TYPE_WOODBLOCK)) continue;
 
@@ -547,6 +618,8 @@ void CheckCollision()
 
 	CheckWoodBlockMap();
 
+	CheckAirBalloonMap();
+
 	CheckPlayerIron();
 
 	CheckPlayerWater();
@@ -561,7 +634,11 @@ void CheckCollision()
 
 	CheckPlayerWarp();
 
+	CheckPlayerGoal();
+
 	CheckIronIron();
+
+	CheckIronWater();
 
 	CheckFireIron();
 

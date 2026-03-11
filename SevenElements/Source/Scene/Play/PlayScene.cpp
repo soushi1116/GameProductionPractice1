@@ -6,7 +6,11 @@
 #include "../../Elements/ElementsManager.h"
 #include "../../Map/MapManager.h"
 #include "../../Collision/Collision.h"
+#include "../../Map/MapChip.h"
+#include "../../Map/Block.h"
+#include "../../Gimmick/GimmickManager.h"
 #include "../../Camera/Camera.h"
+<<<<<<< HEAD
 #include "../../Warp/Warp.h"
 #include "../../Sound/SoundManager.h"
 #include "../Enemy/EnemyScene.h"
@@ -26,9 +30,13 @@
 #define SLIDE_TEXT_POS_X (550.0f)
 #define SLIDE_TEXT_POS_Y (-100.0f)
 #define SLIDE_TEXT_MOVE_Y (10.0f)
+=======
+>>>>>>> 8555fa8b2e3c531c8b1408490f7cec7976a22046
 
 void InitPlayScene()
 {
+	InitCamera();
+
 	InitMap();
 
 	InitPlayer();
@@ -39,24 +47,32 @@ void InitPlayScene()
 
 	InitElementsManager();
 
-	InitCamera();
-
-	InitWarp();
+	InitGimmickManager();
 }
 
 void LoadPlayScene()
 {
 	LoadMap();
 
-	LoadPlayer();
+	LoadMapChipData();
 
+<<<<<<< HEAD
 	LoadEnemyManager();
 
 	LoadWarp();
+=======
+	LoadBlock();
+
+	CreateMap();
+
+	LoadPlayer();
+>>>>>>> 8555fa8b2e3c531c8b1408490f7cec7976a22046
 
 	LoadAnimationEffect();
 
 	LoadElementsManager();
+
+	LoadGimmickManager();
 }
 
 void StartPlayScene()
@@ -69,14 +85,13 @@ void StartPlayScene()
 
 	StartElementsManager();
 
-	CreateWarp(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17);
-	CreateWarp(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17);
-
-	PlayBGM(BGM_PLAY);
+	StartGimmickManager();
 }
 
 void StepPlayScene()
 {
+	StepCamera();
+
 	StepPlayer();
 
 	StepEnemyManager();
@@ -85,7 +100,7 @@ void StepPlayScene()
 
 	StepElementsManager();
 
-	StepCamera();
+	StepGimmickManager();
 }
 
 void UpdatePlayScene()
@@ -98,14 +113,14 @@ void UpdatePlayScene()
 
 	UpdateElementsManager();
 
+	UpdateGimmickManager();
+
 	CheckCollision();
 }
 
 void DrawPlayScene()
 {
 	DrawMap();
-
-	DrawWarp();
 
 	DrawPlayer();
 
@@ -115,7 +130,7 @@ void DrawPlayScene()
 
 	DrawElementsManager();
 
-	DrawCamera();
+	DrawGimmickManager();
 }
 
 void FinPlayScene()
@@ -124,11 +139,16 @@ void FinPlayScene()
 
 	FinPlayer();
 
+<<<<<<< HEAD
 	FinEnemyManager();
 
 	FinWarp();
 
+=======
+>>>>>>> 8555fa8b2e3c531c8b1408490f7cec7976a22046
 	FinAnimationEffect();
 
 	FinElementsManager();
+
+	FinGimmickManager();
 }

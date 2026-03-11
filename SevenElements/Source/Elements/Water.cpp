@@ -3,6 +3,8 @@
 #include "../Map/Block.h"
 #include "../Sound/SoundManager.h"
 #include "../Camera/Camera.h"
+#include "ElementsManager.h"
+#include "Iron.h"
 
 #define EFFECT_INTERVAL (1)
 #define WATER_MOVE_SPEED (7.0f)
@@ -23,6 +25,8 @@ Water::Water()
 	m_IsAir = false;
 	m_IsFreeze = false;
 	m_Randing = false;
+
+	waterAnim = WATER_ANIM_NONE;
 }
 
 Water::~Water()
@@ -32,12 +36,15 @@ Water::~Water()
 
 void Water::Load()
 {
-	handle = LoadGraph("Data/Elements/Element_Water.png");
+	animation[WATER_ANIM_NORMAL].handle
+		= LoadGraph("Data/Elements/Element_Water.png");
+	animation[WATER_ANIM_FREEZE].handle
+		= LoadGraph("Data/Elements/Element_Water_Freeze.png");
 }
 
 void Water::Start()
 {
-	
+	StartWaterAnimation(WATER_ANIM_NORMAL);
 }
 
 void Water::Step()
@@ -88,6 +95,8 @@ void Water::Update()
 
 		m_IsAir = true;
 	}
+
+	UpdateWaterAnimation();
 }
 
 void Water::Draw()
@@ -96,14 +105,35 @@ void Water::Draw()
 	{
 		CameraData camera = GetCamera();
 
-		if (!m_IsTurn)
-		{
-			DrawGraph(pos.x - camera.posX, pos.y - camera.posY, handle, TRUE);
-		}
-		else
-		{
-			DrawTurnGraph(pos.x - camera.posX, pos.y - camera.posY, handle, TRUE);
-		}
+		WaterAnimationType animType = waterAnim;
+		AnimationData* animData = &animation[animType];
+
+		DrawAnimation(animData, pos.x - camera.posX, pos.y - camera.posY);
+	}
+}
+
+void Water::StartWaterAnimation(WaterAnimationType anim)
+{
+	if (anim == waterAnim) return;
+
+	waterAnim = anim;
+
+	AnimationData* animData = &animation[anim];
+
+	StartAnimation(animData, pos.x, pos.y);
+}
+
+void Water::UpdateWaterAnimation()
+{
+	if (!active) return;
+
+	if (m_IsFreeze)
+	{
+		StartWaterAnimation(WATER_ANIM_FREEZE);
+	}
+	else
+	{
+		StartWaterAnimation(WATER_ANIM_NORMAL);
 	}
 }
 
@@ -171,6 +201,40 @@ void Water::WaterHitBlock(int index)
 			else if (move.x > 0.0f)
 			{
 				pos.x = block->pos.x - WATER_WIDTH;
+			}
+			move.x = 0.0f;
+		}
+	}
+}
+
+void Water::WaterHitIron(int index)
+{
+	VECTOR ironPos = GetElementPos(index, ELEMENT_TYPE_IRON);
+	for (int i = 0; i < BLOCK_MAX; i++)
+	{
+		if (i != index) continue;
+
+		if (pos.y < ironPos.y)
+		{
+			if (pos.x < ironPos.x + IRON_WIDTH && pos.x + WATER_WIDTH > ironPos.x)
+			{
+				move.y = 0.0f;
+
+				pos.y = ironPos.y - WATER_HEIGHT;
+
+				m_IsAir = false;
+				m_Randing = true;
+			}
+		}
+		else
+		{
+			if (move.x < 0.0f)
+			{
+				pos.x = ironPos.x + IRON_WIDTH;
+			}
+			else if (move.x > 0.0f)
+			{
+				pos.x = ironPos.x - WATER_WIDTH;
 			}
 			move.x = 0.0f;
 		}

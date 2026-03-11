@@ -9,14 +9,17 @@
 #include "../../Map/MapManager.h"
 #include "../../Collision/Collision.h"
 #include "../../Gimmick/Gimmick.h"
+#include "../../Gimmick/GimmickManager.h"
 #include "../../Map/Block.h"
 #include "../../UI/UIImage.h"
 #include "../../Sound/SoundManager.h"
 #include "../../Camera/Camera.h"
-#include "../../Warp/Warp.h"
+#include "../../Gimmick/Warp.h"
 #include "../../GameSetting/GameSetting.h"
 #include "../../Life/Life.h"
 #include "../../Event/EventManager.h"
+#include "../../Gimmick/Goal.h"
+
 KurosawaData g_KurosawaData = { 0 };
 
 #define TEXTPOS_X (200)
@@ -29,7 +32,7 @@ KurosawaData g_KurosawaData = { 0 };
 #define GIMMICK_AIRBALLOON_POS_Y (600)
 #define GIMMICK_WOODBLOCK_POS_X (300)
 #define GIMMICK_WOODBLOCK_POS_Y (750)
-#define PLAYER_SPAWN_POS_X (2000.0f)
+#define PLAYER_SPAWN_POS_X (200.0f)
 #define PLAYER_SPAWN_POS_Y (600.0f)
 
 void InitKuroScene()
@@ -40,13 +43,13 @@ void InitKuroScene()
 
 	InitElementsManager();
 
+	InitGimmickManager();
+
 	g_KurosawaData.textHandle = 0;
 
 	InitMap();
 
 	InitUIImage();
-
-	InitWarp();
 
 	InitLife();
 
@@ -63,13 +66,13 @@ void LoadKuroScene()
 
 	LoadElementsManager();
 
+	LoadGimmickManager();
+
 	g_KurosawaData.textHandle = LoadGraph("Data/Player/SceneForKurosawa.png");
 
 	LoadEventManager();
 
 	LoadMap();
-
-	LoadWarp();
 
 	LoadLife();
 
@@ -83,8 +86,17 @@ void StartKuroScene()
 
 	StartElementsManager();
 
-	CreateWarp(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17);
-	//CreateWarp(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17);
+	StartGimmickManager();
+
+	SpawnGimmick(100, 100, GIMMICK_TYPE_AIRBALLOON);
+
+	SpawnGimmick(600, 900, GIMMICK_TYPE_WOODBLOCK);
+
+	SpawnGimmick(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17, GIMMICK_TYPE_WARP);
+
+	SpawnGimmick(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17, GIMMICK_TYPE_WARP);
+
+	SpawnGimmick(MAP_CHIP_WIDTH * 76, MAP_CHIP_HEIGHT * 15, GIMMICK_TYPE_GOAL);
 
 	StartMap();
 
@@ -105,6 +117,8 @@ void StepKuroScene()
 
 	StepElementsManager();
 
+	StepGimmickManager();
+
 	if (IsTriggerKey(KEY_K))
 	{
 		ChangeScene(SCENE_TITLE);
@@ -119,6 +133,8 @@ void UpdateKuroScene()
 
 	UpdateEventManager();
 
+	UpdateGimmickManager();
+
 	UpdateAnimationEffect();
 
 	UpdateElementsManager();
@@ -130,13 +146,13 @@ void DrawKuroScene()
 {
 	DrawMap();
 
-	DrawWarp();
-
 	DrawPlayer();
 
 	DrawAnimationEffect();
 
 	DrawElementsManager();
+
+	DrawGimmickManager();
 
 	DrawEventManager();
 
@@ -151,13 +167,13 @@ void FinKuroScene()
 {
 	FinMap();
 
-	FinWarp();
-
 	FinPlayer();
 
 	FinAnimationEffect();
 
 	FinElementsManager();
+
+	FinGimmickManager();
 
 	DeleteGraph(g_KurosawaData.textHandle);
 

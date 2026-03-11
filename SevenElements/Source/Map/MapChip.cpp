@@ -20,6 +20,7 @@ void LoadMapChipData()
 			g_MapChip[i][j].mapChip = map;
 		}
 	}
+	fclose(fp);
 }
 
 void CreateMap()
@@ -38,6 +39,7 @@ void CreateMap()
 		}
 	}
 }
+
 
 MapChipData GetMapChipData(int x, int y)
 {

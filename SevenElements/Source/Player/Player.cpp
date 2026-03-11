@@ -5,11 +5,13 @@
 #include "../Elements/ElementsManager.h"
 #include "../Elements/Iron.h"
 #include "../Elements//Ground.h"
+#include "../Elements/Water.h"
 #include "../Gimmick/GimmickManager.h"
 #include "../Gimmick/Tree.h"
 #include "../Gimmick/AirBalloon.h"
 #include "../Gimmick/WoodBlock.h"
 #include "../Map/Block.h"
+#include "../Map/MapParameter.h"
 #include "../Sound/SoundManager.h"
 #include "../Camera/Camera.h"
 #include "../Scene/SceneManager.h"
@@ -142,7 +144,7 @@ void StepPlayer()
 {
 	if (!g_PlayerData.active) return;
 
-	if (g_PlayerData.die)
+	if (g_PlayerData.die || g_PlayerData.clear)
 	{
 		g_PlayerData.sceneChangeTimer++;
 	}
@@ -243,6 +245,11 @@ void StepPlayer()
 	}
 	else if (IsInputKey(KEY_LEFT) || IsInputPad(PAD_LEFT))
 	{
+		if (g_PlayerData.ridingAirBalloon)
+		{
+			g_PlayerData.ridingAirBalloon = false;
+		}
+
 		g_PlayerData.animTimer++;
 
 		g_PlayerData.isTurn = true;
@@ -270,32 +277,31 @@ void StepPlayer()
 		}
 	}
 
-	/*if (IsTriggerKey(KEY_RIGHT) || IsTriggerPad(PAD_RIGHT) || IsTriggerKey(KEY_LEFT) || IsTriggerPad(PAD_LEFT))
-	{
-		if (g_PlayerData.randing)
-		{
-			if (g_PlayerData.runLeft || g_PlayerData.runRight)
-			{
-				if (!IsPlayingBGM(BGM_RUN))
-				{
-					PlayBGM(BGM_RUN);
-				}
-			}
-			else
-			{
-				if (!IsPlayingBGM(BGM_WALK))
-				{
-					PlayBGM(BGM_WALK);
-				}
-			}
-		}
-	}*/
-
 	if (g_PlayerData.runTimer >= DOUBLE_PUSH_TIME)
 	{
 		g_PlayerData.runRight = false;
 		g_PlayerData.runLeft = false;
 		g_PlayerData.runTimer = 0;
+	}
+
+	if (IsTriggerKey(KEY_RIGHT) || IsTriggerPad(PAD_RIGHT))
+	{
+		if (g_PlayerData.ridingAirBalloon)
+		{
+			g_PlayerData.ridingAirBalloon = false;
+
+			g_PlayerData.posX += AIRBALLOON_WIDTH;
+		}
+	}
+
+	if (IsTriggerKey(KEY_LEFT) || IsTriggerPad(PAD_LEFT))
+	{
+		if (g_PlayerData.ridingAirBalloon)
+		{
+			g_PlayerData.ridingAirBalloon = false;
+
+			g_PlayerData.posX -= AIRBALLOON_WIDTH;
+		}
 	}
 
 	if (IsReleaseKey(KEY_RIGHT) || IsReleasePad(PAD_RIGHT))
@@ -322,7 +328,7 @@ void StepPlayer()
 	{
 		if (g_PlayerData.hitWarp)
 		{
-			g_PlayerData.posX += MAP_CHIP_WIDTH * 4;
+			g_PlayerData.posX += MAP_CHIP_WIDTH * 5;
 			g_PlayerData.hitWarp = false;
 		}
 		else if (g_PlayerData.randing && !g_PlayerData.action)
@@ -457,13 +463,16 @@ void DrawPlayer()
 
 	PlayerAnimationType animType = g_PlayerData.playAnim;
 	AnimationData* animData = &g_PlayerData.animation[animType];
-	if (!g_PlayerData.isTurn)
+	if (!g_PlayerData.ridingAirBalloon)
 	{
-		DrawAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
-	}
-	else
-	{
-		DrawTurnAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
+		if (!g_PlayerData.isTurn)
+		{
+			DrawAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
+		}
+		else
+		{
+			DrawTurnAnimation(animData, g_PlayerData.posX - camera.posX, g_PlayerData.posY - camera.posY);
+		}
 	}
 
 	if (g_PlayerData.selectElements)
@@ -498,6 +507,9 @@ void FinPlayer()
 	{
 		DeleteGraph(g_ElementsTextHandle[i]);
 	}
+
+	StopBGM(BGM_WALK);
+	StopBGM(BGM_RUN);
 }
 
 
@@ -807,9 +819,59 @@ void PlayerHitGround(int index)
 
 void PlayerHitWater(int index)
 {
-	if (!g_PlayerData.inWater)
+	if (!IsWaterFreeze(index))
 	{
-		g_PlayerData.inWater = true;
+		if (!g_PlayerData.inWater)
+		{
+			g_PlayerData.inWater = true;
+		}
+	}
+	else
+	{
+		PlayerData player = GetPlayer();
+		VECTOR waterPos = GetElementPos(index, ELEMENT_TYPE_WATER);
+
+		player.isTurn = g_PrevPlayerData.isTurn;
+
+		player.posX = g_PlayerData.posX;
+		player.posY = g_PrevPlayerData.posY;
+
+		if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > waterPos.y)
+		{
+			if (player.posY < waterPos.y + GROUND_HEIGHT)
+			{
+				g_PlayerData.posX = waterPos.x - PLAYER_WIDTH;
+			}
+		}
+		else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > waterPos.y)
+		{
+			if (player.posY < waterPos.y + WATER_HEIGHT)
+			{
+				g_PlayerData.posX = waterPos.x + WATER_WIDTH;
+			}
+		}
+
+		if (player.posY <= waterPos.y - PLAYER_HEIGHT)
+		{
+			if (g_PrevPlayerData.posX == waterPos.x + WATER_WIDTH) return;
+			if (g_PrevPlayerData.posX + PLAYER_WIDTH == waterPos.x) return;
+
+			if (!g_PlayerData.randing)
+			{
+				PlayerRand();
+			}
+
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.posY = waterPos.y - PLAYER_HEIGHT;
+		}
+		else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > waterPos.y + WATER_HEIGHT)
+		{
+			if (g_PrevPlayerData.posX == waterPos.x + WATER_WIDTH) return;
+			if (g_PrevPlayerData.posX + PLAYER_WIDTH == waterPos.x) return;
+
+			g_PlayerData.move.y = 0.0f;
+			g_PlayerData.posY = waterPos.y + WATER_HEIGHT;
+		}
 	}
 }
 
@@ -859,9 +921,9 @@ void PlayerHitAirBalloon(int index)
 	player.posX = g_PlayerData.posX;
 	player.posY = g_PrevPlayerData.posY;
 
-	if (g_PlayerData.randing)
+	if (!AirBalloonBurning(index))
 	{
-		if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > airBalloonPos.y)
+		/*if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > airBalloonPos.y)
 		{
 			g_PlayerData.posX = airBalloonPos.x - PLAYER_WIDTH;
 		}
@@ -884,7 +946,7 @@ void PlayerHitAirBalloon(int index)
 		{
 			g_PlayerData.move.y = 0.0f;
 			g_PlayerData.posY = airBalloonPos.y + AIRBALLOON_HEIGHT;
-		}
+		}*/
 	}
 	else
 	{
@@ -933,6 +995,11 @@ void PlayerHitWarp()
 	g_PlayerData.hitWarp = true;
 }
 
+void PlayerHitGoal()
+{
+	g_PlayerData.clear = true;
+}
+
 void PlayerHitEnemy()
 {
 	PlaySE(SE_DAMAGE);
@@ -944,9 +1011,8 @@ void RideAirBalloon(VECTOR airBalloonPos)
 	g_PlayerData.posX = airBalloonPos.x;
 	g_PlayerData.posY = airBalloonPos.y;
 	g_PlayerData.move.x = 0.0f;
-	g_PlayerData.posY = PLAYER_POS_Y_MIN - PLAYER_HEIGHT;
-	g_PlayerData.randing = true;
 	g_PlayerData.move.y = 0.0f;
+	g_PlayerData.ridingAirBalloon = true;
 }
 
 void CalcBoxCollision(PlayerData player, float& x, float& y, float& w, float& h)
