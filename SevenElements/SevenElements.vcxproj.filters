@@ -216,6 +216,9 @@
     <ClCompile Include="Source\Gimmick\Windmill.cpp">
       <Filter>Source\Gimmick</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Gimmick\MoveBlock.cpp">
+      <Filter>Source\Gimmick</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -369,6 +372,9 @@
       <Filter>Source\Gimmick</Filter>
     </ClInclude>
     <ClInclude Include="Source\Gimmick\Windmill.h">
+      <Filter>Source\Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Gimmick\MoveBlock.h">
       <Filter>Source\Gimmick</Filter>
     </ClInclude>
   </ItemGroup>

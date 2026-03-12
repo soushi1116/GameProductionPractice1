@@ -167,6 +167,7 @@
     <ClCompile Include="Source\Gimmick\Gimmick.cpp" />
     <ClCompile Include="Source\Gimmick\GimmickManager.cpp" />
     <ClCompile Include="Source\Gimmick\Goal.cpp" />
+    <ClCompile Include="Source\Gimmick\MoveBlock.cpp" />
     <ClCompile Include="Source\Gimmick\Tree.cpp" />
     <ClCompile Include="Source\Gimmick\Warp.cpp" />
     <ClCompile Include="Source\Gimmick\WaterGimmick.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="Source\Gimmick\Gimmick.h" />
     <ClInclude Include="Source\Gimmick\GimmickManager.h" />
     <ClInclude Include="Source\Gimmick\Goal.h" />
+    <ClInclude Include="Source\Gimmick\MoveBlock.h" />
     <ClInclude Include="Source\Gimmick\Tree.h" />
     <ClInclude Include="Source\Gimmick\Warp.h" />
     <ClInclude Include="Source\Gimmick\WaterGimmick.h" />

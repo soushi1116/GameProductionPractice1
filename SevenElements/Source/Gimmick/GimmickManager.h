@@ -32,6 +32,8 @@ void WindmillHitWind(int index);
 
 VECTOR GetGimmickPos(int index, GimmickType type);
 
+VECTOR GetGimmickMove(int index, GimmickType type);
+
 bool IsGimmickActive(int index, GimmickType type);
 
 bool AirBalloonBurning(int index);

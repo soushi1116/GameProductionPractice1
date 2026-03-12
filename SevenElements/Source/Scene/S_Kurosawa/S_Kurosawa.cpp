@@ -93,9 +93,11 @@ void StartKuroScene()
 
 	SpawnGimmick(MAP_CHIP_WIDTH * 76, MAP_CHIP_HEIGHT * 15, GIMMICK_TYPE_GOAL);
 
-	SpawnGimmick(1000, 750, GIMMICK_TYPE_WINDMILL);
+	SpawnGimmick(1000, 600, GIMMICK_TYPE_MOVEBLOCK);
 
-	//SpawnGimmick(1000, 860, GIMMICK_TYPE_BATTERY);
+	//SpawnGimmick(1000, 750, GIMMICK_TYPE_WINDMILL);
+
+	SpawnGimmick(200, 860, GIMMICK_TYPE_BATTERY);
 
 	/*for (int i = 0; i < 10; i++)
 	{

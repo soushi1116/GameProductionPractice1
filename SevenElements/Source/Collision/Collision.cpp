@@ -20,6 +20,7 @@
 #include "../Gimmick/FireGimmick.h"
 #include "../Gimmick/Battery.h"
 #include "../Gimmick/Windmill.h"
+#include "../Gimmick/MoveBlock.h"
 #include "../Gimmick/Warp.h"
 #include "../Gimmick/Goal.h"
 
@@ -376,6 +377,27 @@ void CheckPlayerWoodBlock()
 	}
 }
 
+void CheckPlayerMoveBlock()
+{
+	PlayerData player = GetPlayer();
+
+	if (player.active)
+	{
+		for (int i = 0; i < MOVEBLOCK_MAX; i++)
+		{
+			if (!IsGimmickActive(i, GIMMICK_TYPE_MOVEBLOCK)) continue;
+
+			VECTOR moveBlockPos = GetGimmickPos(i, GIMMICK_TYPE_MOVEBLOCK);
+
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+				moveBlockPos.x, moveBlockPos.y, MOVEBLOCK_WIDTH, MOVEBLOCK_HEIGHT))
+			{
+				PlayerHitMoveBlock(i);
+			}
+		}
+	}
+}
+
 void CheckPlayerFireGimmick()
 {
 	PlayerData player = GetPlayer();
@@ -722,6 +744,8 @@ void CheckCollision()
 	CheckPlayerAirBalloon();
 
 	CheckPlayerWoodBlock();
+
+	CheckPlayerMoveBlock();
 
 	CheckPlayerFireGimmick();
 
