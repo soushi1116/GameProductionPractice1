@@ -19,6 +19,7 @@
 #include "../Gimmick/WoodBlock.h"
 #include "../Gimmick/FireGimmick.h"
 #include "../Gimmick/Battery.h"
+#include "../Gimmick/Windmill.h"
 #include "../Gimmick/Warp.h"
 #include "../Gimmick/Goal.h"
 
@@ -668,6 +669,28 @@ void CheckThunderBattery()
 	}
 }
 
+void CheckWindWindmill()
+{
+	for (int i = 0; i < WIND_MAX; i++)
+	{
+		if (!IsElementActive(i, ELEMENT_TYPE_WIND)) continue;
+
+		for (int j = 0; j < WINDMILL_MAX; j++)
+		{
+			if (!IsGimmickActive(j, GIMMICK_TYPE_WINDMILL)) continue;
+
+			VECTOR windPos = GetElementPos(i, ELEMENT_TYPE_WIND);
+			VECTOR windmillPos = GetGimmickPos(j, GIMMICK_TYPE_WINDMILL);
+
+			if (CheckSquareSquare(windPos.x, windPos.y, THUNDER_WIDTH, THUNDER_HEIGHT,
+				windmillPos.x, windmillPos.y, BATTERY_WIDTH, BATTERY_HEIGHT))
+			{
+				WindmillHitWind(j);
+			}
+		}
+	}
+}
+
 void CheckCollision()
 {
 	CheckMapPlayerCollision();
@@ -727,4 +750,6 @@ void CheckCollision()
 	CheckWaterFireGimmick();
 
 	CheckThunderBattery();
+
+	CheckWindWindmill();
 }
