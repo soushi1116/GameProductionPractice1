@@ -4,8 +4,8 @@
 #include "../Animation/Animation.h"
 
 #define BATTERY_MAX 32
-#define BATTERY_WIDTH (101)
-#define BATTERY_HEIGHT (300)
+#define BATTERY_WIDTH (100)
+#define BATTERY_HEIGHT (90)
 
 enum BatteryAnimationType
 {

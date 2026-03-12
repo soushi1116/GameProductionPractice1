@@ -51,6 +51,7 @@ struct PlayerData
 	bool die;
 	bool clear;
 	bool invisible;
+	bool onMoveBlock;
 
 	AnimationData animation[PLAYER_ANIM_MAX];
 	PlayerAnimationType playAnim;
@@ -88,6 +89,7 @@ void PlayerHitBlock(int index);
 void PlayerHitTree(int index);
 void PlayerHitAirBalloon(int index);
 void PlayerHitWoodBlock(int index);
+void PlayerHitMoveBlock(int index);
 
 void PlayerHitWarp();
 

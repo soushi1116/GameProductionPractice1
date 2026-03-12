@@ -10,6 +10,7 @@
 #include "../Gimmick/Tree.h"
 #include "../Gimmick/AirBalloon.h"
 #include "../Gimmick/WoodBlock.h"
+#include "../Gimmick/MoveBlock.h"
 #include "../Map/Block.h"
 #include "../Map/MapParameter.h"
 #include "../Sound/SoundManager.h"
@@ -75,6 +76,7 @@ void InitPlayer()
 	g_PlayerData.die = false;
 	g_PlayerData.clear = false;
 	g_PlayerData.invisible = false;
+	g_PlayerData.onMoveBlock = false;
 
 	g_PlayerData.playAnim = PLAYER_ANIM_NONE;
 }
@@ -158,7 +160,10 @@ void StepPlayer()
 
 	if (g_PlayerData.move.y < 0.0f || g_PlayerData.move.y > PLAYER_GRAVITY)
 	{
-		g_PlayerData.randing = false;
+		if (!g_PlayerData.onMoveBlock)
+		{
+			g_PlayerData.randing = false;
+		}
 	}
 	
 	g_PlayerData.move.y += PLAYER_GRAVITY;	
@@ -465,6 +470,8 @@ void UpdatePlayer()
 		g_PlayerData.invisible = false;
 		g_PlayerData.invisibleTimer = 0;
 	}
+
+	g_PlayerData.onMoveBlock = false;
 
 	UpdatePlayerAnimation();
 }
@@ -1018,6 +1025,44 @@ void PlayerHitWoodBlock(int index)
 	{
 		g_PlayerData.move.y = 0.0f;
 		g_PlayerData.posY = woodBlockPos.y + WOODBLOCK_HEIGHT;
+	}
+}
+
+void PlayerHitMoveBlock(int index)
+{
+	PlayerData player = GetPlayer();
+	VECTOR moveBlockPos = GetGimmickPos(index, GIMMICK_TYPE_MOVEBLOCK);
+
+	player.isTurn = g_PrevPlayerData.isTurn;
+
+	player.posX = g_PlayerData.posX;
+	player.posY = g_PrevPlayerData.posY;
+
+	if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > moveBlockPos.y)
+	{
+		g_PlayerData.posX = moveBlockPos.x - PLAYER_WIDTH;
+	}
+	else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > moveBlockPos.y)
+	{
+		g_PlayerData.posX = moveBlockPos.x + MOVEBLOCK_WIDTH;
+	}
+
+	if (player.posY < moveBlockPos.y)
+	{
+		if (!g_PlayerData.randing)
+		{
+			PlayerRand();
+		}
+
+		g_PlayerData.onMoveBlock = true;
+		VECTOR moveBlockMove = GetGimmickMove(index, GIMMICK_TYPE_MOVEBLOCK);
+		g_PlayerData.move.y = moveBlockMove.y;
+		g_PlayerData.posY = moveBlockPos.y - PLAYER_HEIGHT;
+	}
+	else if (g_PlayerData.move.y < 0.0f && g_PrevPlayerData.posY > moveBlockPos.y + MOVEBLOCK_HEIGHT)
+	{
+		g_PlayerData.move.y = 0.0f;
+		g_PlayerData.posY = moveBlockPos.y + MOVEBLOCK_HEIGHT;
 	}
 }
 

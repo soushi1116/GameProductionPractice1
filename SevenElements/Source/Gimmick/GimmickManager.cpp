@@ -8,6 +8,7 @@
 #include "FireGimmick.h"
 #include "Battery.h"
 #include "Windmill.h"
+#include "MoveBlock.h"
 #include "Warp.h"
 #include "Goal.h"
 
@@ -20,6 +21,7 @@ WaterGimmick* waterGimmick[WATER_GIMMICK_MAX] = { nullptr };
 FireGimmick* fireGimmick[FIREGIMMICK_MAX] = { nullptr };
 Battery* battery[BATTERY_MAX] = { nullptr };
 Windmill* windmill[WINDMILL_MAX] = { nullptr };
+MoveBlock* moveBlock[MOVEBLOCK_MAX] = { nullptr };
 Warp* warp[WARP_MAX] = { nullptr };
 Goal* goal[GOAL_MAX] = { nullptr };
 
@@ -35,6 +37,7 @@ void InitGimmickManager()
 		fireGimmick[i] = new FireGimmick;
 		battery[i] = new Battery;
 		windmill[i] = new Windmill;
+		moveBlock[i] = new MoveBlock;
 		warp[i] = new Warp;
 		goal[i] = new Goal;
 	}
@@ -52,6 +55,7 @@ void LoadGimmickManager()
 		fireGimmick[i]->Load();
 		battery[i]->Load();
 		windmill[i]->Load();
+		moveBlock[i]->Load();
 		warp[i]->Load();
 		goal[i]->Load();
 	}
@@ -69,6 +73,7 @@ void StartGimmickManager()
 		fireGimmick[i]->Start();
 		battery[i]->Start();
 		windmill[i]->Start();
+		moveBlock[i]->Start();
 		warp[i]->Start();
 		goal[i]->Start();
 	}
@@ -86,6 +91,7 @@ void StepGimmickManager()
 		fireGimmick[i]->Step();
 		battery[i]->Step();
 		windmill[i]->Step();
+		moveBlock[i]->Step();
 		warp[i]->Step();
 		goal[i]->Step();
 	}
@@ -103,6 +109,7 @@ void UpdateGimmickManager()
 		fireGimmick[i]->Update();
 		battery[i]->Update();
 		windmill[i]->Update();
+		moveBlock[i]->Update();
 		warp[i]->Update();
 		goal[i]->Update();
 	}
@@ -120,6 +127,7 @@ void DrawGimmickManager()
 		fireGimmick[i]->Draw();
 		battery[i]->Draw();
 		windmill[i]->Draw();
+		moveBlock[i]->Draw();
 		warp[i]->Draw();
 		goal[i]->Draw();
 	}
@@ -138,6 +146,7 @@ void FinGimmickManager()
 		delete fireGimmick[i];
 		delete battery[i];
 		delete windmill[i];
+		delete moveBlock[i];
 		delete warp[i];
 		delete goal[i];
 	}
@@ -201,7 +210,7 @@ void SpawnGimmick(int posX, int posY, GimmickType type)
 	case GIMMICK_TYPE_BATTERY:
 		for (int i = 0; i < BATTERY_MAX; i++)
 		{
-			if (!fireGimmick[i]->IsActive())
+			if (!battery[i]->IsActive())
 			{
 				battery[i]->Spawn(posX, posY);
 
@@ -213,9 +222,21 @@ void SpawnGimmick(int posX, int posY, GimmickType type)
 	case GIMMICK_TYPE_WINDMILL:
 		for (int i = 0; i < WINDMILL_MAX; i++)
 		{
-			if (!fireGimmick[i]->IsActive())
+			if (!windmill[i]->IsActive())
 			{
 				windmill[i]->Spawn(posX, posY);
+
+				break;
+			}
+		}
+		break;
+
+	case GIMMICK_TYPE_MOVEBLOCK:
+		for (int i = 0; i < MOVEBLOCK_MAX; i++)
+		{
+			if (!moveBlock[i]->IsActive())
+			{
+				moveBlock[i]->Spawn(posX, posY);
 
 				break;
 			}
@@ -294,9 +315,6 @@ void WindmillHitWind(int index)
 
 VECTOR GetGimmickPos(int index, GimmickType type)
 {
-	float posX = 0.0f;
-	float posY = 0.0f;
-
 	VECTOR pos = VGet(0.0f, 0.0f, 0.0f);
 
 	switch (type)
@@ -321,6 +339,9 @@ VECTOR GetGimmickPos(int index, GimmickType type)
 	case GIMMICK_TYPE_WINDMILL:
 		pos = windmill[index]->GetPos();
 		break;
+	case GIMMICK_TYPE_MOVEBLOCK:
+		pos = moveBlock[index]->GetPos();
+		break;
 	case GIMMICK_TYPE_WARP:
 		pos = warp[index]->GetPos();
 		break;
@@ -331,6 +352,41 @@ VECTOR GetGimmickPos(int index, GimmickType type)
 		break;
 	}
 	return pos;
+}
+
+VECTOR GetGimmickMove(int index, GimmickType type)
+{
+	VECTOR move = VGet(0.0f, 0.0f, 0.0f);
+
+	switch (type)
+	{
+	case GIMMICK_TYPE_NONE:
+		break;
+	case GIMMICK_TYPE_TREE:
+		break;
+	case GIMMICK_TYPE_AIRBALLOON:
+		break;
+	case GIMMICK_TYPE_WOODBLOCK:
+		break;
+	case GIMMICK_TYPE_FIRE:
+		break;
+	case GIMMICK_TYPE_BATTERY:
+		break;
+	case GIMMICK_TYPE_WINDMILL:
+		break;
+	case GIMMICK_TYPE_MOVEBLOCK:
+		move = moveBlock[index]->GetMove();
+		break;
+	case GIMMICK_TYPE_WARP:
+		break;
+	case GIMMICK_TYPE_GOAL:
+		break;
+	case GIMMICK_TYPE_MAX:
+		break;
+	default:
+		break;
+	}
+	return move;
 }
 
 bool IsGimmickActive(int index, GimmickType type)
@@ -358,6 +414,9 @@ bool IsGimmickActive(int index, GimmickType type)
 		break;
 	case GIMMICK_TYPE_WINDMILL:
 		active = windmill[index]->IsActive();
+		break;
+	case GIMMICK_TYPE_MOVEBLOCK:
+		active = moveBlock[index]->IsActive();
 		break;
 	case GIMMICK_TYPE_WARP:
 		active = warp[index]->IsActive();

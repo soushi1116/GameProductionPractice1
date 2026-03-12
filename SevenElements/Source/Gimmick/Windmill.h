@@ -4,8 +4,8 @@
 #include "../Animation/Animation.h"
 
 #define WINDMILL_MAX 32
-#define WINDMILL_WIDTH (101)
-#define WINDMILL_HEIGHT (300)
+#define WINDMILL_WIDTH (184)
+#define WINDMILL_HEIGHT (200)
 
 enum WindmillAnimationType
 {
