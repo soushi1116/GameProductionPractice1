@@ -6,6 +6,11 @@
 
 TitleScene::TitleScene()
 {
+	m_startImg = LoadGraph("Data/Title/start.PNG");
+	m_continueImg = LoadGraph("Data/Title/continue.PNG");
+	m_optionImg = LoadGraph("Data/Titlle/option.PNG");
+	m_cursorImg = LoadGraph("Data/Title/cursor.PNG");
+
 	m_randomIndex = 0;
 	m_select = 0;
 
@@ -27,8 +32,8 @@ void TitleScene::LoadTitleScene()
 
 void TitleScene::StartTitleScene()
 {
-	m_backHandle[0] = LoadGraph("Data/flame.PNG");
-	m_logoHandle[0] = LoadGraph("Data/flamelogo.PNG");
+	m_backHandle[0] = LoadGraph("Data/Title/flame.PNG");
+	m_logoHandle[0] = LoadGraph("Data/Title/flamelogo.PNG");
 
 	m_backHandle[1] = LoadGraph("Data/Title/ice.PNG");
 	m_logoHandle[1] = LoadGraph("Data/Title/icelogo.PNG");
@@ -100,9 +105,9 @@ void TitleScene::DrawTitleScene()
 	DrawGraph(0, 0, m_backHandle[m_randomIndex], TRUE);
 	DrawGraph(300, 100, m_logoHandle[m_randomIndex], TRUE);
 
-	DrawString(300, 400, "‚Í‚¶‚ß‚©‚ç", GetColor(255, 255, 255));
-	DrawString(300, 440, "‚Â‚Ã‚«‚©‚ç", GetColor(255, 255, 255));
-	DrawString(300, 480, "ƒIƒvƒVƒ‡ƒ“", GetColor(255, 255, 255));
+	DrawGraph(0, 0, m_startImg, TRUE);
+	DrawGraph(0, 0, m_continueImg, TRUE);
+	DrawGraph(0, 0, m_optionImg, TRUE);
 
-	DrawString(260, 400 + m_select * 40, ">", GetColor(255, 255, 0));
+	DrawGraph(0, 0 + m_select * 50, m_cursorImg, TRUE);
 }

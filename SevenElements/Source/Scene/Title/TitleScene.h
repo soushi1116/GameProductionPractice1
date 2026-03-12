@@ -22,4 +22,9 @@ private:
 	int m_randomIndex;
 	int m_backHandle[TITLE_PATTERN_MAX];
 	int m_logoHandle[TITLE_PATTERN_MAX];
+
+	int m_startImg;
+	int m_continueImg;
+	int m_optionImg;
+	int m_cursorImg;
 };
