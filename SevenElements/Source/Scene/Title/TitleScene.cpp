@@ -103,7 +103,7 @@ void TitleScene::DrawTitleScene()
 {
 
 	DrawGraph(0, 0, m_backHandle[m_randomIndex], TRUE);
-	DrawGraph(300, 100, m_logoHandle[m_randomIndex], TRUE);
+	DrawGraph(0, 0, m_logoHandle[m_randomIndex], TRUE);
 
 	DrawGraph(0, 0, m_startImg, TRUE);
 	DrawGraph(0, 0, m_continueImg, TRUE);
