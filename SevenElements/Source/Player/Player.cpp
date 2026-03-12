@@ -1043,7 +1043,7 @@ void PlayerHitFireGimmick()
 
 void PlayerDamage()
 {
-	if (g_PlayerData.invisible || g_PlayerData.die) return;
+	if (g_PlayerData.invisible || g_PlayerData.die || g_PlayerData.clear) return;
 
 	PlaySE(SE_DAMAGE);
 	g_PlayerData.life--;

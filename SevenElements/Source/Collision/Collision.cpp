@@ -10,6 +10,7 @@
 #include "../Elements/Ice.h"
 #include "../Elements/Ground.h"
 #include "../Elements/Wind.h"
+#include "../Elements/Thunder.h"
 #include "../Elements/ElementsManager.h"
 #include "../Elements/Elements.h"
 #include "../Gimmick/GimmickManager.h"
@@ -17,6 +18,7 @@
 #include "../Gimmick/AirBalloon.h"
 #include "../Gimmick/WoodBlock.h"
 #include "../Gimmick/FireGimmick.h"
+#include "../Gimmick/Battery.h"
 #include "../Gimmick/Warp.h"
 #include "../Gimmick/Goal.h"
 
@@ -644,6 +646,28 @@ void CheckWaterFireGimmick()
 	}
 }
 
+void CheckThunderBattery()
+{
+	for (int i = 0; i < THUNDER_MAX; i++)
+	{
+		if (!IsElementActive(i, ELEMENT_TYPE_THUNDER)) continue;
+
+		for (int j = 0; j < BATTERY_MAX; j++)
+		{
+			if (!IsGimmickActive(j, GIMMICK_TYPE_BATTERY)) continue;
+
+			VECTOR thunderPos = GetElementPos(i, ELEMENT_TYPE_THUNDER);
+			VECTOR batteryPos = GetGimmickPos(j, GIMMICK_TYPE_BATTERY);
+
+			if (CheckSquareSquare(thunderPos.x, thunderPos.y, THUNDER_WIDTH, THUNDER_HEIGHT,
+				batteryPos.x, batteryPos.y, BATTERY_WIDTH, BATTERY_HEIGHT))
+			{
+				BatteryHitThunder(j);
+			}
+		}
+	}
+}
+
 void CheckCollision()
 {
 	CheckMapPlayerCollision();
@@ -701,4 +725,6 @@ void CheckCollision()
 	CheckWindWoodBlock();
 
 	CheckWaterFireGimmick();
+
+	CheckThunderBattery();
 }

@@ -6,6 +6,7 @@
 #include "WoodBlock.h"
 #include "WaterGimmick.h"
 #include "FireGimmick.h"
+#include "Battery.h"
 #include "Warp.h"
 #include "Goal.h"
 
@@ -16,6 +17,7 @@ AirBalloon* airBalloon[AIRBALLOON_MAX] = { nullptr };
 WoodBlock* woodBlock[WOODBLOCK_MAX] = { nullptr };
 WaterGimmick* waterGimmick[WATER_GIMMICK_MAX] = { nullptr };
 FireGimmick* fireGimmick[FIREGIMMICK_MAX] = { nullptr };
+Battery* battery[BATTERY_MAX] = { nullptr };
 Warp* warp[WARP_MAX] = { nullptr };
 Goal* goal[GOAL_MAX] = { nullptr };
 
@@ -29,6 +31,7 @@ void InitGimmickManager()
 		woodBlock[i] = new WoodBlock;
 		waterGimmick[i] = new WaterGimmick;
 		fireGimmick[i] = new FireGimmick;
+		battery[i] = new Battery;
 		warp[i] = new Warp;
 		goal[i] = new Goal;
 	}
@@ -44,6 +47,7 @@ void LoadGimmickManager()
 		woodBlock[i]->Load();
 		waterGimmick[i]->Load();
 		fireGimmick[i]->Load();
+		battery[i]->Load();
 		warp[i]->Load();
 		goal[i]->Load();
 	}
@@ -59,6 +63,7 @@ void StartGimmickManager()
 		woodBlock[i]->Start();
 		waterGimmick[i]->Start();
 		fireGimmick[i]->Start();
+		battery[i]->Start();
 		warp[i]->Start();
 		goal[i]->Start();
 	}
@@ -74,6 +79,7 @@ void StepGimmickManager()
 		woodBlock[i]->Step();
 		waterGimmick[i]->Step();
 		fireGimmick[i]->Step();
+		battery[i]->Step();
 		warp[i]->Step();
 		goal[i]->Step();
 	}
@@ -89,6 +95,7 @@ void UpdateGimmickManager()
 		woodBlock[i]->Update();
 		waterGimmick[i]->Update();
 		fireGimmick[i]->Update();
+		battery[i]->Update();
 		warp[i]->Update();
 		goal[i]->Update();
 	}
@@ -104,6 +111,7 @@ void DrawGimmickManager()
 		woodBlock[i]->Draw();
 		waterGimmick[i]->Draw();
 		fireGimmick[i]->Draw();
+		battery[i]->Draw();
 		warp[i]->Draw();
 		goal[i]->Draw();
 	}
@@ -120,6 +128,7 @@ void FinGimmickManager()
 		delete woodBlock[i];
 		delete waterGimmick[i];
 		delete fireGimmick[i];
+		delete battery[i];
 		delete warp[i];
 		delete goal[i];
 	}
@@ -169,11 +178,23 @@ void SpawnGimmick(int posX, int posY, GimmickType type)
 		break;
 
 	case GIMMICK_TYPE_FIRE:
-		for (int i = 0; i < AIRBALLOON_MAX; i++)
+		for (int i = 0; i < FIREGIMMICK_MAX; i++)
 		{
 			if (!fireGimmick[i]->IsActive())
 			{
 				fireGimmick[i]->Spawn(posX, posY);
+
+				break;
+			}
+		}
+		break;
+
+	case GIMMICK_TYPE_BATTERY:
+		for (int i = 0; i < BATTERY_MAX; i++)
+		{
+			if (!fireGimmick[i]->IsActive())
+			{
+				battery[i]->Spawn(posX, posY);
 
 				break;
 			}
@@ -240,6 +261,11 @@ void FireGimmickHitWater(int index)
 	fireGimmick[index]->Delete();
 }
 
+void BatteryHitThunder(int index)
+{
+	battery[index]->BatteryHitThunder();
+}
+
 VECTOR GetGimmickPos(int index, GimmickType type)
 {
 	float posX = 0.0f;
@@ -262,6 +288,9 @@ VECTOR GetGimmickPos(int index, GimmickType type)
 		break;
 	case GIMMICK_TYPE_FIRE:
 		pos = fireGimmick[index]->GetPos();
+		break;
+	case GIMMICK_TYPE_BATTERY:
+		pos = battery[index]->GetPos();
 		break;
 	case GIMMICK_TYPE_WARP:
 		pos = warp[index]->GetPos();
@@ -294,6 +323,9 @@ bool IsGimmickActive(int index, GimmickType type)
 		break;
 	case GIMMICK_TYPE_FIRE:
 		active = fireGimmick[index]->IsActive();
+		break;
+	case GIMMICK_TYPE_BATTERY:
+		active = battery[index]->IsActive();
 		break;
 	case GIMMICK_TYPE_WARP:
 		active = warp[index]->IsActive();

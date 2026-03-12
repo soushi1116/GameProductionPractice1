@@ -21,8 +21,6 @@
 #include "../../Gimmick/Goal.h"
 #include "../../Enemy/EnemyWalk.h"
 
-KurosawaData g_KurosawaData = { 0 };
-
 #define TEXTPOS_X (200)
 #define TEXTPOS_Y (0)
 #define BLOCK_NUM_MAX (32)
@@ -46,10 +44,6 @@ void InitKuroScene()
 
 	InitGimmickManager();
 
-	InitEnemyWalk();
-
-	g_KurosawaData.textHandle = 0;
-
 	InitMap();
 
 	InitUIImage();
@@ -70,8 +64,6 @@ void LoadKuroScene()
 	LoadElementsManager();
 
 	LoadGimmickManager();
-
-	g_KurosawaData.textHandle = LoadGraph("Data/Player/SceneForKurosawa.png");
 
 	LoadEventManager();
 
@@ -101,10 +93,12 @@ void StartKuroScene()
 
 	SpawnGimmick(MAP_CHIP_WIDTH * 76, MAP_CHIP_HEIGHT * 15, GIMMICK_TYPE_GOAL);
 
-	for (int i = 0; i < 10; i++)
+	SpawnGimmick(1000, 860, GIMMICK_TYPE_BATTERY);
+
+	/*for (int i = 0; i < 10; i++)
 	{
 		SpawnGimmick(300 + i * 50, 925, GIMMICK_TYPE_FIRE);
-	}
+	}*/
 
 	StartMap();
 
@@ -143,8 +137,6 @@ void UpdateKuroScene()
 
 	UpdateGimmickManager();
 
-	UpdateEnemyWalk();
-
 	UpdateAnimationEffect();
 
 	UpdateElementsManager();
@@ -163,8 +155,6 @@ void DrawKuroScene()
 	DrawElementsManager();
 
 	DrawGimmickManager();
-
-	DrawEnemyWalk();
 
 	DrawEventManager();
 
@@ -186,8 +176,6 @@ void FinKuroScene()
 	FinElementsManager();
 
 	FinGimmickManager();
-
-	DeleteGraph(g_KurosawaData.textHandle);
 
 	FinLife();
 

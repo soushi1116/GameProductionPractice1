@@ -210,6 +210,9 @@
     <ClCompile Include="Source\Gimmick\FireGimmick.cpp">
       <Filter>Source\Gimmick</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Gimmick\Battery.cpp">
+      <Filter>Source\Gimmick</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene\SceneManager.h">
@@ -357,6 +360,9 @@
       <Filter>Source\Scene\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Source\Gimmick\FireGimmick.h">
+      <Filter>Source\Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Gimmick\Battery.h">
       <Filter>Source\Gimmick</Filter>
     </ClInclude>
   </ItemGroup>
