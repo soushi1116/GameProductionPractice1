@@ -4,8 +4,8 @@
 #include "../Elements/ElementsManager.h"
 #include "../Camera/Camera.h"
 
-#define MOVEBLOCK_MOVE_SPEED (3.0f)
-#define MOVEBLOCK_MIN_POS_Y (600)
+#define MOVEBLOCK_MOVE_SPEED (2.0f)
+#define MOVEBLOCK_MIN_POS_Y (400)
 #define MOVEBLOCK_MAX_POS_Y (800)
 
 MoveBlock::MoveBlock()
@@ -95,5 +95,25 @@ void MoveBlock::Spawn(float posX, float posY)
 
 		pos.x = posX;
 		pos.y = posY;
+	}
+}
+
+void MoveBlock::SwitchOn()
+{
+	if (moveState == MOVE_STOP)
+	{
+		moveState = MOVE_UP;
+	}
+}
+
+const bool MoveBlock::Moving()
+{
+	if (moveState == MOVE_STOP)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
 	}
 }

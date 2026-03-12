@@ -306,6 +306,15 @@ void FireGimmickHitWater(int index)
 void BatteryHitThunder(int index)
 {
 	battery[index]->BatteryHitThunder();
+	for (int i = 0; i < MOVEBLOCK_MAX; i++)
+	{
+		if (!moveBlock[i]->Moving() && moveBlock[i]->IsActive())
+		{
+			moveBlock[i]->SwitchOn();
+
+			break;
+		}
+	}
 }
 
 void WindmillHitWind(int index)

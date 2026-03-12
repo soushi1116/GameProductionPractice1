@@ -22,7 +22,11 @@ public:
 
 	void Spawn(float posX, float posY);
 
+	void SwitchOn();
+
 	const bool IsActive() { return active; }
+
+	const bool Moving();
 
 	VECTOR GetPos() { return pos; }
 

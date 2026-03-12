@@ -1032,17 +1032,18 @@ void PlayerHitMoveBlock(int index)
 {
 	PlayerData player = GetPlayer();
 	VECTOR moveBlockPos = GetGimmickPos(index, GIMMICK_TYPE_MOVEBLOCK);
+	VECTOR moveBlockMove = GetGimmickMove(index, GIMMICK_TYPE_MOVEBLOCK);
 
 	player.isTurn = g_PrevPlayerData.isTurn;
 
 	player.posX = g_PlayerData.posX;
 	player.posY = g_PrevPlayerData.posY;
 
-	if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > moveBlockPos.y)
+	if (player.move.x > 0.0f && player.posY + PLAYER_HEIGHT > moveBlockPos.y - moveBlockMove.y)
 	{
 		g_PlayerData.posX = moveBlockPos.x - PLAYER_WIDTH;
 	}
-	else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > moveBlockPos.y)
+	else if (player.move.x < 0.0f && player.posY + PLAYER_HEIGHT > moveBlockPos.y - moveBlockMove.y)
 	{
 		g_PlayerData.posX = moveBlockPos.x + MOVEBLOCK_WIDTH;
 	}
@@ -1055,7 +1056,6 @@ void PlayerHitMoveBlock(int index)
 		}
 
 		g_PlayerData.onMoveBlock = true;
-		VECTOR moveBlockMove = GetGimmickMove(index, GIMMICK_TYPE_MOVEBLOCK);
 		g_PlayerData.move.y = moveBlockMove.y;
 		g_PlayerData.posY = moveBlockPos.y - PLAYER_HEIGHT;
 	}
