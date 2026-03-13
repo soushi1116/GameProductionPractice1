@@ -1,9 +1,10 @@
 #include "Windmill.h"
+#include "GimmickManager.h"
 #include "../Effect/AnimationEffect.h"
 #include "../Map/Block.h"
 #include "../Camera/Camera.h"
 
-const int WINDMILL_ANIM_INTERVAL(30);
+const int WINDMILL_ANIM_INTERVAL(10);
 
 Windmill::Windmill()
 {
@@ -50,9 +51,11 @@ void Windmill::Update()
 {
 	if (active)
 	{
-		if (m_Timer > WINDMILL_ANIM_INTERVAL * 2)
+		if (m_Timer > WINDMILL_ANIM_INTERVAL * 12)
 		{
 			m_Timer = 0;
+			m_Rotate = false;
+			WindmillStop();
 		}
 	}
 
@@ -86,7 +89,7 @@ void Windmill::UpdateWindmillAnimation()
 {
 	if (!active) return;
 
-	if (m_Timer < WINDMILL_ANIM_INTERVAL)
+	if ((m_Timer / WINDMILL_ANIM_INTERVAL) % 2 == 0)
 	{
 		StartWindmillAnimation(WINDMILL_ANIM_1);
 	}
@@ -111,5 +114,6 @@ void Windmill::Spawn(float posX, float posY)
 void Windmill::WindmillHitWind()
 {
 	m_Rotate = true;
+	m_Timer = 0;
 }
 

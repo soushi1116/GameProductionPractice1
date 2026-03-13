@@ -24,6 +24,8 @@ public:
 
 	void SwitchOn();
 
+	void SwitchOff();
+
 	const bool IsActive() { return active; }
 
 	const bool Moving();

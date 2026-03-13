@@ -37,6 +37,8 @@ public:
 
 	const bool IsActive() { return active; }
 
+	const bool Rotating() { return m_Rotate; }
+
 	VECTOR GetPos() { return pos; }
 
 protected:

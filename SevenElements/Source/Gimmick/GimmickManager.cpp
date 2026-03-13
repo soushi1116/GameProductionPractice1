@@ -320,6 +320,27 @@ void BatteryHitThunder(int index)
 void WindmillHitWind(int index)
 {
 	windmill[index]->WindmillHitWind();
+
+	for (int i = 0; i < MOVEBLOCK_MAX; i++)
+	{
+		if (!moveBlock[i]->Moving() && moveBlock[i]->IsActive())
+		{
+			moveBlock[i]->SwitchOn();
+
+			break;
+		}
+	}
+}
+
+void WindmillStop()
+{
+	for (int i = 0; i < MOVEBLOCK_MAX; i++)
+	{
+		if (moveBlock[i]->Moving())
+		{
+			moveBlock[i]->SwitchOff();
+		}
+	}
 }
 
 VECTOR GetGimmickPos(int index, GimmickType type)
@@ -442,4 +463,9 @@ bool IsGimmickActive(int index, GimmickType type)
 bool AirBalloonBurning(int index)
 {
 	return airBalloon[index]->Burning();
+}
+
+bool WindmillRotating(int index)
+{
+	return windmill[index]->Rotating();
 }

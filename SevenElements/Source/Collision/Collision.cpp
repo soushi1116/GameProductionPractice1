@@ -704,8 +704,8 @@ void CheckWindWindmill()
 			VECTOR windPos = GetElementPos(i, ELEMENT_TYPE_WIND);
 			VECTOR windmillPos = GetGimmickPos(j, GIMMICK_TYPE_WINDMILL);
 
-			if (CheckSquareSquare(windPos.x, windPos.y, THUNDER_WIDTH, THUNDER_HEIGHT,
-				windmillPos.x, windmillPos.y, BATTERY_WIDTH, BATTERY_HEIGHT))
+			if (CheckSquareSquare(windPos.x, windPos.y, WIND_WIDTH, WIND_HEIGHT,
+				windmillPos.x, windmillPos.y, WINDMILL_WIDTH, WINDMILL_HEIGHT))
 			{
 				WindmillHitWind(j);
 			}

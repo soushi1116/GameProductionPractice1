@@ -106,6 +106,14 @@ void MoveBlock::SwitchOn()
 	}
 }
 
+void MoveBlock::SwitchOff()
+{
+	if (!moveState == MOVE_STOP)
+	{
+		moveState = MOVE_STOP;
+	}
+}
+
 const bool MoveBlock::Moving()
 {
 	if (moveState == MOVE_STOP)
