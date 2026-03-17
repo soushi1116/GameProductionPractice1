@@ -8,7 +8,7 @@ TitleScene::TitleScene()
 {
 	m_startImg = LoadGraph("Data/Title/start.PNG");
 	m_continueImg = LoadGraph("Data/Title/continue.PNG");
-	m_optionImg = LoadGraph("Data/Titlle/option.PNG");
+	m_optionImg = LoadGraph("Data/Title/option.PNG");
 	m_cursorImg = LoadGraph("Data/Title/cursor.PNG");
 
 	m_randomIndex = 0;
@@ -33,7 +33,7 @@ void TitleScene::LoadTitleScene()
 void TitleScene::StartTitleScene()
 {
 	m_backHandle[0] = LoadGraph("Data/Title/flame.PNG");
-	m_logoHandle[0] = LoadGraph("Data/Title/flamelogo.PNG");
+	m_logoHandle[0] = LoadGraph("Data/Title/flamelodo.PNG");
 
 	m_backHandle[1] = LoadGraph("Data/Title/ice.PNG");
 	m_logoHandle[1] = LoadGraph("Data/Title/icelogo.PNG");
@@ -72,13 +72,13 @@ void TitleScene::UpdateTitleScene()
 	if (IsTriggerKey(KEY_DOWN))
 	{
 		m_select++;
-		if (m_select < 0) m_select = 2;
+		if (m_select > 2) m_select = 0;
 	}
 
 	if (IsTriggerKey(KEY_UP))
 	{
 		m_select--;
-		if (m_select > 2) m_select = 0;
+		if (m_select < 0) m_select = 2;
 	}
 
 	if (CheckHitKey(KEY_INPUT_RETURN))
@@ -92,7 +92,7 @@ void TitleScene::UpdateTitleScene()
 		case 1:
 			ChangeScene(SCENE_OPTION);
 			break;
-		case 3:
+		case 2:
 			ChangeScene(SCENE_OPTION);
 			break;
 		}
