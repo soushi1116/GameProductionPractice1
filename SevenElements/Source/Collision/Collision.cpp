@@ -23,6 +23,11 @@
 #include "../Gimmick/MoveBlock.h"
 #include "../Gimmick/Warp.h"
 #include "../Gimmick/Goal.h"
+#include "../Enemy/EnemyFlyCircle.h"
+#include "../Enemy/EnemyFlyCircle2.h"
+#include "../Enemy/EnemyTurret.h"
+#include "../Enemy/EnemyFlyStraight.h"
+#include "../Enemy/EnemyWalk.h"
 
 bool CheckSquareSquare(float squareA_PosX, float squareA_PosY, float squareA_Width, float squareA_Height,
 	float squareB_PosX, float squareB_PosY, float squareB_Width, float squareB_Height)
@@ -713,6 +718,260 @@ void CheckWindWindmill()
 	}
 }
 
+void CheckPlayerEnemyFlyCircle()
+{
+	PlayerData player = GetPlayer();
+
+	if (!player.active) return;
+
+	for (int i = 0; i < ENEMY_CIRCLE_MAX; i++)
+	{
+		float enemyX = GetEnemyFlyCircleX(i);
+		float enemyY = GetEnemyFlyCircleY(i);
+
+		int width = GetEnemyFlyCircleWidth(i);
+		int height = GetEnemyFlyCircleHeight(i);
+
+		if (CheckSquareSquare(
+			player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+			enemyX, enemyY, width, height))
+		{
+			PlayerHitEnemy();
+		}
+	}
+}
+
+void CheckPlayerEnemyFlyCircle2()
+{
+	PlayerData player = GetPlayer();
+
+	if (!player.active) return;
+
+	for (int i = 0; i < ENEMY_WAVE_MAX; i++)
+	{
+		float enemyX = GetEnemyFlyCircle2X(i);
+		float enemyY = GetEnemyFlyCircle2Y(i);
+
+		int width = GetEnemyFlyCircle2Width(i);
+		int height = GetEnemyFlyCircle2Height(i);
+
+		if (CheckSquareSquare(
+			player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+			enemyX, enemyY, width, height))
+		{
+			PlayerHitEnemy();
+		}
+	}
+}
+
+void CheckPlayerEnemyTurret()
+{
+	PlayerData player = GetPlayer();
+
+	if (!player.active) return;
+
+	for (int i = 0; i < TURRET_MAX; i++)
+	{
+		float ex = GetEnemyTurretX(i);
+		float ey = GetEnemyTurretY(i);
+		int ew = GetEnemyTurretWidth(i);
+		int eh = GetEnemyTurretHeight(i);
+
+		if (CheckSquareSquare(
+			player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+			ex, ey, ew, eh))
+		{
+			PlayerHitEnemy();
+		}
+	}
+}
+
+void CheckPlayerEnemyTurretBullet()
+{
+	PlayerData player = GetPlayer();
+
+	if (!player.active) return;
+
+	int max = GetEnemyTurretBulletNum();
+
+	for (int i = 0; i < max; i++)
+	{
+		if (!GetEnemyTurretBulletUse(i)) continue;
+
+		float bx = GetEnemyTurretBulletX(i);
+		float by = GetEnemyTurretBulletY(i);
+		int size = GetEnemyTurretBulletSize(i);
+
+		if (CheckSquareSquare(
+			player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+			bx, by, size, size))
+		{
+			PlayerHitEnemy();
+		}
+	}
+}
+
+void CheckPlayerEnemyFlyStraight()
+{
+	PlayerData player = GetPlayer();
+
+	if (!player.active) return;
+
+	for (int i = 0; i < ENEMY_STRAIGHT_MAX; i++)
+	{
+		float enemyX = GetEnemyFlyStraightX(i);
+		float enemyY = GetEnemyFlyStraightY(i);
+
+		int width = GetEnemyFlyStraightWidth(i);
+		int height = GetEnemyFlyStraightHeight(i);
+
+		if (CheckSquareSquare(
+			player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+			enemyX, enemyY, width, height))
+		{
+			PlayerHitEnemy();
+		}
+	}
+}
+
+void CheckPlayerEnemyWalk()
+{
+	PlayerData player = GetPlayer();
+
+	if (!player.active) return;
+
+	for (int i = 0; i < ENEMY_WALK_MAX; i++)
+	{
+		float enemyX = GetEnemyWalkX(i);
+		float enemyY = GetEnemyWalkY(i);
+
+		int width = GetEnemyWalkWidth(i);
+		int height = GetEnemyWalkHeight(i);
+
+		if (CheckSquareSquare(
+			player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+			enemyX, enemyY, width, height))
+		{
+			int type = GetEnemyWalkType(i);
+
+			// ノックバックだけ
+
+			if (player.posX < enemyX)
+			{
+				// 左から当たった
+				PlayerDamage();
+			}
+			else
+			{
+				// 右から当たった
+				PlayerDamage();
+			}
+
+			// 踏み判定
+
+			if (type == TYPE_STOMPABLE)
+			{
+				if (player.posY + PLAYER_HEIGHT <= enemyY + 10)
+				{
+					KillEnemyWalk(i);
+				}
+				else
+				{
+					PlayerHitEnemy();
+				}
+			}
+			else
+			{
+				PlayerHitEnemy();
+			}
+		}
+	}
+}
+void CheckElementEnemyWalk()
+{
+	// 火
+	for (int i = 0; i < FIRE_MAX; i++)
+	{
+		if (!IsElementActive(i, ELEMENT_TYPE_FIRE)) continue;
+
+		VECTOR pos = GetElementPos(i, ELEMENT_TYPE_FIRE);
+
+		for (int e = 0; e < ENEMY_WALK_MAX; e++)
+		{
+			float ex = GetEnemyWalkX(e);
+			float ey = GetEnemyWalkY(e);
+
+			int w = GetEnemyWalkWidth(e);
+			int h = GetEnemyWalkHeight(e);
+
+			if (CheckSquareSquare(pos.x, pos.y, FIRE_WIDTH, FIRE_HEIGHT,
+				ex, ey, w, h))
+			{
+				if (GetEnemyWalkAttr(e) == ELEMENT_TYPE_NONE ||
+					GetEnemyWalkAttr(e) == ELEMENT_TYPE_FIRE)
+				{
+					KillEnemyWalk(e);
+					FireDelete(i);
+				}
+			}
+		}
+	}
+
+	// 雷
+	for (int i = 0; i < THUNDER_MAX; i++)
+	{
+		if (!IsElementActive(i, ELEMENT_TYPE_THUNDER)) continue;
+
+		VECTOR pos = GetElementPos(i, ELEMENT_TYPE_THUNDER);
+
+		for (int e = 0; e < ENEMY_WALK_MAX; e++)
+		{
+			float ex = GetEnemyWalkX(e);
+			float ey = GetEnemyWalkY(e);
+
+			int w = GetEnemyWalkWidth(e);
+			int h = GetEnemyWalkHeight(e);
+
+			if (CheckSquareSquare(pos.x, pos.y, THUNDER_WIDTH, THUNDER_HEIGHT,
+				ex, ey, w, h))
+			{
+				if (GetEnemyWalkAttr(e) == ELEMENT_TYPE_NONE ||
+					GetEnemyWalkAttr(e) == ELEMENT_TYPE_THUNDER)
+				{
+					KillEnemyWalk(e);
+				}
+			}
+		}
+	}
+
+	// 氷
+	for (int i = 0; i < ICE_MAX; i++)
+	{
+		if (!IsElementActive(i, ELEMENT_TYPE_ICE)) continue;
+
+		VECTOR pos = GetElementPos(i, ELEMENT_TYPE_ICE);
+
+		for (int e = 0; e < ENEMY_WALK_MAX; e++)
+		{
+			float ex = GetEnemyWalkX(e);
+			float ey = GetEnemyWalkY(e);
+
+			int w = GetEnemyWalkWidth(e);
+			int h = GetEnemyWalkHeight(e);
+
+			if (CheckSquareSquare(pos.x, pos.y, ICE_WIDTH, ICE_HEIGHT,
+				ex, ey, w, h))
+			{
+				if (GetEnemyWalkAttr(e) == ELEMENT_TYPE_NONE ||
+					GetEnemyWalkAttr(e) == ELEMENT_TYPE_ICE)
+				{
+					KillEnemyWalk(e);
+				}
+			}
+		}
+	}
+}
+
 void CheckCollision()
 {
 	CheckMapPlayerCollision();
@@ -776,4 +1035,18 @@ void CheckCollision()
 	CheckThunderBattery();
 
 	CheckWindWindmill();
+
+	CheckPlayerEnemyFlyCircle();
+
+	CheckPlayerEnemyFlyCircle2();
+	
+	CheckPlayerEnemyTurret();
+	
+	CheckPlayerEnemyTurretBullet();
+	
+	CheckPlayerEnemyFlyStraight();
+	
+	CheckPlayerEnemyWalk();
+	
+	CheckElementEnemyWalk();
 }

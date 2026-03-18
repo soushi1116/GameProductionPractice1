@@ -1,10 +1,13 @@
 #pragma once
 
-// ‰Šú‰»
+#define ENEMY_CIRCLE_MAX 2
+
 void InitEnemyFlyCircle();
-
-// XV
 void UpdateEnemyFlyCircle();
-
-// •`‰æ
 void DrawEnemyFlyCircle();
+
+float GetEnemyFlyCircleX(int index);
+float GetEnemyFlyCircleY(int index);
+
+int GetEnemyFlyCircleWidth(int index);
+int GetEnemyFlyCircleHeight(int index);

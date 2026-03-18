@@ -1,10 +1,15 @@
 #pragma once
 
-// ‰Šú‰»
+#define ENEMY_WAVE_MAX 3
+
+// Šî–{
 void InitEnemyFlyCircle2();
-
-// XV
 void UpdateEnemyFlyCircle2();
-
-// •`‰æ
 void DrawEnemyFlyCircle2();
+
+// æ“¾
+float GetEnemyFlyCircle2X(int index);
+float GetEnemyFlyCircle2Y(int index);
+
+int GetEnemyFlyCircle2Width(int index);
+int GetEnemyFlyCircle2Height(int index);

@@ -1,10 +1,13 @@
 #pragma once
 
-// ‰Šú‰»
+#define ENEMY_STRAIGHT_MAX 2
+
 void InitEnemyFlyStraight();
-
-// XV
 void UpdateEnemyFlyStraight();
-
-// •`‰æ
 void DrawEnemyFlyStraight();
+
+float GetEnemyFlyStraightX(int index);
+float GetEnemyFlyStraightY(int index);
+
+int GetEnemyFlyStraightWidth(int index);
+int GetEnemyFlyStraightHeight(int index);

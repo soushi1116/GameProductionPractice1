@@ -1,57 +1,176 @@
 #include "DxLib.h"
 #include "EnemyWalk.h"
+#include "../Camera/Camera.h"
 
-// 歩く敵のX座標
-int walkX;
+// 敵データ
+int walkX[ENEMY_WALK_MAX];
+int walkY[ENEMY_WALK_MAX];
+int walkDir[ENEMY_WALK_MAX];
+static int leftLimit[ENEMY_WALK_MAX];
+static int rightLimit[ENEMY_WALK_MAX];
+ElementType enemyAttr[ENEMY_WALK_MAX];
+int enemyType[ENEMY_WALK_MAX];
+int walkWidth[ENEMY_WALK_MAX];
+int walkHeight[ENEMY_WALK_MAX];
+int enemyUse[ENEMY_WALK_MAX];
+int walkHandle[ENEMY_WALK_MAX];
 
-// 歩く敵のY座標
-int walkY;
+static int currentIndex = 0; // 敵追加用インデックス
 
-// 方向（1=右、-1=左）
-int walkDir;
-
-// 画像ハンドル
-int walkHandle;
-
-
-
-// 初期化
-void InitEnemyWalk()
+// 汎用設定関数（座標・行動範囲・サイズ・タイプ・属性・画像を設定）
+void SetEnemyWalk(
+    int x, int y,
+    int left, int right,
+    int width, int height,
+    int type,
+    ElementType attr,
+    const char* file
+)
 {
-    walkX = 100;
+    if (currentIndex >= ENEMY_WALK_MAX) return;
 
-    walkY = 400;
+    walkX[currentIndex] = x;
+    walkY[currentIndex] = y;
+    leftLimit[currentIndex] = left;
+    rightLimit[currentIndex] = right;
+    walkWidth[currentIndex] = width;
+    walkHeight[currentIndex] = height;
+    enemyType[currentIndex] = type;
+    enemyAttr[currentIndex] = attr;
+    walkHandle[currentIndex] = LoadGraph(file);
+    walkDir[currentIndex] = 1;
+    enemyUse[currentIndex] = TRUE;
 
-    walkDir = 1;
-
-    walkHandle = LoadGraph("Data/Enemy/Death.png");
+    currentIndex++;
 }
 
+// 敵種類ごとの追加関数（出現位置と行動範囲だけ指定すればOK）
+void AddMedusa(int x, int y, int left, int right)
+{
+    SetEnemyWalk(x, y, left, right, 45, 42, TYPE_NORMAL, ELEMENT_TYPE_NONE, "Data/Enemy/Medusa.png");
+}
 
+void AddTroll(int x, int y, int left, int right)
+{
+    SetEnemyWalk(x, y, left, right, 60, 60, TYPE_STOMPABLE, ELEMENT_TYPE_NONE, "Data/Enemy/Troll.png");
+}
+
+void AddFireSlime(int x, int y, int left, int right)
+{
+    SetEnemyWalk(x, y, left, right, 40, 40, TYPE_NORMAL, ELEMENT_TYPE_FIRE, "Data/Enemy/SlimeFire.png");
+}
+
+void AddThunderSlime(int x, int y, int left, int right)
+{
+    SetEnemyWalk(x, y, left, right, 40, 40, TYPE_NORMAL, ELEMENT_TYPE_THUNDER, "Data/Enemy/SlimeThunder.png");
+}
+
+void AddIceSlime(int x, int y, int left, int right)
+{
+    SetEnemyWalk(x, y, left, right, 40, 40, TYPE_NORMAL, ELEMENT_TYPE_ICE, "Data/Enemy/SlimeIce.png");
+}
+
+// 初期化（敵を直感的に配置）
+void InitEnemyWalk()
+{
+    currentIndex = 0;
+
+    // メデューサ
+    AddMedusa(100, 900, 100, 200);
+    AddMedusa(180, 900, 180, 280);
+
+    // トロール
+    AddTroll(300, 900, 300, 500);
+    AddTroll(400, 900, 400, 600);
+
+    // 火スライム
+    AddFireSlime(600, 900, 600, 700);
+    AddFireSlime(660, 900, 660, 760);
+    AddFireSlime(720, 900, 720, 820);
+
+    // 雷スライム
+    AddThunderSlime(900, 900, 900, 1000);
+    AddThunderSlime(960, 900, 960, 1060);
+
+    // 氷スライム
+    AddIceSlime(1200, 900, 1200, 1300);
+    AddIceSlime(1260, 900, 1260, 1360);
+}
 
 // 更新
 void UpdateEnemyWalk()
 {
-    // 移動
-    walkX += 2 * walkDir;
-
-
-    // 端で折り返し
-    if (walkX < 0)
+    for (int i = 0; i < ENEMY_WALK_MAX; i++)
     {
-        walkDir = 1;
-    }
+        if (!enemyUse[i]) continue;
 
-    if (walkX > 300)
-    {
-        walkDir = -1;
+        walkX[i] += 2 * walkDir[i];
+
+        if (walkX[i] < leftLimit[i]) walkDir[i] = 1;
+        if (walkX[i] > rightLimit[i]) walkDir[i] = -1;
     }
 }
-
-
 
 // 描画
 void DrawEnemyWalk()
 {
-    DrawGraph(walkX, walkY, walkHandle, TRUE);
+    CameraData camera = GetCamera();
+
+    for (int i = 0; i < ENEMY_WALK_MAX; i++)
+    {
+        if (!enemyUse[i]) continue;
+
+        DrawGraph(walkX[i] - camera.posX, walkY[i] - camera.posY, walkHandle[i], TRUE);
+    }
+}
+
+// 倒す
+void KillEnemyWalk(int index)
+{
+    if (index < 0 || index >= ENEMY_WALK_MAX) return;
+    enemyUse[index] = FALSE;
+}
+
+// 使用フラグ
+int GetEnemyWalkUse(int index)
+{
+    if (index < 0 || index >= ENEMY_WALK_MAX) return FALSE;
+    return enemyUse[index];
+}
+
+// 取得
+float GetEnemyWalkX(int index)
+{
+    if (index < 0 || index >= ENEMY_WALK_MAX) return 0;
+    return (float)walkX[index];
+}
+
+float GetEnemyWalkY(int index)
+{
+    if (index < 0 || index >= ENEMY_WALK_MAX) return 0;
+    return (float)walkY[index];
+}
+
+int GetEnemyWalkWidth(int index)
+{
+    if (index < 0 || index >= ENEMY_WALK_MAX) return 0;
+    return walkWidth[index];
+}
+
+int GetEnemyWalkHeight(int index)
+{
+    if (index < 0 || index >= ENEMY_WALK_MAX) return 0;
+    return walkHeight[index];
+}
+
+ElementType GetEnemyWalkAttr(int index)
+{
+    if (index < 0 || index >= ENEMY_WALK_MAX) return ELEMENT_TYPE_NONE;
+    return enemyAttr[index];
+}
+
+int GetEnemyWalkType(int index)
+{
+    if (index < 0 || index >= ENEMY_WALK_MAX) return TYPE_NORMAL;
+    return enemyType[index];
 }
