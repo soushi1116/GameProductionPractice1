@@ -46,7 +46,7 @@ void StepCamera()
 
 void DrawCamera()
 {
-	DrawFormatString(0, 0, GetColor(255, 255, 255), "カメラの座標＝[%f, %f]", g_CameraData.posX, g_CameraData.posY);
+	//DrawFormatString(0, 0, GetColor(255, 255, 255), "カメラの座標＝[%f, %f]", g_CameraData.posX, g_CameraData.posY);
 }
 
 CameraData GetCamera()

@@ -36,7 +36,7 @@ void UpdateFPS()
 
 void DrawFPS()
 {
-	DrawFormatString(32, 24, GetColor(0, 0, 0), "FPSÅy%.1fÅz", g_Fps);
+	//DrawFormatString(32, 24, GetColor(0, 0, 0), "FPSÅy%.1fÅz", g_Fps);
 }
 
 void FPSWait()

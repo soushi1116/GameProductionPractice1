@@ -31,6 +31,7 @@ enum SEType
 	SE_IRON,
 
 	SE_SELECT,
+	SE_CLEAR,
 
 	SE_TYPE_MAX,
 };

@@ -33,7 +33,7 @@
 #define GIMMICK_WOODBLOCK_POS_Y (900)
 #define GIMMICK_NEEDLE_POS_X (3050)
 #define GIMMICK_NEEDLE_POS_Y (1000)
-#define PLAYER_SPAWN_POS_X (2800.0f)
+#define PLAYER_SPAWN_POS_X (200.0f)
 #define PLAYER_SPAWN_POS_Y (600.0f)
 
 void InitStage2()

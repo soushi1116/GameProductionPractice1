@@ -1096,6 +1096,7 @@ void PlayerHitWarp()
 void PlayerHitGoal()
 {
 	g_PlayerData.clear = true;
+	PlaySE(SE_CLEAR);
 }
 
 void PlayerHitEnemy()
