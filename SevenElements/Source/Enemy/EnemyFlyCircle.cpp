@@ -30,9 +30,6 @@ void InitEnemyFlyCircle()
     centerX[0] = 500;
     centerY[0] = 300;
 
-    centerX[1] = 700;
-    centerY[1] = 200;
-
     // ----- ‰Šú‰» -----
     for (int i = 0; i < ENEMY_CIRCLE_MAX; i++)
     {

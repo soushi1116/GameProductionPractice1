@@ -50,19 +50,6 @@ void InitEnemyFlyCircle2()
     waveHeight[0] = 40;
     waveSpeed[0] = 0.1f;
 
-    startX[1] = 750;
-    startY[1] = 200;
-    moveRange[1] = 200;
-    waveHeight[1] = 60;
-    waveSpeed[1] = 0.08f;
-
-    startX[2] = 900;
-    startY[2] = 350;
-    moveRange[2] = 400;
-    waveHeight[2] = 30;
-    waveSpeed[2] = 0.15f;
-
-
     // ----- èâä˙âª -----
     for (int i = 0; i < ENEMY_WAVE_MAX; i++)
     {

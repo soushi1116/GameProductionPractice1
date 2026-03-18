@@ -35,11 +35,6 @@ void InitEnemyFlyStraight()
     leftLimit[0] = 0;
     rightLimit[0] = 200;
 
-    straightX[1] = 150;
-    straightY[1] = 120;
-    leftLimit[1] = 150;
-    rightLimit[1] = 350;
-
     for (int i = 0; i < ENEMY_STRAIGHT_MAX; i++)
     {
         straightDir[i] = 1;

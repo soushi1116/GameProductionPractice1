@@ -47,27 +47,27 @@ void SetEnemyWalk(
 // 敵種類ごとの追加関数（出現位置と行動範囲だけ指定すればOK）
 void AddMedusa(int x, int y, int left, int right)
 {
-    SetEnemyWalk(x, y, left, right, 45, 42, TYPE_NORMAL, ELEMENT_TYPE_NONE, "Data/Enemy/Medusa.png");
+    SetEnemyWalk(x, y, left, right, 45, 54, TYPE_NORMAL, ELEMENT_TYPE_NONE, "Data/Enemy/Medusa.png");
 }
 
 void AddTroll(int x, int y, int left, int right)
 {
-    SetEnemyWalk(x, y, left, right, 60, 60, TYPE_STOMPABLE, ELEMENT_TYPE_NONE, "Data/Enemy/Troll.png");
+    SetEnemyWalk(x, y, left, right, 43, 42, TYPE_STOMPABLE, ELEMENT_TYPE_NONE, "Data/Enemy/Troll.png");
 }
 
 void AddFireSlime(int x, int y, int left, int right)
 {
-    SetEnemyWalk(x, y, left, right, 40, 40, TYPE_NORMAL, ELEMENT_TYPE_FIRE, "Data/Enemy/SlimeFire.png");
+    SetEnemyWalk(x, y, left, right, 45, 42, TYPE_NORMAL, ELEMENT_TYPE_FIRE, "Data/Enemy/SlimeFire.png");
 }
 
 void AddThunderSlime(int x, int y, int left, int right)
 {
-    SetEnemyWalk(x, y, left, right, 40, 40, TYPE_NORMAL, ELEMENT_TYPE_THUNDER, "Data/Enemy/SlimeThunder.png");
+    SetEnemyWalk(x, y, left, right, 45, 42, TYPE_NORMAL, ELEMENT_TYPE_THUNDER, "Data/Enemy/SlimeThunder.png");
 }
 
 void AddIceSlime(int x, int y, int left, int right)
 {
-    SetEnemyWalk(x, y, left, right, 40, 40, TYPE_NORMAL, ELEMENT_TYPE_ICE, "Data/Enemy/SlimeIce.png");
+    SetEnemyWalk(x, y, left, right, 45, 42, TYPE_NORMAL, ELEMENT_TYPE_ICE, "Data/Enemy/SlimeIce.png");
 }
 
 // 初期化（敵を直感的に配置）
@@ -75,26 +75,21 @@ void InitEnemyWalk()
 {
     currentIndex = 0;
 
+    // 初期位置X, 初期位置Y, 行動範囲限界左, 行動範囲限界右
+
     // メデューサ
     AddMedusa(100, 900, 100, 200);
-    AddMedusa(180, 900, 180, 280);
 
     // トロール
     AddTroll(300, 900, 300, 500);
-    AddTroll(400, 900, 400, 600);
 
     // 火スライム
     AddFireSlime(600, 900, 600, 700);
-    AddFireSlime(660, 900, 660, 760);
-    AddFireSlime(720, 900, 720, 820);
 
     // 雷スライム
     AddThunderSlime(900, 900, 900, 1000);
-    AddThunderSlime(960, 900, 960, 1060);
-
     // 氷スライム
     AddIceSlime(1200, 900, 1200, 1300);
-    AddIceSlime(1260, 900, 1260, 1360);
 }
 
 // 更新
