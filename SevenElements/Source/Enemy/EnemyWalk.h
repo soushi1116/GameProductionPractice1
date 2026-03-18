@@ -41,3 +41,5 @@ int GetEnemyWalkType(int index);
 
 // “|‚·
 void KillEnemyWalk(int index);
+
+bool GetEnemyWalkActive(int index);

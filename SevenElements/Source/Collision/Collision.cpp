@@ -842,53 +842,50 @@ void CheckPlayerEnemyWalk()
 
 	for (int i = 0; i < ENEMY_WALK_MAX; i++)
 	{
+		// 死んでいる敵はスキップ
+		if (!GetEnemyWalkActive(i)) continue;
+
 		float enemyX = GetEnemyWalkX(i);
 		float enemyY = GetEnemyWalkY(i);
 
 		int width = GetEnemyWalkWidth(i);
 		int height = GetEnemyWalkHeight(i);
 
+		// プレイヤーとの当たり判定
 		if (CheckSquareSquare(
 			player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
 			enemyX, enemyY, width, height))
 		{
 			int type = GetEnemyWalkType(i);
 
-			// ノックバックだけ
+			// ノックバック処理
+			PlayerDamage(); // 左右で分ける必要がなければ1回だけ呼ぶでOK
 
-			if (player.posX < enemyX)
-			{
-				// 左から当たった
-				PlayerDamage();
-			}
-			else
-			{
-				// 右から当たった
-				PlayerDamage();
-			}
-
-			// 踏み判定
-
+			// 踏み判定（踏める敵の場合）
 			if (type == TYPE_STOMPABLE)
 			{
+				// プレイヤーの足元が敵の上より少し上なら踏める
 				if (player.posY + PLAYER_HEIGHT <= enemyY + 10)
 				{
-					KillEnemyWalk(i);
+					KillEnemyWalk(i); // 敵は死亡
 				}
 				else
 				{
-					PlayerHitEnemy();
+					PlayerHitEnemy(); // 通常ダメージ
 				}
 			}
 			else
 			{
-				PlayerHitEnemy();
+				PlayerHitEnemy(); // 踏めない敵はダメージのみ
 			}
 		}
 	}
 }
+
 void CheckElementEnemyWalk()
 {
+	const int ENEMY_HIT_TOP_EXTEND = 5; // 上に伸ばす判定サイズ
+
 	// 火
 	for (int i = 0; i < FIRE_MAX; i++)
 	{
@@ -899,10 +896,9 @@ void CheckElementEnemyWalk()
 		for (int e = 0; e < ENEMY_WALK_MAX; e++)
 		{
 			float ex = GetEnemyWalkX(e);
-			float ey = GetEnemyWalkY(e);
-
+			float ey = GetEnemyWalkY(e) - ENEMY_HIT_TOP_EXTEND; // 上に伸ばす
 			int w = GetEnemyWalkWidth(e);
-			int h = GetEnemyWalkHeight(e);
+			int h = GetEnemyWalkHeight(e) + ENEMY_HIT_TOP_EXTEND;
 
 			if (CheckSquareSquare(pos.x, pos.y, FIRE_WIDTH, FIRE_HEIGHT,
 				ex, ey, w, h))
@@ -927,10 +923,9 @@ void CheckElementEnemyWalk()
 		for (int e = 0; e < ENEMY_WALK_MAX; e++)
 		{
 			float ex = GetEnemyWalkX(e);
-			float ey = GetEnemyWalkY(e);
-
+			float ey = GetEnemyWalkY(e) - ENEMY_HIT_TOP_EXTEND;
 			int w = GetEnemyWalkWidth(e);
-			int h = GetEnemyWalkHeight(e);
+			int h = GetEnemyWalkHeight(e) + ENEMY_HIT_TOP_EXTEND;
 
 			if (CheckSquareSquare(pos.x, pos.y, THUNDER_WIDTH, THUNDER_HEIGHT,
 				ex, ey, w, h))
@@ -954,10 +949,9 @@ void CheckElementEnemyWalk()
 		for (int e = 0; e < ENEMY_WALK_MAX; e++)
 		{
 			float ex = GetEnemyWalkX(e);
-			float ey = GetEnemyWalkY(e);
-
+			float ey = GetEnemyWalkY(e) - ENEMY_HIT_TOP_EXTEND;
 			int w = GetEnemyWalkWidth(e);
-			int h = GetEnemyWalkHeight(e);
+			int h = GetEnemyWalkHeight(e) + ENEMY_HIT_TOP_EXTEND;
 
 			if (CheckSquareSquare(pos.x, pos.y, ICE_WIDTH, ICE_HEIGHT,
 				ex, ey, w, h))

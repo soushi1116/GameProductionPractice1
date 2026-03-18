@@ -27,8 +27,8 @@ void InitEnemyFlyCircle()
     circleHandle = LoadGraph("Data/Enemy/Gargoyle.png");
 
     // ----- ‰~‚Ì’†SˆÊ’u -----
-    centerX[0] = 500;
-    centerY[0] = 300;
+    centerX[0] = 1000;
+    centerY[0] = 500;
 
     // ----- ‰Šú‰» -----
     for (int i = 0; i < ENEMY_CIRCLE_MAX; i++)

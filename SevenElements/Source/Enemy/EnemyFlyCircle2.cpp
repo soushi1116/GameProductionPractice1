@@ -44,9 +44,9 @@ void InitEnemyFlyCircle2()
 
     // ----- ìGÇ≤Ç∆ÇÃê›íË -----
 
-    startX[0] = 600;
-    startY[0] = 300;
-    moveRange[0] = 300;
+    startX[0] = 300;
+    startY[0] = 600;
+    moveRange[0] = 400;
     waveHeight[0] = 40;
     waveSpeed[0] = 0.1f;
 

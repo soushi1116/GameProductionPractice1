@@ -30,10 +30,10 @@ void InitEnemyFlyStraight()
     straightHandle = LoadGraph("Data/Enemy/Ghost.png");
 
     // ˆÊ’u‚Æ”ÍˆÍ
-    straightX[0] = 0;
-    straightY[0] = 200;
-    leftLimit[0] = 0;
-    rightLimit[0] = 200;
+    straightX[0] = 300;
+    straightY[0] = 500;
+    leftLimit[0] = 500;
+    rightLimit[0] = 800;
 
     for (int i = 0; i < ENEMY_STRAIGHT_MAX; i++)
     {

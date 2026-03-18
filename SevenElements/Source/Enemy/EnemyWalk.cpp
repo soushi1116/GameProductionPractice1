@@ -87,9 +87,10 @@ void InitEnemyWalk()
     AddFireSlime(600, 900, 600, 700);
 
     // 雷スライム
-    AddThunderSlime(900, 900, 900, 1000);
+    AddThunderSlime(900, 900, 850, 950);
+
     // 氷スライム
-    AddIceSlime(1200, 900, 1200, 1300);
+    AddIceSlime(1200, 900, 1050, 1150);
 }
 
 // 更新
@@ -168,4 +169,10 @@ int GetEnemyWalkType(int index)
 {
     if (index < 0 || index >= ENEMY_WALK_MAX) return TYPE_NORMAL;
     return enemyType[index];
+}
+
+bool GetEnemyWalkActive(int index)
+{
+    if (index < 0 || index >= ENEMY_WALK_MAX) return false;
+    return enemyUse[index] != 0; // TRUEならアクティブ、FALSEなら非アクティブ
 }
