@@ -168,6 +168,7 @@
     <ClCompile Include="Source\Gimmick\GimmickManager.cpp" />
     <ClCompile Include="Source\Gimmick\Goal.cpp" />
     <ClCompile Include="Source\Gimmick\MoveBlock.cpp" />
+    <ClCompile Include="Source\Gimmick\Needle.cpp" />
     <ClCompile Include="Source\Gimmick\Tree.cpp" />
     <ClCompile Include="Source\Gimmick\Warp.cpp" />
     <ClCompile Include="Source\Gimmick\WaterGimmick.cpp" />
@@ -184,6 +185,9 @@
     <ClCompile Include="Source\Scene\Option\OptionScene.cpp" />
     <ClCompile Include="Source\Scene\Play\PlayScene.cpp" />
     <ClCompile Include="Source\Scene\SceneManager.cpp" />
+    <ClCompile Include="Source\Scene\Stage1\Stage1.cpp" />
+    <ClCompile Include="Source\Scene\Stage2\Stage2.cpp" />
+    <ClCompile Include="Source\Scene\Stage3\Stage3.cpp" />
     <ClCompile Include="Source\Scene\S_Kurosawa\S_Kurosawa.cpp" />
     <ClCompile Include="Source\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="Source\Sound\SoundManager.cpp" />
@@ -222,6 +226,7 @@
     <ClInclude Include="Source\Gimmick\GimmickManager.h" />
     <ClInclude Include="Source\Gimmick\Goal.h" />
     <ClInclude Include="Source\Gimmick\MoveBlock.h" />
+    <ClInclude Include="Source\Gimmick\Needle.h" />
     <ClInclude Include="Source\Gimmick\Tree.h" />
     <ClInclude Include="Source\Gimmick\Warp.h" />
     <ClInclude Include="Source\Gimmick\WaterGimmick.h" />
@@ -238,6 +243,9 @@
     <ClInclude Include="Source\Scene\Option\OptionScene.h" />
     <ClInclude Include="Source\Scene\Play\PlayScene.h" />
     <ClInclude Include="Source\Scene\SceneManager.h" />
+    <ClInclude Include="Source\Scene\Stage1\Stage1.h" />
+    <ClInclude Include="Source\Scene\Stage2\Stage2.h" />
+    <ClInclude Include="Source\Scene\Stage3\Stage3.h" />
     <ClInclude Include="Source\Scene\S_Kurosawa\S_Kurosawa.h" />
     <ClInclude Include="Source\Scene\Title\TitleScene.h" />
     <ClInclude Include="Source\Sound\SoundManager.h" />

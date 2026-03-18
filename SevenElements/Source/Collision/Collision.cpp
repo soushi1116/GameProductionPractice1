@@ -21,6 +21,7 @@
 #include "../Gimmick/Battery.h"
 #include "../Gimmick/Windmill.h"
 #include "../Gimmick/MoveBlock.h"
+#include "../Gimmick/Needle.h"
 #include "../Gimmick/Warp.h"
 #include "../Gimmick/Goal.h"
 
@@ -419,6 +420,27 @@ void CheckPlayerFireGimmick()
 	}
 }
 
+void CheckPlayerNeedle()
+{
+	PlayerData player = GetPlayer();
+
+	if (player.active)
+	{
+		for (int i = 0; i < NEEDLE_MAX; i++)
+		{
+			if (!IsGimmickActive(i, GIMMICK_TYPE_NEEDLE)) continue;
+
+			VECTOR needlePos = GetGimmickPos(i, GIMMICK_TYPE_NEEDLE);
+
+			if (CheckSquareSquare(player.posX, player.posY, PLAYER_WIDTH, PLAYER_HEIGHT,
+				needlePos.x, needlePos.y, NEEDLE_WIDTH, NEEDLE_HEIGHT))
+			{
+				PlayerHitNeedle();
+			}
+		}
+	}
+}
+
 void CheckGroundGround()
 {
 	for (int i = 0; i < GROUND_MAX; i++)
@@ -748,6 +770,8 @@ void CheckCollision()
 	CheckPlayerMoveBlock();
 
 	CheckPlayerFireGimmick();
+
+	CheckPlayerNeedle();
 
 	CheckPlayerWarp();
 

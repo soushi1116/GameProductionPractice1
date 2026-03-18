@@ -29,8 +29,7 @@ void LoadBlock()
 
 void StartBlock()
 {
-	LoadMapChipData();
-	CreateMap();
+
 }
 
 void StepBlock()
@@ -55,6 +54,10 @@ void DrawBlock()
 
 void FinBlock()
 {
+	for (int i = 0; i < BLOCK_TYPE_MAX; i++)
+	{
+		DeleteGraph(g_BlockHandle[i]);
+	}
 }
 
 BlockData* CreateBlock(MapChipType type, VECTOR pos)

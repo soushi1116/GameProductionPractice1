@@ -7,10 +7,24 @@
 MapChipData g_MapChip[MAP_CHIP_Y_NUM][MAP_CHIP_X_NUM] = { 0 };
 
 
-void LoadMapChipData()
+void LoadMapChipData(int stage)
 {
 	FILE* fp;
 	if (fopen_s(&fp, "Data/Map/Block(pre).bin", "rb") != 0) return;
+	switch (stage)
+	{
+	case 1:
+		if (fopen_s(&fp, "Data/Map/Block_Stage1.bin", "rb") != 0) return;
+		break;
+	case 2:
+		if (fopen_s(&fp, "Data/Map/Block_Stage2.bin", "rb") != 0) return;
+		break;
+	case 3:
+		if (fopen_s(&fp, "Data/Map/Block_Stage3.bin", "rb") != 0) return;
+		break;
+	default:
+		break;
+	}
 
 	for (int i = 0; i < MAP_CHIP_Y_NUM; i++)
 	{

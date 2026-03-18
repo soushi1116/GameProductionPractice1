@@ -70,6 +70,15 @@
     <Filter Include="Source\Scene\Enemy">
       <UniqueIdentifier>{bd28b83a-5c54-41ea-afd1-b2673a217898}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Scene\Stage1">
+      <UniqueIdentifier>{4598fea7-e64a-40c3-b7b7-28a8bf397a32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene\Stage2">
+      <UniqueIdentifier>{27395947-13d2-4863-a644-85e600fdf36b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene\Stage3">
+      <UniqueIdentifier>{8e1be8a5-47ef-4087-8193-f545f5858a82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -217,6 +226,18 @@
       <Filter>Source\Gimmick</Filter>
     </ClCompile>
     <ClCompile Include="Source\Gimmick\MoveBlock.cpp">
+      <Filter>Source\Gimmick</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Stage1\Stage1.cpp">
+      <Filter>Source\Scene\Stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Stage2\Stage2.cpp">
+      <Filter>Source\Scene\Stage2</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Stage3\Stage3.cpp">
+      <Filter>Source\Scene\Stage3</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Gimmick\Needle.cpp">
       <Filter>Source\Gimmick</Filter>
     </ClCompile>
   </ItemGroup>
@@ -375,6 +396,18 @@
       <Filter>Source\Gimmick</Filter>
     </ClInclude>
     <ClInclude Include="Source\Gimmick\MoveBlock.h">
+      <Filter>Source\Gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Stage1\Stage1.h">
+      <Filter>Source\Scene\Stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Stage2\Stage2.h">
+      <Filter>Source\Scene\Stage2</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Stage3\Stage3.h">
+      <Filter>Source\Scene\Stage3</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Gimmick\Needle.h">
       <Filter>Source\Gimmick</Filter>
     </ClInclude>
   </ItemGroup>

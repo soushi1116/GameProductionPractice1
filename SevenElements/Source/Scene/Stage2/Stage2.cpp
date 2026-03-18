@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "S_Kurosawa.h"
+#include "Stage2.h"
 #include "../Play/PlayScene.h"
 #include "../../Player/Player.h"
 #include "../../Effect/AnimationEffect.h"
@@ -25,16 +25,18 @@
 #define TEXTPOS_Y (0)
 #define BLOCK_NUM_MAX (32)
 #define MAP_POS_Y (700)
-#define GIMMICK_TREE_POS_X (300)
-#define GIMMICK_TREE_POS_Y (500)
-#define GIMMICK_AIRBALLOON_POS_X (1000)
-#define GIMMICK_AIRBALLOON_POS_Y (600)
-#define GIMMICK_WOODBLOCK_POS_X (300)
-#define GIMMICK_WOODBLOCK_POS_Y (750)
-#define PLAYER_SPAWN_POS_X (200.0f)
+#define GIMMICK_BATTERY_POS_X (1000)
+#define GIMMICK_BATTERY_POS_Y (850)
+#define GIMMICK_MOVEBLOCK_POS_X (700)
+#define GIMMICK_MOVEBLOCK_POS_Y (450)
+#define GIMMICK_WOODBLOCK_POS_X (1800)
+#define GIMMICK_WOODBLOCK_POS_Y (900)
+#define GIMMICK_NEEDLE_POS_X (3050)
+#define GIMMICK_NEEDLE_POS_Y (1000)
+#define PLAYER_SPAWN_POS_X (2800.0f)
 #define PLAYER_SPAWN_POS_Y (600.0f)
 
-void InitKuroScene()
+void InitStage2()
 {
 	InitPlayer();
 
@@ -55,7 +57,7 @@ void InitKuroScene()
 	InitCamera();
 }
 
-void LoadKuroScene()
+void LoadStage2()
 {
 	LoadPlayer();
 
@@ -67,55 +69,51 @@ void LoadKuroScene()
 
 	LoadEventManager();
 
-	LoadMap(0);
+	LoadMap(2);
 
 	LoadLife();
 
 	LoadUIImage();
 }
 
-void StartKuroScene()
+void StartStage2()
 {
 	//StartPlayer();
-	SpawnPlayer(PLAYER_SPAWN_POS_X, PLAYER_SPAWN_POS_Y, 0);
+	SpawnPlayer(PLAYER_SPAWN_POS_X, PLAYER_SPAWN_POS_Y, 2);
 
 	StartElementsManager();
 
 	StartGimmickManager();
 
-	SpawnGimmick(100, 100, GIMMICK_TYPE_AIRBALLOON);
+	SpawnGimmick(GIMMICK_BATTERY_POS_X, GIMMICK_BATTERY_POS_Y, GIMMICK_TYPE_BATTERY);
 
-	//SpawnGimmick(600, 900, GIMMICK_TYPE_WOODBLOCK);
+	SpawnGimmick(GIMMICK_MOVEBLOCK_POS_X, GIMMICK_MOVEBLOCK_POS_Y, GIMMICK_TYPE_MOVEBLOCK);
 
-	SpawnGimmick(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 17, GIMMICK_TYPE_WARP);
-
-	SpawnGimmick(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17, GIMMICK_TYPE_WARP);
-
-	SpawnGimmick(MAP_CHIP_WIDTH * 76, MAP_CHIP_HEIGHT * 15, GIMMICK_TYPE_GOAL);
-
-	//SpawnGimmick(1000, 600, GIMMICK_TYPE_MOVEBLOCK);
-
-	//SpawnGimmick(1000, 750, GIMMICK_TYPE_WINDMILL);
-
-	//SpawnGimmick(200, 860, GIMMICK_TYPE_BATTERY);
+	SpawnGimmick(GIMMICK_WOODBLOCK_POS_X, GIMMICK_WOODBLOCK_POS_Y, GIMMICK_TYPE_WOODBLOCK);
 
 	for (int i = 0; i < 10; i++)
 	{
-		SpawnGimmick(300 + i * 50, 925, GIMMICK_TYPE_FIRE);
+		SpawnGimmick(GIMMICK_NEEDLE_POS_X + 50 * i, GIMMICK_NEEDLE_POS_Y, GIMMICK_TYPE_NEEDLE);
 	}
+
+	SpawnGimmick(MAP_CHIP_WIDTH * 24, MAP_CHIP_HEIGHT * 8, GIMMICK_TYPE_WARP);
+
+	SpawnGimmick(MAP_CHIP_WIDTH * 50, MAP_CHIP_HEIGHT * 17, GIMMICK_TYPE_WARP);
+
+	SpawnGimmick(MAP_CHIP_WIDTH * 76, MAP_CHIP_HEIGHT * 17, GIMMICK_TYPE_GOAL);
 
 	StartMap();
 
 	StartLife();
 
-	CreateUIImage(UI_IMAGE_LIFETEXT, 30.0f, 50.0f);
+	//CreateUIImage(UI_IMAGE_LIFETEXT, 30.0f, 50.0f);
 
 	StartEventManager();
 
 	PlayBGM(BGM_PLAY);
 }
 
-void StepKuroScene()
+void StepStage2()
 {
 	StepPlayer();
 
@@ -133,7 +131,7 @@ void StepKuroScene()
 	StepCamera();
 }
 
-void UpdateKuroScene()
+void UpdateStage2()
 {
 	UpdatePlayer();
 
@@ -148,7 +146,7 @@ void UpdateKuroScene()
 	CheckCollision();
 }
 
-void DrawKuroScene()
+void DrawStage2()
 {
 	DrawMap();
 
@@ -169,7 +167,7 @@ void DrawKuroScene()
 	DrawCamera();
 }
 
-void FinKuroScene()
+void FinStage2()
 {
 	FinMap();
 

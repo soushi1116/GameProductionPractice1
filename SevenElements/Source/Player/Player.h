@@ -37,6 +37,7 @@ struct PlayerData
 	int invisibleTimer;
 	int sceneChangeTimer;
 	int life;
+	int stage;
 
 	bool active;
 	bool randing;
@@ -71,7 +72,7 @@ PlayerData GetPlayer();
 void StartPlayerAnimation(PlayerAnimationType anim);
 void UpdatePlayerAnimation();
 
-void SpawnPlayer(float posX, float posY);
+void SpawnPlayer(float posX, float posY, int stage);
 
 void PlayerRand();
 
@@ -98,6 +99,8 @@ void PlayerHitGoal();
 void PlayerHitEnemy();
 
 void PlayerHitFireGimmick();
+
+void PlayerHitNeedle();
 
 void PlayerDamage();
 

@@ -37,12 +37,12 @@ void StartLife()
 
 void DrawLife()
 {
-	PlayerData player = GetPlayer();
+	/*PlayerData player = GetPlayer();
 	LifeData* life = g_LifeData;
 	for (int i = 0; i < player.life; i++, life++)
 	{
 		DrawGraph(life->pos.x, life->pos.y, g_LifeHandle, TRUE);
-	}
+	}*/
 }
 
 void FinLife()

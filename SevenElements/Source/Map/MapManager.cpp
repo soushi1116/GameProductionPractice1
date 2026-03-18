@@ -9,11 +9,12 @@
 
 void InitMap()
 {
+	InitBlock();
 }
 
-void LoadMap()
+void LoadMap(int stage)
 {
-	LoadMapChipData();
+	LoadMapChipData(stage);
 	LoadBlock();
 }
 
@@ -30,6 +31,7 @@ void DrawMap()
 
 void FinMap()
 {
+	FinBlock();
 }
 
 void CheckMapPlayerCollision()

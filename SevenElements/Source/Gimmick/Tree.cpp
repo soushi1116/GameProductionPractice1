@@ -1,6 +1,7 @@
 #include "Tree.h"
 #include "../Effect/AnimationEffect.h"
 #include "../Map/Block.h"
+#include "../Camera/Camera.h"
 
 #define BURN_EFFECT_INTERVAL (180)
 
@@ -64,8 +65,9 @@ void Tree::Draw()
 	{
 		TreeAnimationType animType = treeAnim;
 		AnimationData* animData = &animation[animType];
+		CameraData camera = GetCamera();
 
-		DrawAnimation(animData, pos.x, pos.y);
+		DrawAnimation(animData, pos.x - camera.posX, pos.y - camera.posY);
 	}
 }
 

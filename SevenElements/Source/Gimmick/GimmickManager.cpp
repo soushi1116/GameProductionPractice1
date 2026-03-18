@@ -9,6 +9,7 @@
 #include "Battery.h"
 #include "Windmill.h"
 #include "MoveBlock.h"
+#include "Needle.h"
 #include "Warp.h"
 #include "Goal.h"
 
@@ -22,6 +23,7 @@ FireGimmick* fireGimmick[FIREGIMMICK_MAX] = { nullptr };
 Battery* battery[BATTERY_MAX] = { nullptr };
 Windmill* windmill[WINDMILL_MAX] = { nullptr };
 MoveBlock* moveBlock[MOVEBLOCK_MAX] = { nullptr };
+Needle* needle[NEEDLE_MAX] = { nullptr };
 Warp* warp[WARP_MAX] = { nullptr };
 Goal* goal[GOAL_MAX] = { nullptr };
 
@@ -38,6 +40,7 @@ void InitGimmickManager()
 		battery[i] = new Battery;
 		windmill[i] = new Windmill;
 		moveBlock[i] = new MoveBlock;
+		needle[i] = new Needle;
 		warp[i] = new Warp;
 		goal[i] = new Goal;
 	}
@@ -56,6 +59,7 @@ void LoadGimmickManager()
 		battery[i]->Load();
 		windmill[i]->Load();
 		moveBlock[i]->Load();
+		needle[i]->Load();
 		warp[i]->Load();
 		goal[i]->Load();
 	}
@@ -74,6 +78,7 @@ void StartGimmickManager()
 		battery[i]->Start();
 		windmill[i]->Start();
 		moveBlock[i]->Start();
+		needle[i]->Start();
 		warp[i]->Start();
 		goal[i]->Start();
 	}
@@ -92,6 +97,7 @@ void StepGimmickManager()
 		battery[i]->Step();
 		windmill[i]->Step();
 		moveBlock[i]->Step();
+		needle[i]->Step();
 		warp[i]->Step();
 		goal[i]->Step();
 	}
@@ -110,6 +116,7 @@ void UpdateGimmickManager()
 		battery[i]->Update();
 		windmill[i]->Update();
 		moveBlock[i]->Update();
+		needle[i]->Update();
 		warp[i]->Update();
 		goal[i]->Update();
 	}
@@ -128,6 +135,7 @@ void DrawGimmickManager()
 		battery[i]->Draw();
 		windmill[i]->Draw();
 		moveBlock[i]->Draw();
+		needle[i]->Draw();
 		warp[i]->Draw();
 		goal[i]->Draw();
 	}
@@ -147,6 +155,7 @@ void FinGimmickManager()
 		delete battery[i];
 		delete windmill[i];
 		delete moveBlock[i];
+		delete needle[i];
 		delete warp[i];
 		delete goal[i];
 	}
@@ -237,6 +246,18 @@ void SpawnGimmick(int posX, int posY, GimmickType type)
 			if (!moveBlock[i]->IsActive())
 			{
 				moveBlock[i]->Spawn(posX, posY);
+
+				break;
+			}
+		}
+		break;
+
+	case GIMMICK_TYPE_NEEDLE:
+		for (int i = 0; i < NEEDLE_MAX; i++)
+		{
+			if (!needle[i]->IsActive())
+			{
+				needle[i]->Spawn(posX, posY);
 
 				break;
 			}
@@ -372,6 +393,9 @@ VECTOR GetGimmickPos(int index, GimmickType type)
 	case GIMMICK_TYPE_MOVEBLOCK:
 		pos = moveBlock[index]->GetPos();
 		break;
+	case GIMMICK_TYPE_NEEDLE:
+		pos = needle[index]->GetPos();
+		break;
 	case GIMMICK_TYPE_WARP:
 		pos = warp[index]->GetPos();
 		break;
@@ -447,6 +471,9 @@ bool IsGimmickActive(int index, GimmickType type)
 		break;
 	case GIMMICK_TYPE_MOVEBLOCK:
 		active = moveBlock[index]->IsActive();
+		break;
+	case GIMMICK_TYPE_NEEDLE:
+		active = needle[index]->IsActive();
 		break;
 	case GIMMICK_TYPE_WARP:
 		active = warp[index]->IsActive();

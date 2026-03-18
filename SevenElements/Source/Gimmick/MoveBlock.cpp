@@ -63,6 +63,8 @@ void MoveBlock::Update()
 {
 	if (active)
 	{
+		if (moveState == MOVE_STOP) return;
+
 		pos.x += move.x;
 		pos.y += move.y;
 
@@ -102,7 +104,7 @@ void MoveBlock::SwitchOn()
 {
 	if (moveState == MOVE_STOP)
 	{
-		moveState = MOVE_UP;
+		moveState = MOVE_DOWN;
 	}
 }
 

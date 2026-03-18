@@ -62,6 +62,7 @@ void InitPlayer()
 	g_PlayerData.invisibleTimer = 0;
 	g_PlayerData.sceneChangeTimer = 0;
 	g_PlayerData.life = 0;
+	g_PlayerData.stage = 0;
 
 	g_PlayerData.active = false;
 	g_PlayerData.randing = false;
@@ -403,7 +404,27 @@ void UpdatePlayer()
 
 	if (g_PlayerData.sceneChangeTimer > PLAYER_DIE_SCENE_CHANGE_INTERVAL)
 	{
-		ChangeScene(SCENE_TITLE);
+		if (g_PlayerData.clear)
+		{
+			switch (g_PlayerData.stage)
+			{
+			case 1:
+				ChangeScene(SCENE_STAGE_2);
+				break;
+			case 2:
+				ChangeScene(SCENE_STAGE_3);
+				break;
+			case 3:
+				ChangeScene(SCENE_TITLE);
+				break;
+			default:
+				break;
+			}
+		}
+		else if (g_PlayerData.die)
+		{
+			ChangeScene(SCENE_TITLE);
+		}
 	}
 
 	if (g_PlayerData.randing)
@@ -615,7 +636,7 @@ void UpdatePlayerAnimation()
 	}
 }
 
-void SpawnPlayer(float posX, float posY)
+void SpawnPlayer(float posX, float posY, int stage)
 {
 	if (!g_PlayerData.active)
 	{
@@ -624,6 +645,7 @@ void SpawnPlayer(float posX, float posY)
 		g_PlayerData.posY = posY;
 		g_PlayerData.level = PLAYER_DEFAULT_LEVEL;
 		g_PlayerData.life = PLAYER_DEFAULT_LIFE;
+		g_PlayerData.stage = stage;
 
 		StartPlayerAnimation(PLAYER_ANIM_STOP);
 	}
@@ -1086,17 +1108,24 @@ void PlayerHitFireGimmick()
 	PlayerDamage();
 }
 
+void PlayerHitNeedle()
+{
+	PlayerDamage();
+}
+
 void PlayerDamage()
 {
 	if (g_PlayerData.invisible || g_PlayerData.die || g_PlayerData.clear) return;
 
 	PlaySE(SE_DAMAGE);
-	g_PlayerData.life--;
+
+	g_PlayerData.die = true;
+	/*g_PlayerData.life--;
 
 	if (g_PlayerData.life > 0)
 	{
 		g_PlayerData.invisible = true;
-	}
+	}*/
 }
 
 void RideAirBalloon(VECTOR airBalloonPos)

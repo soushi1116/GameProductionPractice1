@@ -2,6 +2,9 @@
 #include "Title/TitleScene.h"
 #include "Option/OptionScene.h"
 #include "Play/PlayScene.h"
+#include "Stage1/Stage1.h"
+#include "Stage2/Stage2.h"
+#include "Stage3/Stage3.h"
 #include "S_Kurosawa/S_Kurosawa.h"
 
 int g_NowScene = SCENE_TITLE;
@@ -76,7 +79,13 @@ void InitScene()
 		InitOptionScene();
 		break;
 	case SCENE_STAGE_1:
-		InitPlayScene();
+		InitStage1();
+		break;
+	case SCENE_STAGE_2:
+		InitStage2();
+		break;
+	case SCENE_STAGE_3:
+		InitStage3();
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
@@ -101,7 +110,13 @@ void LoadScene()
 		LoadOptionScene();
 		break;
 	case SCENE_STAGE_1:
-		LoadPlayScene();
+		LoadStage1();
+		break;
+	case SCENE_STAGE_2:
+		LoadStage2();
+		break;
+	case SCENE_STAGE_3:
+		LoadStage3();
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
@@ -126,7 +141,13 @@ void StartScene()
 		StartOptionScene();
 		break;
 	case SCENE_STAGE_1:
-		StartPlayScene();
+		StartStage1();
+		break;
+	case SCENE_STAGE_2:
+		StartStage2();
+		break;
+	case SCENE_STAGE_3:
+		StartStage3();
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
@@ -151,7 +172,13 @@ void StepScene()
 		StepOptionScene();
 		break;
 	case SCENE_STAGE_1:
-		StepPlayScene();
+		StepStage1();
+		break;
+	case SCENE_STAGE_2:
+		StepStage2();
+		break;
+	case SCENE_STAGE_3:
+		StepStage3();
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
@@ -176,7 +203,13 @@ void UpdateScene()
 		UpdateOptionScene();
 		break;
 	case SCENE_STAGE_1:
-		UpdatePlayScene();
+		UpdateStage1();
+		break;
+	case SCENE_STAGE_2:
+		UpdateStage2();
+		break;
+	case SCENE_STAGE_3:
+		UpdateStage3();
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
@@ -201,7 +234,13 @@ void DrawScene()
 		DrawOptionScene();
 		break;
 	case SCENE_STAGE_1:
-		DrawPlayScene();
+		DrawStage1();
+		break;
+	case SCENE_STAGE_2:
+		DrawStage2();
+		break;
+	case SCENE_STAGE_3:
+		DrawStage3();
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
@@ -226,7 +265,13 @@ void FinScene()
 		FinOptionScene();
 		break;
 	case SCENE_STAGE_1:
-		FinPlayScene();
+		FinStage1();
+		break;
+	case SCENE_STAGE_2:
+		FinStage2();
+		break;
+	case SCENE_STAGE_3:
+		FinStage3();
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;

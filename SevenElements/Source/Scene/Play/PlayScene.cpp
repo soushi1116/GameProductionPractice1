@@ -48,9 +48,9 @@ void InitPlayScene()
 
 void LoadPlayScene()
 {
-	LoadMap();
+	LoadMap(0);
 
-	LoadMapChipData();
+	LoadMapChipData(0);
 
 	LoadEnemyManager();
 
