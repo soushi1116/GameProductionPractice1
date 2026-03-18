@@ -3,71 +3,143 @@
 #include "../Camera/Camera.h"
 #include <math.h>
 
-// 時間（波用）
-float waveTime;
+#define ENEMY_WAVE_MAX 3
 
-// X座標
-int waveX;
 
-// Y座標
-int waveY;
+// 時間
+float waveTime[ENEMY_WAVE_MAX];
+
+// 座標
+int waveX[ENEMY_WAVE_MAX];
+int waveY[ENEMY_WAVE_MAX];
 
 // 初期位置
-int startX;
-int startY;
+int startX[ENEMY_WAVE_MAX];
+int startY[ENEMY_WAVE_MAX];
 
-// 基準Y座標
-int baseY;
+// 基準Y
+int baseY[ENEMY_WAVE_MAX];
 
-// 移動速度（＋右、－左）
-int moveSpeed;
+// 横移動
+int moveSpeed[ENEMY_WAVE_MAX];
+int moveRange[ENEMY_WAVE_MAX];
+
+// 波
+int waveHeight[ENEMY_WAVE_MAX];
+float waveSpeed[ENEMY_WAVE_MAX];
+
+// サイズ（追加）
+int waveWidth[ENEMY_WAVE_MAX];
+int waveHeightSize[ENEMY_WAVE_MAX];
 
 // 画像
 int waveHandle;
 
 
+
+// 初期化
 void InitEnemyFlyCircle2()
 {
-    waveTime = 0;
-
-    // 初期位置（ここを変更すれば配置を変えられる）
-    startX = 600;
-    startY = 300;
-
-    waveX = startX;
-    baseY = startY;
-    waveY = baseY;
-
-    moveSpeed = -4;
-
     waveHandle = LoadGraph("Data/Enemy/Death.png");
+
+    // ----- 敵ごとの設定 -----
+
+    startX[0] = 300;
+    startY[0] = 600;
+    moveRange[0] = 400;
+    waveHeight[0] = 40;
+    waveSpeed[0] = 0.1f;
+
+    // ----- 初期化 -----
+    for (int i = 0; i < ENEMY_WAVE_MAX; i++)
+    {
+        waveTime[i] = 0;
+
+        waveX[i] = startX[i];
+        baseY[i] = startY[i];
+        waveY[i] = baseY[i];
+
+        moveSpeed[i] = -4;
+
+        // サイズ
+        waveWidth[i] = 41;
+        waveHeightSize[i] = 50;
+    }
 }
 
+
+
+// 更新
 void UpdateEnemyFlyCircle2()
 {
-    waveTime += 0.1f;
-
-    waveX += moveSpeed;
-
-    // sin波で上下
-    waveY = baseY + (int)(sin(waveTime) * 40);
-
-    // 左端で折り返し
-    if (waveX <= startX - 300)
+    for (int i = 0; i < ENEMY_WAVE_MAX; i++)
     {
-        moveSpeed = 4;
-    }
+        waveTime[i] += waveSpeed[i];
 
-    // 右端で折り返し
-    if (waveX >= startX + 300)
-    {
-        moveSpeed = -4;
+        waveX[i] += moveSpeed[i];
+
+        waveY[i] = baseY[i] + (int)(sin(waveTime[i]) * waveHeight[i]);
+
+        if (waveX[i] <= startX[i] - moveRange[i])
+        {
+            moveSpeed[i] = 4;
+        }
+
+        if (waveX[i] >= startX[i] + moveRange[i])
+        {
+            moveSpeed[i] = -4;
+        }
     }
 }
 
+
+
+// 描画
 void DrawEnemyFlyCircle2()
 {
     CameraData camera = GetCamera();
 
-    DrawGraph(waveX - camera.posX, waveY - camera.posY, waveHandle, TRUE);
+    for (int i = 0; i < ENEMY_WAVE_MAX; i++)
+    {
+        DrawGraph(
+            waveX[i] - camera.posX,
+            waveY[i] - camera.posY,
+            waveHandle,
+            TRUE
+        );
+    }
+}
+
+
+
+//
+// ===== 外部取得用 =====
+//
+
+// X
+float GetEnemyFlyCircle2X(int index)
+{
+    if (index < 0 || index >= ENEMY_WAVE_MAX) return 0.0f;
+    return (float)waveX[index];
+}
+
+// Y
+float GetEnemyFlyCircle2Y(int index)
+{
+    if (index < 0 || index >= ENEMY_WAVE_MAX) return 0.0f;
+    return (float)waveY[index];
+}
+
+// 幅
+int GetEnemyFlyCircle2Width(int index)
+{
+    if (index < 0 || index >= ENEMY_WAVE_MAX) return 0;
+    return waveWidth[index];
+}
+
+// 高さ
+int GetEnemyFlyCircle2Height(int index)
+{
+    if (index < 0 || index >= ENEMY_WAVE_MAX) return 0;
+    return waveHeightSize[index];
 }
