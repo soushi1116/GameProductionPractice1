@@ -60,11 +60,7 @@ void TitleScene::StartTitleScene()
 
 void TitleScene::StepTitleScene()
 {
-	// Kキーで黒沢用のシーンへ
-	/*if (IsInputKey(KEY_K))
-	{
-		ChangeScene(SCENE_KUROSAWA);
-	}*/
+
 }
 
 void TitleScene::UpdateTitleScene()

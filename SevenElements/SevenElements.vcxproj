@@ -97,7 +97,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -131,7 +131,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -188,7 +188,6 @@
     <ClCompile Include="Source\Scene\Stage1\Stage1.cpp" />
     <ClCompile Include="Source\Scene\Stage2\Stage2.cpp" />
     <ClCompile Include="Source\Scene\Stage3\Stage3.cpp" />
-    <ClCompile Include="Source\Scene\S_Kurosawa\S_Kurosawa.cpp" />
     <ClCompile Include="Source\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="Source\Sound\SoundManager.cpp" />
     <ClCompile Include="Source\UI\UIImage.cpp" />
@@ -246,7 +245,6 @@
     <ClInclude Include="Source\Scene\Stage1\Stage1.h" />
     <ClInclude Include="Source\Scene\Stage2\Stage2.h" />
     <ClInclude Include="Source\Scene\Stage3\Stage3.h" />
-    <ClInclude Include="Source\Scene\S_Kurosawa\S_Kurosawa.h" />
     <ClInclude Include="Source\Scene\Title\TitleScene.h" />
     <ClInclude Include="Source\Sound\SoundManager.h" />
     <ClInclude Include="Source\UI\UIImage.h" />

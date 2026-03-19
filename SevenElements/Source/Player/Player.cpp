@@ -647,6 +647,21 @@ void SpawnPlayer(float posX, float posY, int stage)
 		g_PlayerData.life = PLAYER_DEFAULT_LIFE;
 		g_PlayerData.stage = stage;
 
+		switch (stage)
+		{
+		case 1:
+			g_PlayerData.level = 3;
+			break;
+		case 2:
+			g_PlayerData.level = 6;
+			break;
+		case 3:
+			g_PlayerData.level = 8;
+			break;
+		default:
+			break;
+		}
+
 		StartPlayerAnimation(PLAYER_ANIM_STOP);
 	}
 }
@@ -1120,13 +1135,12 @@ void PlayerDamage()
 
 	PlaySE(SE_DAMAGE);
 
-	g_PlayerData.die = true;
-	/*g_PlayerData.life--;
+	g_PlayerData.life--;
 
 	if (g_PlayerData.life > 0)
 	{
 		g_PlayerData.invisible = true;
-	}*/
+	}
 }
 
 void RideAirBalloon(VECTOR airBalloonPos)

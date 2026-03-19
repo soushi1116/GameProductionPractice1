@@ -5,7 +5,6 @@
 #include "Stage1/Stage1.h"
 #include "Stage2/Stage2.h"
 #include "Stage3/Stage3.h"
-#include "S_Kurosawa/S_Kurosawa.h"
 
 int g_NowScene = SCENE_TITLE;
 
@@ -89,9 +88,6 @@ void InitScene()
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
-	case SCENE_KUROSAWA:
-		InitKuroScene();
-		break;
 	default:
 		break;
 	}
@@ -119,9 +115,6 @@ void LoadScene()
 		LoadStage3();
 		break;
 	case SCENE_STAGE_CLEAR:
-		break;
-	case SCENE_KUROSAWA:
-		LoadKuroScene();
 		break;
 	default:
 		break;
@@ -151,9 +144,6 @@ void StartScene()
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
-	case SCENE_KUROSAWA:
-		StartKuroScene();
-		break;
 	default:
 		break;
 	}
@@ -181,9 +171,6 @@ void StepScene()
 		StepStage3();
 		break;
 	case SCENE_STAGE_CLEAR:
-		break;
-	case SCENE_KUROSAWA:
-		StepKuroScene();
 		break;
 	default:
 		break;
@@ -213,9 +200,6 @@ void UpdateScene()
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
-	case SCENE_KUROSAWA:
-		UpdateKuroScene();
-		break;
 	default:
 		break;
 	}
@@ -244,9 +228,6 @@ void DrawScene()
 		break;
 	case SCENE_STAGE_CLEAR:
 		break;
-	case SCENE_KUROSAWA:
-		DrawKuroScene();
-		break;
 	default:
 		break;
 	}
@@ -274,9 +255,6 @@ void FinScene()
 		FinStage3();
 		break;
 	case SCENE_STAGE_CLEAR:
-		break;
-	case SCENE_KUROSAWA:
-		FinKuroScene();
 		break;
 	default:
 		break;
